@@ -1,0 +1,323 @@
+{
+  "generated_at_utc": "2026-09-10T11:01:21+00:00",
+  "regenerate_with": "make memory-profile",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "note": "frame_bytes is the frame payload from memory_usage(deep=True) and is deterministic. peak_rss_bytes is the high-water resident set of the process that built the frame, parser buffers included. Each run is its own subprocess, because peak RSS is a high-water mark for a whole process. On darwin the kernel compresses inactive pages, so peak RSS varies run to run on identical work; the spread across runs is reported for that reason and the typing decision rests on frame_bytes.",
+  "strategies": {
+    "naive": {
+      "strategy": "naive",
+      "n_runs": 5,
+      "n_rows": 590540,
+      "n_columns": 434,
+      "frame_bytes": 2080582559,
+      "n_category_columns": 0,
+      "dtype_counts": {
+        "float64": 399,
+        "int64": 4,
+        "str": 31
+      },
+      "peak_rss_bytes": {
+        "min": 2192457728,
+        "median": 2580463616,
+        "max": 2735079424,
+        "spread": 542621696,
+        "spread_over_median": 0.21028070019492187
+      },
+      "seconds": {
+        "min": 4.818,
+        "median": 4.88,
+        "max": 4.922
+      }
+    },
+    "typed": {
+      "strategy": "typed",
+      "n_runs": 5,
+      "n_rows": 590540,
+      "n_columns": 434,
+      "frame_bytes": 955046618,
+      "n_category_columns": 31,
+      "dtype_counts": {
+        "category": 31,
+        "float32": 384,
+        "float64": 1,
+        "int16": 15,
+        "int32": 2,
+        "int8": 1
+      },
+      "peak_rss_bytes": {
+        "min": 2036514816,
+        "median": 2036908032,
+        "max": 2038153216,
+        "spread": 1638400,
+        "spread_over_median": 0.000804356394231156
+      },
+      "seconds": {
+        "min": 4.619,
+        "median": 4.641,
+        "max": 4.715
+      }
+    },
+    "typed_pyarrow_engine": {
+      "strategy": "typed_pyarrow_engine",
+      "n_runs": 5,
+      "n_rows": 590540,
+      "n_columns": 434,
+      "frame_bytes": 954959344,
+      "n_category_columns": 31,
+      "dtype_counts": {
+        "category": 31,
+        "float32": 384,
+        "float64": 1,
+        "int16": 15,
+        "int32": 2,
+        "int8": 1
+      },
+      "peak_rss_bytes": {
+        "min": 2987425792,
+        "median": 3508944896,
+        "max": 3526950912,
+        "spread": 539525120,
+        "spread_over_median": 0.15375707968940416
+      },
+      "seconds": {
+        "min": 2.382,
+        "median": 2.401,
+        "max": 2.785
+      }
+    },
+    "typed_chunked": {
+      "strategy": "typed_chunked",
+      "n_runs": 5,
+      "n_rows": 590540,
+      "n_columns": 434,
+      "frame_bytes": 997624072,
+      "n_category_columns": 23,
+      "dtype_counts": {
+        "category": 23,
+        "float32": 384,
+        "float64": 1,
+        "int16": 15,
+        "int32": 2,
+        "int8": 1,
+        "str": 8
+      },
+      "peak_rss_bytes": {
+        "min": 2282618880,
+        "median": 2282995712,
+        "max": 2283339776,
+        "spread": 720896,
+        "spread_over_median": 0.00031576756636501294
+      },
+      "seconds": {
+        "min": 4.788,
+        "median": 4.833,
+        "max": 4.85
+      }
+    }
+  },
+  "peak_rss_comparisons": {
+    "naive_vs_typed": {
+      "ranges_disjoint": true,
+      "higher": "naive",
+      "median_ratio": 1.2668532773501282
+    },
+    "naive_vs_typed_pyarrow_engine": {
+      "ranges_disjoint": true,
+      "higher": "typed_pyarrow_engine",
+      "median_ratio": 0.7353958789554044
+    },
+    "naive_vs_typed_chunked": {
+      "ranges_disjoint": false,
+      "higher": null,
+      "median_ratio": 1.130297180339163
+    },
+    "typed_vs_typed_pyarrow_engine": {
+      "ranges_disjoint": true,
+      "higher": "typed_pyarrow_engine",
+      "median_ratio": 0.5804901736479136
+    },
+    "typed_vs_typed_chunked": {
+      "ranges_disjoint": true,
+      "higher": "typed_chunked",
+      "median_ratio": 0.8922084352999433
+    },
+    "typed_pyarrow_engine_vs_typed_chunked": {
+      "ranges_disjoint": true,
+      "higher": "typed_pyarrow_engine",
+      "median_ratio": 1.5369914527461013
+    }
+  },
+  "typed_against_naive": {
+    "frame_bytes_saved": 1125535941,
+    "frame_bytes_ratio": 0.45902846482526916,
+    "peak_rss_median_ratio": 0.7893573927453508,
+    "peak_rss_ranges_overlap": false
+  },
+  "float32_roundtrip": {
+    "n_numeric_columns_tested": 385,
+    "amount_column": "TransactionAmt",
+    "amount": {
+      "max_absolute_move": 0.0003749999996216502,
+      "max_relative_move": 5.878976638232941e-08,
+      "max_absolute_value": 31937.391
+    },
+    "worst_other_column": "V126",
+    "max_absolute_move_excluding_amount": 2.2737367544323206e-13,
+    "max_relative_move_excluding_amount": 1.8318972534403066e-15,
+    "command": "v = pd.read_csv(path, usecols=[c], dtype='float64')[c].dropna().to_numpy(); abs(v.astype('float32').astype('float64') - v).max()"
+  },
+  "categorical_cardinality": {
+    "ProductCD": 5,
+    "card4": 4,
+    "card6": 4,
+    "P_emaildomain": 59,
+    "R_emaildomain": 60,
+    "M1": 2,
+    "M2": 2,
+    "M3": 2,
+    "M4": 3,
+    "M5": 2,
+    "M6": 2,
+    "M7": 2,
+    "M8": 2,
+    "M9": 2,
+    "id_12": 2,
+    "id_15": 3,
+    "id_16": 2,
+    "id_23": 3,
+    "id_27": 2,
+    "id_28": 2,
+    "id_29": 2,
+    "id_30": 75,
+    "id_31": 130,
+    "id_33": 260,
+    "id_34": 4,
+    "id_35": 2,
+    "id_36": 2,
+    "id_37": 2,
+    "id_38": 2,
+    "DeviceType": 2,
+    "DeviceInfo": 1786
+  },
+  "integer_column_ranges": {
+    "TransactionID": {
+      "dtype": "int32",
+      "min": 2987000,
+      "max": 3577539,
+      "n_null": 0
+    },
+    "isFraud": {
+      "dtype": "int8",
+      "min": 0,
+      "max": 1,
+      "n_null": 0
+    },
+    "TransactionDT": {
+      "dtype": "int32",
+      "min": 86400,
+      "max": 15811131,
+      "n_null": 0
+    },
+    "card1": {
+      "dtype": "int16",
+      "min": 1000,
+      "max": 18396,
+      "n_null": 0
+    },
+    "C1": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 4685,
+      "n_null": 0
+    },
+    "C2": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 5691,
+      "n_null": 0
+    },
+    "C3": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 26,
+      "n_null": 0
+    },
+    "C4": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 2253,
+      "n_null": 0
+    },
+    "C5": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 349,
+      "n_null": 0
+    },
+    "C6": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 2253,
+      "n_null": 0
+    },
+    "C7": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 2255,
+      "n_null": 0
+    },
+    "C8": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 3331,
+      "n_null": 0
+    },
+    "C9": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 210,
+      "n_null": 0
+    },
+    "C10": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 3257,
+      "n_null": 0
+    },
+    "C11": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 3188,
+      "n_null": 0
+    },
+    "C12": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 3188,
+      "n_null": 0
+    },
+    "C13": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 2918,
+      "n_null": 0
+    },
+    "C14": {
+      "dtype": "int16",
+      "min": 0,
+      "max": 1429,
+      "n_null": 0
+    }
+  },
+  "numeric_column_shape": {
+    "n_whole_number_columns": 305,
+    "n_fractional_columns": 80,
+    "command": "v = frame[c].dropna().to_numpy('float64'); (np.floor(v) == v).all()"
+  },
+  "n_rows": 590540
+}
