@@ -1,0 +1,600 @@
+{
+  "section": "train_only",
+  "generated_at_utc": "2026-09-10T12:09:32+00:00",
+  "regenerate_with": "make eda  # or: .venv/bin/python scripts/eda.py --sections train_only",
+  "command": "the same statistic computed on train and on train + val + test, compared",
+  "computed_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "ccdd8f7f478341258f2e7be39514f742f68c6db9",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "note": "the numbers here are the cost of getting the rule wrong, measured once so the rule does not have to be argued for again. Every other section in this directory is computed on train alone.",
+  "n_rows_train": 413378,
+  "n_rows_all": 590540,
+  "quantile_shift": {
+    "definition": "the same quantile computed on the train split and on all 590,540 rows, as a relative move",
+    "n_columns_compared": 393,
+    "n_statistics_moving_more_than_10_percent": 130,
+    "largest_50": [
+      {
+        "column": "V324",
+        "statistic": "p99",
+        "on_train": 7.0,
+        "on_all_rows": 457.0,
+        "relative_shift": 64.28571428571429
+      },
+      {
+        "column": "V322",
+        "statistic": "p99",
+        "on_train": 5.0,
+        "on_all_rows": 231.0,
+        "relative_shift": 45.2
+      },
+      {
+        "column": "V323",
+        "statistic": "p99",
+        "on_train": 15.0,
+        "on_all_rows": 594.5,
+        "relative_shift": 38.63333333333333
+      },
+      {
+        "column": "V332",
+        "statistic": "p99",
+        "on_train": 1650.0,
+        "on_all_rows": 60335.0,
+        "relative_shift": 35.56666666666667
+      },
+      {
+        "column": "V333",
+        "statistic": "p99",
+        "on_train": 1400.0,
+        "on_all_rows": 47654.0,
+        "relative_shift": 33.03857142857143
+      },
+      {
+        "column": "V329",
+        "statistic": "p99",
+        "on_train": 3.0,
+        "on_all_rows": 77.0,
+        "relative_shift": 24.666666666666668
+      },
+      {
+        "column": "V331",
+        "statistic": "p99",
+        "on_train": 1200.0,
+        "on_all_rows": 24842.5,
+        "relative_shift": 19.702083333333334
+      },
+      {
+        "column": "V338",
+        "statistic": "p99",
+        "on_train": 600.0,
+        "on_all_rows": 7709.0,
+        "relative_shift": 11.848333333333333
+      },
+      {
+        "column": "V212",
+        "statistic": "p99",
+        "on_train": 1914.37898437466,
+        "on_all_rows": 23609.700000000594,
+        "relative_shift": 11.33282447869788
+      },
+      {
+        "column": "V330",
+        "statistic": "p99",
+        "on_train": 3.0,
+        "on_all_rows": 35.0,
+        "relative_shift": 10.666666666666666
+      },
+      {
+        "column": "V203",
+        "statistic": "p99",
+        "on_train": 4000.0,
+        "on_all_rows": 44799.70000000083,
+        "relative_shift": 10.199925000000206
+      },
+      {
+        "column": "V168",
+        "statistic": "p99",
+        "on_train": 13.0,
+        "on_all_rows": 125.0,
+        "relative_shift": 8.615384615384615
+      },
+      {
+        "column": "V213",
+        "statistic": "p99",
+        "on_train": 1350.0,
+        "on_all_rows": 10436.40000000014,
+        "relative_shift": 6.73066666666677
+      },
+      {
+        "column": "V204",
+        "statistic": "p99",
+        "on_train": 2900.0,
+        "on_all_rows": 22023.800000000396,
+        "relative_shift": 6.594413793103585
+      },
+      {
+        "column": "V164",
+        "statistic": "p99",
+        "on_train": 3240.0,
+        "on_all_rows": 23075.5,
+        "relative_shift": 6.122067901234568
+      },
+      {
+        "column": "V178",
+        "statistic": "p99",
+        "on_train": 14.0,
+        "on_all_rows": 92.0,
+        "relative_shift": 5.571428571428571
+      },
+      {
+        "column": "V339",
+        "statistic": "p99",
+        "on_train": 600.0,
+        "on_all_rows": 3657.0,
+        "relative_shift": 5.095
+      },
+      {
+        "column": "V143",
+        "statistic": "p99",
+        "on_train": 38.0,
+        "on_all_rows": 219.0,
+        "relative_shift": 4.7631578947368425
+      },
+      {
+        "column": "V182",
+        "statistic": "p99",
+        "on_train": 6.0,
+        "on_all_rows": 34.0,
+        "relative_shift": 4.666666666666667
+      },
+      {
+        "column": "V179",
+        "statistic": "p99",
+        "on_train": 9.0,
+        "on_all_rows": 49.0,
+        "relative_shift": 4.444444444444445
+      },
+      {
+        "column": "V180",
+        "statistic": "p99",
+        "on_train": 7.0,
+        "on_all_rows": 34.0,
+        "relative_shift": 3.857142857142857
+      },
+      {
+        "column": "V335",
+        "statistic": "p99",
+        "on_train": 533.8000000000029,
+        "on_all_rows": 2301.0,
+        "relative_shift": 3.3106032221805686
+      },
+      {
+        "column": "V202",
+        "statistic": "p99",
+        "on_train": 1500.0,
+        "on_all_rows": 6441.100000000268,
+        "relative_shift": 3.2940666666668452
+      },
+      {
+        "column": "V215",
+        "statistic": "p99",
+        "on_train": 1500.0,
+        "on_all_rows": 6428.0,
+        "relative_shift": 3.2853333333333334
+      },
+      {
+        "column": "V211",
+        "statistic": "p99",
+        "on_train": 750.0,
+        "on_all_rows": 3202.8000000000466,
+        "relative_shift": 3.270400000000062
+      },
+      {
+        "column": "V183",
+        "statistic": "p99",
+        "on_train": 4.0,
+        "on_all_rows": 16.0,
+        "relative_shift": 3.0
+      },
+      {
+        "column": "V209",
+        "statistic": "p99",
+        "on_train": 285.0,
+        "on_all_rows": 1084.0,
+        "relative_shift": 2.8035087719298244
+      },
+      {
+        "column": "V328",
+        "statistic": "p99",
+        "on_train": 3.0,
+        "on_all_rows": 11.0,
+        "relative_shift": 2.6666666666666665
+      },
+      {
+        "column": "V175",
+        "statistic": "p99",
+        "on_train": 2.0,
+        "on_all_rows": 7.0,
+        "relative_shift": 2.5
+      },
+      {
+        "column": "V167",
+        "statistic": "p99",
+        "on_train": 9.0,
+        "on_all_rows": 31.0,
+        "relative_shift": 2.4444444444444446
+      },
+      {
+        "column": "V336",
+        "statistic": "p99",
+        "on_train": 300.0,
+        "on_all_rows": 1000.0,
+        "relative_shift": 2.3333333333333335
+      },
+      {
+        "column": "V216",
+        "statistic": "p99",
+        "on_train": 900.0,
+        "on_all_rows": 2932.0,
+        "relative_shift": 2.2577777777777777
+      },
+      {
+        "column": "V177",
+        "statistic": "p99",
+        "on_train": 6.0,
+        "on_all_rows": 18.0,
+        "relative_shift": 2.0
+      },
+      {
+        "column": "V327",
+        "statistic": "p99",
+        "on_train": 3.0,
+        "on_all_rows": 9.0,
+        "relative_shift": 2.0
+      },
+      {
+        "column": "V326",
+        "statistic": "p99",
+        "on_train": 10.0,
+        "on_all_rows": 27.0,
+        "relative_shift": 1.7
+      },
+      {
+        "column": "V165",
+        "statistic": "p99",
+        "on_train": 16848.94921875,
+        "on_all_rows": 42118.0,
+        "relative_shift": 1.4997404558101384
+      },
+      {
+        "column": "V210",
+        "statistic": "p99",
+        "on_train": 196.34739334106044,
+        "on_all_rows": 465.0,
+        "relative_shift": 1.3682514551760978
+      },
+      {
+        "column": "V214",
+        "statistic": "p99",
+        "on_train": 500.0,
+        "on_all_rows": 1165.0,
+        "relative_shift": 1.33
+      },
+      {
+        "column": "V10",
+        "statistic": "p99",
+        "on_train": 1.0,
+        "on_all_rows": 2.0,
+        "relative_shift": 1.0
+      },
+      {
+        "column": "V104",
+        "statistic": "p99",
+        "on_train": 1.0,
+        "on_all_rows": 2.0,
+        "relative_shift": 1.0
+      },
+      {
+        "column": "V181",
+        "statistic": "p99",
+        "on_train": 3.0,
+        "on_all_rows": 6.0,
+        "relative_shift": 1.0
+      },
+      {
+        "column": "V194",
+        "statistic": "p99",
+        "on_train": 1.0,
+        "on_all_rows": 2.0,
+        "relative_shift": 1.0
+      },
+      {
+        "column": "V269",
+        "statistic": "p99",
+        "on_train": 50.0,
+        "on_all_rows": 100.0,
+        "relative_shift": 1.0
+      },
+      {
+        "column": "V302",
+        "statistic": "p99",
+        "on_train": 1.0,
+        "on_all_rows": 2.0,
+        "relative_shift": 1.0
+      },
+      {
+        "column": "V337",
+        "statistic": "p99",
+        "on_train": 600.0,
+        "on_all_rows": 1165.0,
+        "relative_shift": 0.9416666666666667
+      },
+      {
+        "column": "D10",
+        "statistic": "median",
+        "on_train": 9.0,
+        "on_all_rows": 15.0,
+        "relative_shift": 0.6666666666666666
+      },
+      {
+        "column": "card_start_day",
+        "statistic": "median",
+        "on_train": 21.0,
+        "on_all_rows": 33.0,
+        "relative_shift": 0.5714285714285714
+      },
+      {
+        "column": "V171",
+        "statistic": "p99",
+        "on_train": 9.0,
+        "on_all_rows": 14.0,
+        "relative_shift": 0.5555555555555556
+      },
+      {
+        "column": "D11",
+        "statistic": "median",
+        "on_train": 28.0,
+        "on_all_rows": 43.0,
+        "relative_shift": 0.5357142857142857
+      },
+      {
+        "column": "C13",
+        "statistic": "median",
+        "on_train": 2.0,
+        "on_all_rows": 3.0,
+        "relative_shift": 0.5
+      }
+    ]
+  },
+  "categorical_levels_only_after_train": {
+    "definition": "levels a categorical column takes in val or test and never takes in train. An EDA over the whole file lists them as ordinary categories; a model trained on train has never seen one.",
+    "n_columns_with_unseen_levels": 4,
+    "per_column": [
+      {
+        "column": "DeviceInfo",
+        "n_levels_in_train": 1546,
+        "n_levels_only_after_train": 240,
+        "n_later_rows_on_a_level_train_never_saw": 788,
+        "share_of_later_rows": 0.004447906435917409
+      },
+      {
+        "column": "id_33",
+        "n_levels_in_train": 183,
+        "n_levels_only_after_train": 77,
+        "n_later_rows_on_a_level_train_never_saw": 217,
+        "share_of_later_rows": 0.0012248676352716722
+      },
+      {
+        "column": "id_31",
+        "n_levels_in_train": 108,
+        "n_levels_only_after_train": 22,
+        "n_later_rows_on_a_level_train_never_saw": 8075,
+        "share_of_later_rows": 0.04557975186552421
+      },
+      {
+        "column": "id_30",
+        "n_levels_in_train": 71,
+        "n_levels_only_after_train": 4,
+        "n_later_rows_on_a_level_train_never_saw": 146,
+        "share_of_later_rows": 0.0008241044919339362
+      },
+      {
+        "column": "ProductCD",
+        "n_levels_in_train": 5,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "card4",
+        "n_levels_in_train": 4,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "card6",
+        "n_levels_in_train": 4,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "P_emaildomain",
+        "n_levels_in_train": 59,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "R_emaildomain",
+        "n_levels_in_train": 60,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M1",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M2",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M3",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M4",
+        "n_levels_in_train": 3,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M5",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M6",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M7",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M8",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "M9",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_12",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_15",
+        "n_levels_in_train": 3,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_16",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_23",
+        "n_levels_in_train": 3,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_27",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_28",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_29",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_34",
+        "n_levels_in_train": 4,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_35",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_36",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_37",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "id_38",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      },
+      {
+        "column": "DeviceType",
+        "n_levels_in_train": 2,
+        "n_levels_only_after_train": 0,
+        "n_later_rows_on_a_level_train_never_saw": 0,
+        "share_of_later_rows": 0.0
+      }
+    ]
+  },
+  "seconds": 2.941712290979922
+}

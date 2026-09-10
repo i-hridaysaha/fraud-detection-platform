@@ -1,0 +1,1954 @@
+{
+  "section": "target",
+  "generated_at_utc": "2026-09-10T12:03:51+00:00",
+  "regenerate_with": "make eda  # or: .venv/bin/python scripts/eda.py --sections target",
+  "command": "train, val, test = data_loader.time_based_split(data_loader.load_raw()); rates and intervals on each",
+  "computed_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "ccdd8f7f478341258f2e7be39514f742f68c6db9",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "overall_train": {
+    "n_rows": 413378,
+    "n_fraud": 14538,
+    "fraud_rate": 0.03516878014795175,
+    "wilson_95": {
+      "point": 0.03516878014795175,
+      "low": 0.0346115482434657,
+      "high": 0.035734651183674596,
+      "n": 413378,
+      "successes": 14538,
+      "method": "wilson",
+      "z": 1.959963984540054
+    },
+    "bootstrap_95": {
+      "point": 0.03516878014795175,
+      "low": 0.03460990909046926,
+      "high": 0.03573000982151929,
+      "n": 413378,
+      "successes": 14538,
+      "n_boot": 20000,
+      "alpha": 0.05,
+      "seed": 42,
+      "method": "percentile bootstrap on the row resample"
+    }
+  },
+  "per_split": {
+    "train": {
+      "n_rows": 413378,
+      "n_fraud": 14538,
+      "fraud_rate": 0.03516878014795175,
+      "wilson_95": {
+        "point": 0.03516878014795175,
+        "low": 0.0346115482434657,
+        "high": 0.035734651183674596,
+        "n": 413378,
+        "successes": 14538,
+        "method": "wilson",
+        "z": 1.959963984540054
+      },
+      "bootstrap_95": {
+        "point": 0.03516878014795175,
+        "low": 0.03460990909046926,
+        "high": 0.03573000982151929,
+        "n": 413378,
+        "successes": 14538,
+        "n_boot": 20000,
+        "alpha": 0.05,
+        "seed": 42,
+        "method": "percentile bootstrap on the row resample"
+      }
+    },
+    "val": {
+      "n_rows": 88581,
+      "n_fraud": 3042,
+      "fraud_rate": 0.03434145019812375,
+      "wilson_95": {
+        "point": 0.03434145019812375,
+        "low": 0.033162279223575404,
+        "high": 0.03556100749868702,
+        "n": 88581,
+        "successes": 3042,
+        "method": "wilson",
+        "z": 1.959963984540054
+      },
+      "bootstrap_95": {
+        "point": 0.03434145019812375,
+        "low": 0.03314480531942516,
+        "high": 0.035538095076822346,
+        "n": 88581,
+        "successes": 3042,
+        "n_boot": 20000,
+        "alpha": 0.05,
+        "seed": 42,
+        "method": "percentile bootstrap on the row resample"
+      }
+    },
+    "test": {
+      "n_rows": 88581,
+      "n_fraud": 3083,
+      "fraud_rate": 0.03480430340592226,
+      "wilson_95": {
+        "point": 0.03480430340592226,
+        "low": 0.0336173488427668,
+        "high": 0.036031604152072495,
+        "n": 88581,
+        "successes": 3083,
+        "method": "wilson",
+        "z": 1.959963984540054
+      },
+      "bootstrap_95": {
+        "point": 0.03480430340592226,
+        "low": 0.03360765852722367,
+        "high": 0.03601223738725009,
+        "n": 88581,
+        "successes": 3083,
+        "n_boot": 20000,
+        "alpha": 0.05,
+        "seed": 42,
+        "method": "percentile bootstrap on the row resample"
+      }
+    },
+    "reproduces_split_summary": {
+      "train": true,
+      "val": true,
+      "test": true
+    },
+    "split_summary_note": "point estimates come from the same rows as reports/split_summary.json and are checked against it; the intervals are new here"
+  },
+  "by_day": [
+    {
+      "period": 1,
+      "n": 5122,
+      "n_fraud": 112,
+      "fraud_rate": 0.021866458414681766
+    },
+    {
+      "period": 2,
+      "n": 3730,
+      "n_fraud": 123,
+      "fraud_rate": 0.032975871313672925
+    },
+    {
+      "period": 3,
+      "n": 3241,
+      "n_fraud": 92,
+      "fraud_rate": 0.028386300524529465
+    },
+    {
+      "period": 4,
+      "n": 4036,
+      "n_fraud": 115,
+      "fraud_rate": 0.028493557978196235
+    },
+    {
+      "period": 5,
+      "n": 3964,
+      "n_fraud": 127,
+      "fraud_rate": 0.03203834510595358
+    },
+    {
+      "period": 6,
+      "n": 3717,
+      "n_fraud": 99,
+      "fraud_rate": 0.026634382566585957
+    },
+    {
+      "period": 7,
+      "n": 3786,
+      "n_fraud": 136,
+      "fraud_rate": 0.03592181722134179
+    },
+    {
+      "period": 8,
+      "n": 3999,
+      "n_fraud": 93,
+      "fraud_rate": 0.023255813953488372
+    },
+    {
+      "period": 9,
+      "n": 3907,
+      "n_fraud": 119,
+      "fraud_rate": 0.030458152034809317
+    },
+    {
+      "period": 10,
+      "n": 3445,
+      "n_fraud": 90,
+      "fraud_rate": 0.026124818577648767
+    },
+    {
+      "period": 11,
+      "n": 4319,
+      "n_fraud": 123,
+      "fraud_rate": 0.02847881454040287
+    },
+    {
+      "period": 12,
+      "n": 4164,
+      "n_fraud": 84,
+      "fraud_rate": 0.020172910662824207
+    },
+    {
+      "period": 13,
+      "n": 4183,
+      "n_fraud": 82,
+      "fraud_rate": 0.01960315562993067
+    },
+    {
+      "period": 14,
+      "n": 4446,
+      "n_fraud": 126,
+      "fraud_rate": 0.02834008097165992
+    },
+    {
+      "period": 15,
+      "n": 5034,
+      "n_fraud": 143,
+      "fraud_rate": 0.02840683353198252
+    },
+    {
+      "period": 16,
+      "n": 4325,
+      "n_fraud": 70,
+      "fraud_rate": 0.016184971098265895
+    },
+    {
+      "period": 17,
+      "n": 3805,
+      "n_fraud": 126,
+      "fraud_rate": 0.033114323258869906
+    },
+    {
+      "period": 18,
+      "n": 5585,
+      "n_fraud": 161,
+      "fraud_rate": 0.0288272157564906
+    },
+    {
+      "period": 19,
+      "n": 5526,
+      "n_fraud": 118,
+      "fraud_rate": 0.021353601158161418
+    },
+    {
+      "period": 20,
+      "n": 5749,
+      "n_fraud": 135,
+      "fraud_rate": 0.02348234475560967
+    },
+    {
+      "period": 21,
+      "n": 5677,
+      "n_fraud": 116,
+      "fraud_rate": 0.020433327461687512
+    },
+    {
+      "period": 22,
+      "n": 6852,
+      "n_fraud": 147,
+      "fraud_rate": 0.021453590192644482
+    },
+    {
+      "period": 23,
+      "n": 5872,
+      "n_fraud": 106,
+      "fraud_rate": 0.018051771117166212
+    },
+    {
+      "period": 24,
+      "n": 6065,
+      "n_fraud": 76,
+      "fraud_rate": 0.012530915086562242
+    },
+    {
+      "period": 25,
+      "n": 5742,
+      "n_fraud": 63,
+      "fraud_rate": 0.0109717868338558
+    },
+    {
+      "period": 26,
+      "n": 3458,
+      "n_fraud": 82,
+      "fraud_rate": 0.02371312897628687
+    },
+    {
+      "period": 27,
+      "n": 3585,
+      "n_fraud": 100,
+      "fraud_rate": 0.02789400278940028
+    },
+    {
+      "period": 28,
+      "n": 3332,
+      "n_fraud": 150,
+      "fraud_rate": 0.045018007202881155
+    },
+    {
+      "period": 29,
+      "n": 4302,
+      "n_fraud": 129,
+      "fraud_rate": 0.0299860529986053
+    },
+    {
+      "period": 30,
+      "n": 3371,
+      "n_fraud": 158,
+      "fraud_rate": 0.04687036487689113
+    },
+    {
+      "period": 31,
+      "n": 2982,
+      "n_fraud": 149,
+      "fraud_rate": 0.0499664654594232
+    },
+    {
+      "period": 32,
+      "n": 2387,
+      "n_fraud": 51,
+      "fraud_rate": 0.0213657310431504
+    },
+    {
+      "period": 33,
+      "n": 3403,
+      "n_fraud": 123,
+      "fraud_rate": 0.03614457831325301
+    },
+    {
+      "period": 34,
+      "n": 4264,
+      "n_fraud": 159,
+      "fraud_rate": 0.037288930581613505
+    },
+    {
+      "period": 35,
+      "n": 3830,
+      "n_fraud": 120,
+      "fraud_rate": 0.031331592689295036
+    },
+    {
+      "period": 36,
+      "n": 3571,
+      "n_fraud": 135,
+      "fraud_rate": 0.03780453654438533
+    },
+    {
+      "period": 37,
+      "n": 3030,
+      "n_fraud": 126,
+      "fraud_rate": 0.041584158415841586
+    },
+    {
+      "period": 38,
+      "n": 2544,
+      "n_fraud": 110,
+      "fraud_rate": 0.04323899371069182
+    },
+    {
+      "period": 39,
+      "n": 3017,
+      "n_fraud": 117,
+      "fraud_rate": 0.038780245276765
+    },
+    {
+      "period": 40,
+      "n": 2914,
+      "n_fraud": 109,
+      "fraud_rate": 0.03740562800274537
+    },
+    {
+      "period": 41,
+      "n": 2962,
+      "n_fraud": 121,
+      "fraud_rate": 0.04085077650236327
+    },
+    {
+      "period": 42,
+      "n": 2881,
+      "n_fraud": 85,
+      "fraud_rate": 0.02950364456785838
+    },
+    {
+      "period": 43,
+      "n": 3606,
+      "n_fraud": 160,
+      "fraud_rate": 0.044370493621741544
+    },
+    {
+      "period": 44,
+      "n": 2786,
+      "n_fraud": 119,
+      "fraud_rate": 0.04271356783919598
+    },
+    {
+      "period": 45,
+      "n": 2300,
+      "n_fraud": 100,
+      "fraud_rate": 0.043478260869565216
+    },
+    {
+      "period": 46,
+      "n": 2786,
+      "n_fraud": 117,
+      "fraud_rate": 0.04199569274946159
+    },
+    {
+      "period": 47,
+      "n": 2971,
+      "n_fraud": 91,
+      "fraud_rate": 0.030629417704476608
+    },
+    {
+      "period": 48,
+      "n": 3062,
+      "n_fraud": 115,
+      "fraud_rate": 0.03755715218811234
+    },
+    {
+      "period": 49,
+      "n": 3053,
+      "n_fraud": 121,
+      "fraud_rate": 0.03963314772355061
+    },
+    {
+      "period": 50,
+      "n": 3336,
+      "n_fraud": 175,
+      "fraud_rate": 0.05245803357314149
+    },
+    {
+      "period": 51,
+      "n": 2826,
+      "n_fraud": 148,
+      "fraud_rate": 0.052370842179759375
+    },
+    {
+      "period": 52,
+      "n": 2333,
+      "n_fraud": 114,
+      "fraud_rate": 0.0488641234462066
+    },
+    {
+      "period": 53,
+      "n": 2908,
+      "n_fraud": 79,
+      "fraud_rate": 0.027166437414030263
+    },
+    {
+      "period": 54,
+      "n": 2798,
+      "n_fraud": 112,
+      "fraud_rate": 0.040028591851322376
+    },
+    {
+      "period": 55,
+      "n": 2771,
+      "n_fraud": 76,
+      "fraud_rate": 0.02742692168892097
+    },
+    {
+      "period": 56,
+      "n": 2789,
+      "n_fraud": 158,
+      "fraud_rate": 0.05665112943707422
+    },
+    {
+      "period": 57,
+      "n": 3274,
+      "n_fraud": 109,
+      "fraud_rate": 0.03329260843005498
+    },
+    {
+      "period": 58,
+      "n": 2681,
+      "n_fraud": 102,
+      "fraud_rate": 0.03804550540842969
+    },
+    {
+      "period": 59,
+      "n": 2402,
+      "n_fraud": 168,
+      "fraud_rate": 0.06994171523730225
+    },
+    {
+      "period": 60,
+      "n": 2932,
+      "n_fraud": 108,
+      "fraud_rate": 0.036834924965893585
+    },
+    {
+      "period": 61,
+      "n": 3111,
+      "n_fraud": 112,
+      "fraud_rate": 0.03600128576020572
+    },
+    {
+      "period": 62,
+      "n": 3057,
+      "n_fraud": 165,
+      "fraud_rate": 0.053974484789008834
+    },
+    {
+      "period": 63,
+      "n": 3975,
+      "n_fraud": 163,
+      "fraud_rate": 0.041006289308176104
+    },
+    {
+      "period": 64,
+      "n": 4317,
+      "n_fraud": 234,
+      "fraud_rate": 0.054204308547602505
+    },
+    {
+      "period": 65,
+      "n": 3209,
+      "n_fraud": 183,
+      "fraud_rate": 0.05702711124961047
+    },
+    {
+      "period": 66,
+      "n": 2584,
+      "n_fraud": 85,
+      "fraud_rate": 0.03289473684210526
+    },
+    {
+      "period": 67,
+      "n": 3223,
+      "n_fraud": 120,
+      "fraud_rate": 0.03723239218119764
+    },
+    {
+      "period": 68,
+      "n": 3158,
+      "n_fraud": 111,
+      "fraud_rate": 0.035148828372387586
+    },
+    {
+      "period": 69,
+      "n": 3130,
+      "n_fraud": 118,
+      "fraud_rate": 0.03769968051118211
+    },
+    {
+      "period": 70,
+      "n": 2913,
+      "n_fraud": 145,
+      "fraud_rate": 0.049776862341228974
+    },
+    {
+      "period": 71,
+      "n": 3267,
+      "n_fraud": 152,
+      "fraud_rate": 0.04652586470768289
+    },
+    {
+      "period": 72,
+      "n": 2744,
+      "n_fraud": 94,
+      "fraud_rate": 0.034256559766763846
+    },
+    {
+      "period": 73,
+      "n": 2304,
+      "n_fraud": 135,
+      "fraud_rate": 0.05859375
+    },
+    {
+      "period": 74,
+      "n": 3122,
+      "n_fraud": 120,
+      "fraud_rate": 0.03843689942344651
+    },
+    {
+      "period": 75,
+      "n": 3054,
+      "n_fraud": 110,
+      "fraud_rate": 0.03601833660772757
+    },
+    {
+      "period": 76,
+      "n": 3456,
+      "n_fraud": 144,
+      "fraud_rate": 0.041666666666666664
+    },
+    {
+      "period": 77,
+      "n": 3006,
+      "n_fraud": 125,
+      "fraud_rate": 0.041583499667332005
+    },
+    {
+      "period": 78,
+      "n": 3166,
+      "n_fraud": 100,
+      "fraud_rate": 0.03158559696778269
+    },
+    {
+      "period": 79,
+      "n": 2688,
+      "n_fraud": 113,
+      "fraud_rate": 0.04203869047619048
+    },
+    {
+      "period": 80,
+      "n": 2204,
+      "n_fraud": 66,
+      "fraud_rate": 0.029945553539019964
+    },
+    {
+      "period": 81,
+      "n": 2863,
+      "n_fraud": 105,
+      "fraud_rate": 0.03667481662591687
+    },
+    {
+      "period": 82,
+      "n": 2970,
+      "n_fraud": 95,
+      "fraud_rate": 0.03198653198653199
+    },
+    {
+      "period": 83,
+      "n": 2934,
+      "n_fraud": 81,
+      "fraud_rate": 0.027607361963190184
+    },
+    {
+      "period": 84,
+      "n": 3350,
+      "n_fraud": 116,
+      "fraud_rate": 0.03462686567164179
+    },
+    {
+      "period": 85,
+      "n": 3574,
+      "n_fraud": 187,
+      "fraud_rate": 0.052322327923894796
+    },
+    {
+      "period": 86,
+      "n": 2661,
+      "n_fraud": 125,
+      "fraud_rate": 0.04697482149567832
+    },
+    {
+      "period": 87,
+      "n": 2549,
+      "n_fraud": 99,
+      "fraud_rate": 0.03883876029815614
+    },
+    {
+      "period": 88,
+      "n": 3021,
+      "n_fraud": 75,
+      "fraud_rate": 0.024826216484607744
+    },
+    {
+      "period": 89,
+      "n": 3226,
+      "n_fraud": 114,
+      "fraud_rate": 0.035337879727216366
+    },
+    {
+      "period": 90,
+      "n": 3353,
+      "n_fraud": 132,
+      "fraud_rate": 0.0393677303906949
+    },
+    {
+      "period": 91,
+      "n": 4007,
+      "n_fraud": 180,
+      "fraud_rate": 0.04492138757174944
+    },
+    {
+      "period": 92,
+      "n": 6252,
+      "n_fraud": 147,
+      "fraud_rate": 0.023512476007677544
+    },
+    {
+      "period": 93,
+      "n": 4524,
+      "n_fraud": 151,
+      "fraud_rate": 0.033377541998231654
+    },
+    {
+      "period": 94,
+      "n": 2931,
+      "n_fraud": 81,
+      "fraud_rate": 0.027635619242579325
+    },
+    {
+      "period": 95,
+      "n": 3711,
+      "n_fraud": 150,
+      "fraud_rate": 0.04042037186742118
+    },
+    {
+      "period": 96,
+      "n": 3243,
+      "n_fraud": 91,
+      "fraud_rate": 0.028060437866173297
+    },
+    {
+      "period": 97,
+      "n": 3102,
+      "n_fraud": 135,
+      "fraud_rate": 0.043520309477756286
+    },
+    {
+      "period": 98,
+      "n": 3666,
+      "n_fraud": 129,
+      "fraud_rate": 0.03518821603927987
+    },
+    {
+      "period": 99,
+      "n": 3301,
+      "n_fraud": 105,
+      "fraud_rate": 0.03180854286579824
+    },
+    {
+      "period": 100,
+      "n": 3052,
+      "n_fraud": 100,
+      "fraud_rate": 0.0327653997378768
+    },
+    {
+      "period": 101,
+      "n": 2500,
+      "n_fraud": 68,
+      "fraud_rate": 0.0272
+    },
+    {
+      "period": 102,
+      "n": 3166,
+      "n_fraud": 105,
+      "fraud_rate": 0.03316487681617183
+    },
+    {
+      "period": 103,
+      "n": 3101,
+      "n_fraud": 97,
+      "fraud_rate": 0.03128023218316672
+    },
+    {
+      "period": 104,
+      "n": 3115,
+      "n_fraud": 111,
+      "fraud_rate": 0.03563402889245586
+    },
+    {
+      "period": 105,
+      "n": 3034,
+      "n_fraud": 132,
+      "fraud_rate": 0.043506921555702044
+    },
+    {
+      "period": 106,
+      "n": 3221,
+      "n_fraud": 152,
+      "fraud_rate": 0.04719031356721515
+    },
+    {
+      "period": 107,
+      "n": 2809,
+      "n_fraud": 127,
+      "fraud_rate": 0.04521181915272339
+    },
+    {
+      "period": 108,
+      "n": 2287,
+      "n_fraud": 96,
+      "fraud_rate": 0.04197638828159161
+    },
+    {
+      "period": 109,
+      "n": 3151,
+      "n_fraud": 133,
+      "fraud_rate": 0.04220882259600127
+    },
+    {
+      "period": 110,
+      "n": 3018,
+      "n_fraud": 117,
+      "fraud_rate": 0.03876739562624255
+    },
+    {
+      "period": 111,
+      "n": 3180,
+      "n_fraud": 102,
+      "fraud_rate": 0.03207547169811321
+    },
+    {
+      "period": 112,
+      "n": 3225,
+      "n_fraud": 139,
+      "fraud_rate": 0.04310077519379845
+    },
+    {
+      "period": 113,
+      "n": 3227,
+      "n_fraud": 161,
+      "fraud_rate": 0.049891540130151846
+    },
+    {
+      "period": 114,
+      "n": 2758,
+      "n_fraud": 150,
+      "fraud_rate": 0.05438723712835388
+    },
+    {
+      "period": 115,
+      "n": 2461,
+      "n_fraud": 139,
+      "fraud_rate": 0.056481105241771634
+    },
+    {
+      "period": 116,
+      "n": 3111,
+      "n_fraud": 163,
+      "fraud_rate": 0.05239472838315654
+    },
+    {
+      "period": 117,
+      "n": 3042,
+      "n_fraud": 194,
+      "fraud_rate": 0.06377383300460224
+    },
+    {
+      "period": 118,
+      "n": 3179,
+      "n_fraud": 117,
+      "fraud_rate": 0.03680402642340359
+    },
+    {
+      "period": 119,
+      "n": 3300,
+      "n_fraud": 145,
+      "fraud_rate": 0.04393939393939394
+    },
+    {
+      "period": 120,
+      "n": 2777,
+      "n_fraud": 119,
+      "fraud_rate": 0.042851998559596684
+    }
+  ],
+  "by_week": [
+    {
+      "period": 0,
+      "n": 27596,
+      "n_fraud": 804,
+      "fraud_rate": 0.029134657196695172
+    },
+    {
+      "period": 1,
+      "n": 28463,
+      "n_fraud": 717,
+      "fraud_rate": 0.02519059832062678
+    },
+    {
+      "period": 2,
+      "n": 35701,
+      "n_fraud": 869,
+      "fraud_rate": 0.02434105487241254
+    },
+    {
+      "period": 3,
+      "n": 34906,
+      "n_fraud": 724,
+      "fraud_rate": 0.02074141981321263
+    },
+    {
+      "period": 4,
+      "n": 24539,
+      "n_fraud": 889,
+      "fraud_rate": 0.036228045152614206
+    },
+    {
+      "period": 5,
+      "n": 20919,
+      "n_fraud": 803,
+      "fraud_rate": 0.038386156126009846
+    },
+    {
+      "period": 6,
+      "n": 20564,
+      "n_fraud": 823,
+      "fraud_rate": 0.04002139661544447
+    },
+    {
+      "period": 7,
+      "n": 19761,
+      "n_fraud": 862,
+      "fraud_rate": 0.043621274227012806
+    },
+    {
+      "period": 8,
+      "n": 21432,
+      "n_fraud": 927,
+      "fraud_rate": 0.04325307950727884
+    },
+    {
+      "period": 9,
+      "n": 22534,
+      "n_fraud": 996,
+      "fraud_rate": 0.0441998757433212
+    },
+    {
+      "period": 10,
+      "n": 20953,
+      "n_fraud": 880,
+      "fraud_rate": 0.04199875912757123
+    },
+    {
+      "period": 11,
+      "n": 20175,
+      "n_fraud": 676,
+      "fraud_rate": 0.033506815365551425
+    },
+    {
+      "period": 12,
+      "n": 22391,
+      "n_fraud": 912,
+      "fraud_rate": 0.0407306507078737
+    },
+    {
+      "period": 13,
+      "n": 27429,
+      "n_fraud": 884,
+      "fraud_rate": 0.03222866309380583
+    },
+    {
+      "period": 14,
+      "n": 21269,
+      "n_fraud": 718,
+      "fraud_rate": 0.03375805162442992
+    },
+    {
+      "period": 15,
+      "n": 20891,
+      "n_fraud": 866,
+      "fraud_rate": 0.0414532573835623
+    },
+    {
+      "period": 16,
+      "n": 21078,
+      "n_fraud": 1069,
+      "fraud_rate": 0.05071638675396148
+    },
+    {
+      "period": 17,
+      "n": 2777,
+      "n_fraud": 119,
+      "fraud_rate": 0.042851998559596684
+    }
+  ],
+  "days_per_week": {
+    "0": 7,
+    "1": 7,
+    "2": 7,
+    "3": 7,
+    "4": 7,
+    "5": 7,
+    "6": 7,
+    "7": 7,
+    "8": 7,
+    "9": 7,
+    "10": 7,
+    "11": 7,
+    "12": 7,
+    "13": 7,
+    "14": 7,
+    "15": 7,
+    "16": 7,
+    "17": 1
+  },
+  "stationarity": {
+    "note": "three tests on the train span. Kendall tau is Mann-Kendall and asks for monotone trend; least squares gives the size of a linear one; chi-square homogeneity asks whether the periods share a rate at all.",
+    "weekly": {
+      "n_periods": 18,
+      "kendall_tau": 0.39869281045751637,
+      "kendall_p_value": 0.021404417849918617,
+      "ols_slope_per_period": 0.0009552596289677061,
+      "ols_p_value": 0.004678439684152446,
+      "ols_r_squared": 0.4025799987075928,
+      "chi2_homogeneity": 847.5207441742631,
+      "chi2_p_value": 3.366307644978361e-169,
+      "chi2_dof": 17,
+      "rate_min": 0.02074141981321263,
+      "rate_max": 0.05071638675396148,
+      "rate_range": 0.02997496694074885,
+      "rate_max_over_min": 2.44517430391406
+    },
+    "weekly_complete_weeks_only": {
+      "n_weeks_dropped": 1,
+      "weeks_kept": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "n_periods": 17,
+      "kendall_tau": 0.3823529411764705,
+      "kendall_p_value": 0.034088901411189226,
+      "ols_slope_per_period": 0.0010008244443479755,
+      "ols_p_value": 0.0077911301131862055,
+      "ols_r_squared": 0.38575915479926065,
+      "chi2_homogeneity": 843.8583461007578,
+      "chi2_p_value": 2.7541192915152824e-169,
+      "chi2_dof": 16,
+      "rate_min": 0.02074141981321263,
+      "rate_max": 0.05071638675396148,
+      "rate_range": 0.02997496694074885,
+      "rate_max_over_min": 2.44517430391406
+    },
+    "daily": {
+      "n_periods": 120,
+      "kendall_tau": 0.30168067226890755,
+      "kendall_p_value": 1.030148984945034e-06,
+      "ols_slope_per_period": 0.00013760982743486386,
+      "ols_p_value": 3.3560342971388907e-07,
+      "ols_r_squared": 0.19871565217780443,
+      "chi2_homogeneity": 1477.1452727724084,
+      "chi2_p_value": 6.654082481080395e-233,
+      "chi2_dof": 119,
+      "rate_min": 0.0109717868338558,
+      "rate_max": 0.06994171523730225,
+      "rate_range": 0.05896992840344645,
+      "rate_max_over_min": 6.3746877601998335
+    }
+  },
+  "by_category": {
+    "ProductCD": [
+      {
+        "value": "W",
+        "n": 297911,
+        "n_fraud": 6191,
+        "fraud_rate": 0.020781374303063666,
+        "share_of_rows": 0.7206745400093861,
+        "interval": {
+          "point": 0.020781374303063666,
+          "low": 0.020275269827358697,
+          "high": 0.02129983733470837,
+          "n": 297911,
+          "successes": 6191,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "C",
+        "n": 50006,
+        "n_fraud": 5588,
+        "fraud_rate": 0.1117465904091509,
+        "share_of_rows": 0.12096918558800904,
+        "interval": {
+          "point": 0.1117465904091509,
+          "low": 0.10901500137232645,
+          "high": 0.11453782608517396,
+          "n": 50006,
+          "successes": 5588,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "R",
+        "n": 30144,
+        "n_fraud": 1054,
+        "fraud_rate": 0.034965498938428874,
+        "share_of_rows": 0.0729211520690506,
+        "interval": {
+          "point": 0.034965498938428874,
+          "low": 0.03295037297428994,
+          "high": 0.03709913493841698,
+          "n": 30144,
+          "successes": 1054,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "H",
+        "n": 28112,
+        "n_fraud": 1270,
+        "fraud_rate": 0.04517643710870802,
+        "share_of_rows": 0.06800555423849358,
+        "interval": {
+          "point": 0.04517643710870802,
+          "low": 0.042810111787841346,
+          "high": 0.04766704723820027,
+          "n": 28112,
+          "successes": 1270,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "S",
+        "n": 7205,
+        "n_fraud": 435,
+        "fraud_rate": 0.06037473976405274,
+        "share_of_rows": 0.017429568095060695,
+        "interval": {
+          "point": 0.06037473976405274,
+          "low": 0.0551058219159893,
+          "high": 0.06611219401796735,
+          "n": 7205,
+          "successes": 435,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    ],
+    "card4": [
+      {
+        "value": "visa",
+        "n": 270078,
+        "n_fraud": 9343,
+        "fraud_rate": 0.034593709965269295,
+        "share_of_rows": 0.6533439128352259,
+        "interval": {
+          "point": 0.034593709965269295,
+          "low": 0.03391108389265388,
+          "high": 0.0352895752774308,
+          "n": 270078,
+          "successes": 9343,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "mastercard",
+        "n": 130967,
+        "n_fraud": 4667,
+        "fraud_rate": 0.035634930936800875,
+        "share_of_rows": 0.3168214080091345,
+        "interval": {
+          "point": 0.035634930936800875,
+          "low": 0.03464449158558196,
+          "high": 0.03665261053891389,
+          "n": 130967,
+          "successes": 4667,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "american express",
+        "n": 6741,
+        "n_fraud": 189,
+        "fraud_rate": 0.028037383177570093,
+        "share_of_rows": 0.01630710874792563,
+        "interval": {
+          "point": 0.028037383177570093,
+          "low": 0.02435739261584702,
+          "high": 0.03225497717104156,
+          "n": 6741,
+          "successes": 189,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "discover",
+        "n": 4763,
+        "n_fraud": 313,
+        "fraud_rate": 0.06571488557631745,
+        "share_of_rows": 0.011522141962078292,
+        "interval": {
+          "point": 0.06571488557631745,
+          "low": 0.059022130296542054,
+          "high": 0.07310759632887745,
+          "n": 4763,
+          "successes": 313,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "(missing)",
+        "n": 829,
+        "n_fraud": 26,
+        "fraud_rate": 0.031363088057901084,
+        "share_of_rows": 0.0020054284456357137,
+        "interval": {
+          "point": 0.031363088057901084,
+          "low": 0.021491509889523926,
+          "high": 0.045557816521010173,
+          "n": 829,
+          "successes": 26,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    ],
+    "card6": [
+      {
+        "value": "debit",
+        "n": 303147,
+        "n_fraud": 7306,
+        "fraud_rate": 0.024100518890175393,
+        "share_of_rows": 0.7333409131593844,
+        "interval": {
+          "point": 0.024100518890175393,
+          "low": 0.02356058923980201,
+          "high": 0.024652509521482728,
+          "n": 303147,
+          "successes": 7306,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "credit",
+        "n": 109361,
+        "n_fraud": 7208,
+        "fraud_rate": 0.06591015078501476,
+        "share_of_rows": 0.2645544755647374,
+        "interval": {
+          "point": 0.06591015078501476,
+          "low": 0.06445476952317596,
+          "high": 0.06739602700772028,
+          "n": 109361,
+          "successes": 7208,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "(missing)",
+        "n": 826,
+        "n_fraud": 24,
+        "fraud_rate": 0.029055690072639227,
+        "share_of_rows": 0.0019981711653740642,
+        "interval": {
+          "point": 0.029055690072639227,
+          "low": 0.019601857246627018,
+          "high": 0.042869664596071895,
+          "n": 826,
+          "successes": 24,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "debit or credit",
+        "n": 29,
+        "n_fraud": 0,
+        "fraud_rate": 0.0,
+        "share_of_rows": 7.015370919594172e-05,
+        "interval": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.11696979849974075,
+          "n": 29,
+          "successes": 0,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "charge card",
+        "n": 15,
+        "n_fraud": 0,
+        "fraud_rate": 0.0,
+        "share_of_rows": 3.628640130824572e-05,
+        "interval": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.20388330103584862,
+          "n": 15,
+          "successes": 0,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    ],
+    "DeviceType": [
+      {
+        "value": "(missing)",
+        "n": 305981,
+        "n_fraud": 6543,
+        "fraud_rate": 0.02138368068605567,
+        "share_of_rows": 0.7401966239132223,
+        "interval": {
+          "point": 0.02138368068605567,
+          "low": 0.020877093171992878,
+          "high": 0.021902285690088168,
+          "n": 305981,
+          "successes": 6543,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "desktop",
+        "n": 65963,
+        "n_fraud": 3909,
+        "fraud_rate": 0.059260494519654955,
+        "share_of_rows": 0.15957065929972084,
+        "interval": {
+          "point": 0.059260494519654955,
+          "low": 0.05748419402896468,
+          "high": 0.06108812633449276,
+          "n": 65963,
+          "successes": 3909,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "mobile",
+        "n": 41434,
+        "n_fraud": 4086,
+        "fraud_rate": 0.0986146642853695,
+        "share_of_rows": 0.10023271678705688,
+        "interval": {
+          "point": 0.0986146642853695,
+          "low": 0.09578101441571511,
+          "high": 0.10152273430743024,
+          "n": 41434,
+          "successes": 4086,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    ]
+  },
+  "by_clock": {
+    "hour_position": [
+      {
+        "value": "19",
+        "n": 30090,
+        "n_fraud": 1049,
+        "fraud_rate": 0.0348620804253905,
+        "share_of_rows": 0.07279052102434092,
+        "interval": {
+          "point": 0.0348620804253905,
+          "low": 0.03284817105476045,
+          "high": 0.03699473888735435,
+          "n": 30090,
+          "successes": 1049,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "18",
+        "n": 29807,
+        "n_fraud": 1032,
+        "fraud_rate": 0.03462273962492032,
+        "share_of_rows": 0.07210591758632535,
+        "interval": {
+          "point": 0.03462273962492032,
+          "low": 0.0326064978089432,
+          "high": 0.03675891952344287,
+          "n": 29807,
+          "successes": 1032,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "21",
+        "n": 29531,
+        "n_fraud": 1014,
+        "fraud_rate": 0.034336798618401006,
+        "share_of_rows": 0.07143824780225362,
+        "interval": {
+          "point": 0.034336798618401006,
+          "low": 0.032319783439680935,
+          "high": 0.036474947070506955,
+          "n": 29531,
+          "successes": 1014,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "20",
+        "n": 29363,
+        "n_fraud": 993,
+        "fraud_rate": 0.03381807036065797,
+        "share_of_rows": 0.07103184010760127,
+        "interval": {
+          "point": 0.03381807036065797,
+          "low": 0.03181075775429444,
+          "high": 0.03594734492116439,
+          "n": 29363,
+          "successes": 993,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "17",
+        "n": 28931,
+        "n_fraud": 936,
+        "fraud_rate": 0.03235283951470741,
+        "share_of_rows": 0.0699867917499238,
+        "interval": {
+          "point": 0.03235283951470741,
+          "low": 0.03037528533952749,
+          "high": 0.03445456560298908,
+          "n": 28931,
+          "successes": 936,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "22",
+        "n": 28868,
+        "n_fraud": 941,
+        "fraud_rate": 0.03259664680615214,
+        "share_of_rows": 0.06983438886442916,
+        "interval": {
+          "point": 0.03259664680615214,
+          "low": 0.030609556395239507,
+          "high": 0.03470811520220364,
+          "n": 28868,
+          "successes": 941,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "23",
+        "n": 28121,
+        "n_fraud": 1079,
+        "fraud_rate": 0.03836990149710181,
+        "share_of_rows": 0.06802732607927853,
+        "interval": {
+          "point": 0.03836990149710181,
+          "low": 0.03618714041486347,
+          "high": 0.040678766971173855,
+          "n": 28121,
+          "successes": 1079,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "16",
+        "n": 27114,
+        "n_fraud": 806,
+        "fraud_rate": 0.029726340635833886,
+        "share_of_rows": 0.06559129900478497,
+        "interval": {
+          "point": 0.029726340635833886,
+          "low": 0.027770525791873626,
+          "high": 0.03181539151922212,
+          "n": 27114,
+          "successes": 806,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "0",
+        "n": 26732,
+        "n_fraud": 862,
+        "fraud_rate": 0.032245997306598835,
+        "share_of_rows": 0.06466720531813498,
+        "interval": {
+          "point": 0.032245997306598835,
+          "low": 0.030194647910082487,
+          "high": 0.0344317623520357,
+          "n": 26732,
+          "successes": 862,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "1",
+        "n": 23558,
+        "n_fraud": 783,
+        "fraud_rate": 0.0332371169029629,
+        "share_of_rows": 0.05698900280131018,
+        "interval": {
+          "point": 0.0332371169029629,
+          "low": 0.031023113510001362,
+          "high": 0.035603319808647546,
+          "n": 23558,
+          "successes": 783,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "15",
+        "n": 23041,
+        "n_fraud": 570,
+        "fraud_rate": 0.024738509613298033,
+        "share_of_rows": 0.05573833150288598,
+        "interval": {
+          "point": 0.024738509613298033,
+          "low": 0.022810734336935284,
+          "high": 0.026824732275610004,
+          "n": 23041,
+          "successes": 570,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "2",
+        "n": 19261,
+        "n_fraud": 690,
+        "fraud_rate": 0.035823685166917606,
+        "share_of_rows": 0.04659415837320806,
+        "interval": {
+          "point": 0.035823685166917606,
+          "low": 0.033290219287207115,
+          "high": 0.038542266943147094,
+          "n": 19261,
+          "successes": 690,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "14",
+        "n": 18558,
+        "n_fraud": 450,
+        "fraud_rate": 0.02424830261881668,
+        "share_of_rows": 0.04489353569856161,
+        "interval": {
+          "point": 0.02424830261881668,
+          "low": 0.022131743078188368,
+          "high": 0.0265617801816595,
+          "n": 18558,
+          "successes": 450,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "3",
+        "n": 15294,
+        "n_fraud": 532,
+        "fraud_rate": 0.034784882960638155,
+        "share_of_rows": 0.03699761477388734,
+        "interval": {
+          "point": 0.034784882960638155,
+          "low": 0.03199573083757499,
+          "high": 0.03780767650555573,
+          "n": 15294,
+          "successes": 532,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "13",
+        "n": 12466,
+        "n_fraud": 270,
+        "fraud_rate": 0.021658912241296326,
+        "share_of_rows": 0.030156418580572743,
+        "interval": {
+          "point": 0.021658912241296326,
+          "low": 0.01924708175857517,
+          "high": 0.02436545819364701,
+          "n": 12466,
+          "successes": 270,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "4",
+        "n": 11354,
+        "n_fraud": 564,
+        "fraud_rate": 0.04967412365686102,
+        "share_of_rows": 0.02746638669692146,
+        "interval": {
+          "point": 0.04967412365686102,
+          "low": 0.04582775142164667,
+          "high": 0.05382511509566914,
+          "n": 11354,
+          "successes": 564,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "5",
+        "n": 7619,
+        "n_fraud": 475,
+        "fraud_rate": 0.06234413965087282,
+        "share_of_rows": 0.01843107277116828,
+        "interval": {
+          "point": 0.06234413965087282,
+          "low": 0.05713259583261428,
+          "high": 0.06799678852798606,
+          "n": 7619,
+          "successes": 475,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "12",
+        "n": 7085,
+        "n_fraud": 222,
+        "fraud_rate": 0.03133380381086803,
+        "share_of_rows": 0.01713927688459473,
+        "interval": {
+          "point": 0.03133380381086803,
+          "low": 0.027524240232458794,
+          "high": 0.035651309879956544,
+          "n": 7085,
+          "successes": 222,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "6",
+        "n": 4640,
+        "n_fraud": 353,
+        "fraud_rate": 0.07607758620689656,
+        "share_of_rows": 0.011224593471350677,
+        "interval": {
+          "point": 0.07607758620689656,
+          "low": 0.06879492720960262,
+          "high": 0.0840615958037732,
+          "n": 4640,
+          "successes": 353,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "11",
+        "n": 3588,
+        "n_fraud": 146,
+        "fraud_rate": 0.04069119286510591,
+        "share_of_rows": 0.008679707192932377,
+        "interval": {
+          "point": 0.04069119286510591,
+          "low": 0.034702489745889895,
+          "high": 0.047662353528074505,
+          "n": 3588,
+          "successes": 146,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "7",
+        "n": 2841,
+        "n_fraud": 276,
+        "fraud_rate": 0.09714889123548047,
+        "share_of_rows": 0.00687264440778174,
+        "interval": {
+          "point": 0.09714889123548047,
+          "low": 0.08679634874099812,
+          "high": 0.10858939308909799,
+          "n": 2841,
+          "successes": 276,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "8",
+        "n": 1969,
+        "n_fraud": 197,
+        "fraud_rate": 0.10005078720162519,
+        "share_of_rows": 0.004763194945062389,
+        "interval": {
+          "point": 0.10005078720162519,
+          "low": 0.08756566040099469,
+          "high": 0.1140934526726488,
+          "n": 1969,
+          "successes": 197,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "10",
+        "n": 1967,
+        "n_fraud": 147,
+        "fraud_rate": 0.07473309608540925,
+        "share_of_rows": 0.004758356758221289,
+        "interval": {
+          "point": 0.07473309608540925,
+          "low": 0.06392298342078263,
+          "high": 0.08720102378318369,
+          "n": 1967,
+          "successes": 147,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "9",
+        "n": 1580,
+        "n_fraud": 151,
+        "fraud_rate": 0.09556962025316455,
+        "share_of_rows": 0.0038221676044685494,
+        "interval": {
+          "point": 0.09556962025316455,
+          "low": 0.08203830053210166,
+          "high": 0.11106275583778229,
+          "n": 1580,
+          "successes": 151,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    ],
+    "dow_position": [
+      {
+        "value": "1",
+        "n": 72198,
+        "n_fraud": 2560,
+        "fraud_rate": 0.035458045929250115,
+        "share_of_rows": 0.1746537067768483,
+        "interval": {
+          "point": 0.035458045929250115,
+          "low": 0.03413359745175354,
+          "high": 0.03683192579938134,
+          "n": 72198,
+          "successes": 2560,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "0",
+        "n": 60270,
+        "n_fraud": 2286,
+        "fraud_rate": 0.03792931806869089,
+        "share_of_rows": 0.1457987604565313,
+        "interval": {
+          "point": 0.03792931806869089,
+          "low": 0.03643346617835342,
+          "high": 0.03948406866048582,
+          "n": 60270,
+          "successes": 2286,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "4",
+        "n": 59080,
+        "n_fraud": 1905,
+        "fraud_rate": 0.03224441435341909,
+        "share_of_rows": 0.14292003928607716,
+        "interval": {
+          "point": 0.03224441435341909,
+          "low": 0.03085012854198552,
+          "high": 0.03369952436910362,
+          "n": 59080,
+          "successes": 1905,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "6",
+        "n": 58799,
+        "n_fraud": 1992,
+        "fraud_rate": 0.03387812717903366,
+        "share_of_rows": 0.1422402740349027,
+        "interval": {
+          "point": 0.03387812717903366,
+          "low": 0.03244600089637643,
+          "high": 0.03537115487173994,
+          "n": 58799,
+          "successes": 1992,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "5",
+        "n": 57121,
+        "n_fraud": 1887,
+        "fraud_rate": 0.033035135939496856,
+        "share_of_rows": 0.13818103527522027,
+        "interval": {
+          "point": 0.033035135939496856,
+          "low": 0.03160055579254544,
+          "high": 0.03453251980721806,
+          "n": 57121,
+          "successes": 1887,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "2",
+        "n": 56973,
+        "n_fraud": 2114,
+        "fraud_rate": 0.03710529549084654,
+        "share_of_rows": 0.1378230094489789,
+        "interval": {
+          "point": 0.03710529549084654,
+          "low": 0.035584138811281744,
+          "high": 0.03868887019500381,
+          "n": 56973,
+          "successes": 2114,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      {
+        "value": "3",
+        "n": 48937,
+        "n_fraud": 1794,
+        "fraud_rate": 0.03665937838445348,
+        "share_of_rows": 0.11838317472144139,
+        "interval": {
+          "point": 0.03665937838445348,
+          "low": 0.03503042398371929,
+          "high": 0.03836106974126917,
+          "n": 48937,
+          "successes": 1794,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    ]
+  },
+  "class_balance": {
+    "note": "what the measured positive counts allow. The AUC and recall values are assumed inputs, not measurements: nothing in this repo has fitted a model yet. See ADR 0010.",
+    "positives_per_split": {
+      "train": 14538,
+      "val": 3042,
+      "test": 3083
+    },
+    "negatives_per_split": {
+      "train": 398840,
+      "val": 85539,
+      "test": 85498
+    },
+    "min_detectable_auc_difference": {
+      "val": [
+        {
+          "assumed_auc": 0.9,
+          "n_positive": 3042,
+          "n_negative": 85539,
+          "se_auc": 0.003756344832613926,
+          "alpha": 0.05,
+          "power": 0.8,
+          "min_detectable_difference_unpaired": 0.014882787772911858,
+          "note": "unpaired upper bound; a paired comparison on the same rows resolves less"
+        },
+        {
+          "assumed_auc": 0.93,
+          "n_positive": 3042,
+          "n_negative": 85539,
+          "se_auc": 0.003219007483457588,
+          "alpha": 0.05,
+          "power": 0.8,
+          "min_detectable_difference_unpaired": 0.012753835803295189,
+          "note": "unpaired upper bound; a paired comparison on the same rows resolves less"
+        },
+        {
+          "assumed_auc": 0.95,
+          "n_positive": 3042,
+          "n_negative": 85539,
+          "se_auc": 0.002762915607098401,
+          "alpha": 0.05,
+          "power": 0.8,
+          "min_detectable_difference_unpaired": 0.010946781631413043,
+          "note": "unpaired upper bound; a paired comparison on the same rows resolves less"
+        }
+      ],
+      "test": [
+        {
+          "assumed_auc": 0.9,
+          "n_positive": 3083,
+          "n_negative": 85498,
+          "se_auc": 0.003731460522907777,
+          "alpha": 0.05,
+          "power": 0.8,
+          "min_detectable_difference_unpaired": 0.014784195147171927,
+          "note": "unpaired upper bound; a paired comparison on the same rows resolves less"
+        },
+        {
+          "assumed_auc": 0.93,
+          "n_positive": 3083,
+          "n_negative": 85498,
+          "se_auc": 0.00319763875712472,
+          "alpha": 0.05,
+          "power": 0.8,
+          "min_detectable_difference_unpaired": 0.012669172058841193,
+          "note": "unpaired upper bound; a paired comparison on the same rows resolves less"
+        },
+        {
+          "assumed_auc": 0.95,
+          "n_positive": 3083,
+          "n_negative": 85498,
+          "se_auc": 0.002744548859472931,
+          "alpha": 0.05,
+          "power": 0.8,
+          "min_detectable_difference_unpaired": 0.010874011846111333,
+          "note": "unpaired upper bound; a paired comparison on the same rows resolves less"
+        }
+      ]
+    },
+    "recall_precision": {
+      "val": [
+        {
+          "n_positive": 3042,
+          "assumed_recall": 0.5,
+          "se": 0.009065471553673687,
+          "half_width_95": 0.017767997748072795
+        },
+        {
+          "n_positive": 3042,
+          "assumed_recall": 0.7,
+          "se": 0.008308641921035718,
+          "half_width_95": 0.016284638925669694
+        }
+      ],
+      "test": [
+        {
+          "n_positive": 3083,
+          "assumed_recall": 0.5,
+          "se": 0.00900499014719542,
+          "half_width_95": 0.01764945636964106
+        },
+        {
+          "n_positive": 3083,
+          "assumed_recall": 0.7,
+          "se": 0.00825320979637091,
+          "half_width_95": 0.016175993957740137
+        }
+      ]
+    }
+  },
+  "seconds": 0.3389994169701822
+}
