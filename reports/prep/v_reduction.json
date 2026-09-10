@@ -1,0 +1,265 @@
+{
+  "section": "v_reduction",
+  "stage": 3,
+  "generated_at_utc": "2026-09-10T16:55:18+00:00",
+  "regenerate_with": "make prep  # or: .venv/bin/python scripts/prepare.py --sections v_reduction",
+  "command": "reduction.compare_strategies(train, val, pool, representatives, blocks)",
+  "fitted_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "0017c9535ed6dc43cbafa48da4bc5dd34d8a2f36",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "pool": {
+    "definition": "every V column that survived the constant, missing and time-inconsistency rules. The redundancy rule is one of the strategies being compared, so it is not applied before the comparison.",
+    "n_pool_columns": 327,
+    "n_representatives": 196,
+    "n_blocks": 14
+  },
+  "comparison": {
+    "probe": {
+      "estimator": "lightgbm.LGBMClassifier",
+      "params": {
+        "n_estimators": 200,
+        "num_leaves": 31,
+        "min_child_samples": 200,
+        "learning_rate": 0.1,
+        "random_state": 42
+      },
+      "note": "one fit per strategy on the V columns alone. It compares column sets, not models, and no number here is a performance estimate."
+    },
+    "n_pool_columns": 327,
+    "pca": {
+      "explained_variance_target": 0.95,
+      "max_components": 12,
+      "n_blocks": 14,
+      "n_components_total": 122
+    },
+    "block_mean": {
+      "n_blocks": 14
+    },
+    "blocks": [
+      {
+        "block": "V1",
+        "n_columns": 11,
+        "missing_rate_train": 0.5461659788377707,
+        "n_components": 7
+      },
+      {
+        "block": "V100",
+        "n_columns": 38,
+        "missing_rate_train": 0.0,
+        "n_components": 12
+      },
+      {
+        "block": "V12",
+        "n_columns": 20,
+        "missing_rate_train": 0.14808238464553025,
+        "n_components": 7
+      },
+      {
+        "block": "V138",
+        "n_columns": 29,
+        "missing_rate_train": 0.8423476817827751,
+        "n_components": 9
+      },
+      {
+        "block": "V167",
+        "n_columns": 31,
+        "missing_rate_train": 0.7421996332654375,
+        "n_components": 8
+      },
+      {
+        "block": "V169",
+        "n_columns": 19,
+        "missing_rate_train": 0.7421730232378114,
+        "n_components": 10
+      },
+      {
+        "block": "V217",
+        "n_columns": 46,
+        "missing_rate_train": 0.7560392667244024,
+        "n_components": 12
+      },
+      {
+        "block": "V220",
+        "n_columns": 16,
+        "missing_rate_train": 0.7384113329688566,
+        "n_components": 6
+      },
+      {
+        "block": "V279",
+        "n_columns": 31,
+        "missing_rate_train": 2.9029121046596577e-05,
+        "n_components": 12
+      },
+      {
+        "block": "V281",
+        "n_columns": 11,
+        "missing_rate_train": 0.0006604125038100721,
+        "n_components": 7
+      },
+      {
+        "block": "V322",
+        "n_columns": 18,
+        "missing_rate_train": 0.8416437255973951,
+        "n_components": 7
+      },
+      {
+        "block": "V35",
+        "n_columns": 17,
+        "missing_rate_train": 0.29571965610167933,
+        "n_components": 8
+      },
+      {
+        "block": "V53",
+        "n_columns": 22,
+        "missing_rate_train": 0.15131671254880522,
+        "n_components": 9
+      },
+      {
+        "block": "V75",
+        "n_columns": 18,
+        "missing_rate_train": 0.1653595498550963,
+        "n_components": 8
+      }
+    ],
+    "results": [
+      {
+        "n_columns": 327,
+        "train_auc": 0.8926802650647395,
+        "validation_auc": 0.8405565976768317,
+        "strategy": "all"
+      },
+      {
+        "n_columns": 196,
+        "train_auc": 0.8903566173516901,
+        "validation_auc": 0.837846671152127,
+        "strategy": "representative"
+      },
+      {
+        "n_columns": 122,
+        "train_auc": 0.9025676002917749,
+        "validation_auc": 0.8465561275635762,
+        "strategy": "pca"
+      },
+      {
+        "n_columns": 14,
+        "train_auc": 0.8791030309951411,
+        "validation_auc": 0.8375423934143438,
+        "strategy": "block_mean"
+      }
+    ],
+    "seed_variance": {
+      "note": "the same column set, the same rows, different LightGBM seeds. The spread here is the floor on what a difference between two strategies has to clear before it means anything.",
+      "per_strategy": [
+        {
+          "strategy": "all",
+          "seeds": [
+            42,
+            7,
+            1337
+          ],
+          "validation_aucs": [
+            0.8405565976768317,
+            0.8371580513862442,
+            0.8413519486929996
+          ],
+          "min": 0.8371580513862442,
+          "max": 0.8413519486929996,
+          "spread": 0.004193897306755345
+        },
+        {
+          "strategy": "representative",
+          "seeds": [
+            42,
+            7,
+            1337
+          ],
+          "validation_aucs": [
+            0.837846671152127,
+            0.8413604956477438,
+            0.8362440133750926
+          ],
+          "min": 0.8362440133750926,
+          "max": 0.8413604956477438,
+          "spread": 0.005116482272651268
+        },
+        {
+          "strategy": "pca",
+          "seeds": [
+            42,
+            7,
+            1337
+          ],
+          "validation_aucs": [
+            0.8465561275635762,
+            0.8440365686992731,
+            0.845729905285061
+          ],
+          "min": 0.8440365686992731,
+          "max": 0.8465561275635762,
+          "spread": 0.0025195588643031064
+        },
+        {
+          "strategy": "block_mean",
+          "seeds": [
+            42,
+            7,
+            1337
+          ],
+          "validation_aucs": [
+            0.8375423934143438,
+            0.8354477188888753,
+            0.8379834858384454
+          ],
+          "min": 0.8354477188888753,
+          "max": 0.8379834858384454,
+          "spread": 0.0025357669495701396
+        }
+      ],
+      "largest_spread": 0.005116482272651268
+    }
+  },
+  "decision": {
+    "rule": "the strategy with the best validation AUC, and among the strategies inside the resolvable band of it, the one with the fewest columns. Stated before the numbers were read.",
+    "chosen": "block_mean",
+    "best": "pca",
+    "tie_band": {
+      "computed_at_auc": 0.8465561275635762,
+      "n_positive": 3042,
+      "n_negative": 85539,
+      "band": 0.017620575709260154,
+      "method": "eda.detectable_auc_difference, the unpaired upper bound from ADR 0010"
+    },
+    "within_band": [
+      "all",
+      "block_mean",
+      "pca",
+      "representative"
+    ],
+    "n_columns_by_strategy": {
+      "all": 327,
+      "representative": 196,
+      "pca": 122,
+      "block_mean": 14
+    },
+    "validation_auc_by_strategy": {
+      "all": 0.8405565976768317,
+      "representative": 0.837846671152127,
+      "pca": 0.8465561275635762,
+      "block_mean": 0.8375423934143438
+    },
+    "resolution": {
+      "observed_spread_between_strategies": 0.009013734149232455,
+      "largest_seed_spread_within_a_strategy": 0.005116482272651268,
+      "resolved": false,
+      "note": "the spread between the four strategies against the spread one strategy shows across seeds. When the second is comparable to the first, the probe has not separated them and the tie-break is what chose."
+    }
+  },
+  "seconds": 60.677509457999804
+}
