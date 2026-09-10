@@ -1,1 +1,12 @@
-Figures referenced by the README and the case study live here, one per committed artifact.
+Figures for the README and the case study. Each is drawn by `make eda-figures` from one artifact
+under reports/eda/ and from nothing else, at 200 DPI, so a figure and the prose beside it quote
+the same numbers.
+
+| File | Source | Shows |
+| --- | --- | --- |
+| fraud_rate_over_time.png | reports/eda/target.json | daily and weekly fraud rate over the train span |
+| amount_distribution.png | reports/eda/univariate.json | TransactionAmt before and after log1p |
+| missingness_blocks.png | reports/eda/missingness.json | which column blocks go missing together |
+| fraud_rate_by_decile.png | reports/eda/bivariate.json | shape of the relationship for eight columns |
+| psi_train_vs_test.png | reports/eda/temporal.json | distribution drift per feature |
+| time_consistency.png | reports/eda/temporal.json | early window AUC against late window AUC |
