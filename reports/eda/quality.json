@@ -1,0 +1,1762 @@
+{
+  "section": "quality",
+  "generated_at_utc": "2026-09-10T12:09:31+00:00",
+  "regenerate_with": "make eda  # or: .venv/bin/python scripts/eda.py --sections quality",
+  "command": "eda.duplicate_groups(train, subset); range checks; email and device tables",
+  "computed_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "ccdd8f7f478341258f2e7be39514f742f68c6db9",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "duplicates": {
+    "exact_rows": {
+      "definition": "identical on every column including TransactionID",
+      "n_columns_compared": 435,
+      "n_rows": 413378,
+      "n_groups": 0,
+      "n_rows_in_groups": 0,
+      "share_rows_in_groups": 0.0,
+      "n_extra_rows": 0,
+      "fraud_rate_in_groups": null,
+      "fraud_rate_outside_groups": 0.03516878014795175,
+      "interval_in_groups": {
+        "point": null,
+        "low": null,
+        "high": null,
+        "n": 0,
+        "successes": 0
+      },
+      "interval_outside_groups": {
+        "point": 0.03516878014795175,
+        "low": 0.0346115482434657,
+        "high": 0.035734651183674596,
+        "n": 413378,
+        "successes": 14538,
+        "method": "wilson",
+        "z": 1.959963984540054
+      }
+    },
+    "same_content_same_time": {
+      "definition": "identical on every column except TransactionID",
+      "n_columns_compared": 434,
+      "n_rows": 413378,
+      "n_groups": 1,
+      "n_rows_in_groups": 2,
+      "share_rows_in_groups": 4.8381868410994295e-06,
+      "n_extra_rows": 1,
+      "fraud_rate_in_groups": 0.0,
+      "fraud_rate_outside_groups": 0.03516895030190432,
+      "interval_in_groups": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.6576197724933469,
+        "n": 2,
+        "successes": 0,
+        "method": "wilson",
+        "z": 1.959963984540054
+      },
+      "interval_outside_groups": {
+        "point": 0.03516895030190432,
+        "low": 0.03461171574937039,
+        "high": 0.03573482402431017,
+        "n": 413376,
+        "successes": 14538,
+        "method": "wilson",
+        "z": 1.959963984540054
+      }
+    },
+    "same_content": {
+      "definition": "identical on every column except TransactionID and TransactionDT",
+      "n_columns_compared": 433,
+      "n_rows": 413378,
+      "n_groups": 5,
+      "n_rows_in_groups": 10,
+      "share_rows_in_groups": 2.4190934205497148e-05,
+      "n_extra_rows": 5,
+      "fraud_rate_in_groups": 0.0,
+      "fraud_rate_outside_groups": 0.03516963093417971,
+      "interval_in_groups": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.2775327998628892,
+        "n": 10,
+        "successes": 0,
+        "method": "wilson",
+        "z": 1.959963984540054
+      },
+      "interval_outside_groups": {
+        "point": 0.03516963093417971,
+        "low": 0.03461238578920272,
+        "high": 0.03573551540357257,
+        "n": 413368,
+        "successes": 14538,
+        "method": "wilson",
+        "z": 1.959963984540054
+      }
+    },
+    "repeated_core_fields": {
+      "definition": "a different question from the three above: rows agreeing on the fields a person would call the same purchase, ignoring the counters and the V block that move every time. Card testing repeats the purchase, not the running totals, so a whole-row comparison cannot see it.",
+      "columns": [
+        "card1",
+        "card2",
+        "addr1",
+        "TransactionAmt",
+        "ProductCD",
+        "P_emaildomain"
+      ],
+      "n_columns_compared": 6,
+      "n_rows": 413378,
+      "n_groups": 60310,
+      "n_rows_in_groups": 200113,
+      "share_rows_in_groups": 0.4840920416664651,
+      "n_extra_rows": 139803,
+      "fraud_rate_in_groups": 0.04156651491907073,
+      "fraud_rate_outside_groups": 0.029165592103720724,
+      "interval_in_groups": {
+        "point": 0.04156651491907073,
+        "low": 0.040700772271471605,
+        "high": 0.042449857818024295,
+        "n": 200113,
+        "successes": 8318,
+        "method": "wilson",
+        "z": 1.959963984540054
+      },
+      "interval_outside_groups": {
+        "point": 0.029165592103720724,
+        "low": 0.028459867743291997,
+        "high": 0.029888278069763546,
+        "n": 213265,
+        "successes": 6220,
+        "method": "wilson",
+        "z": 1.959963984540054
+      }
+    },
+    "note": "repeated identical transactions are a known card testing shape. The number is recorded here and the decision on what to do about it is stage 3's.",
+    "transaction_id_is_unique": true
+  },
+  "impossible_values": {
+    "n_negative_amounts": 0,
+    "n_zero_amounts": 0,
+    "n_non_finite_amounts": 0,
+    "min_amount": 0.251,
+    "max_amount": 31937.391,
+    "columns_with_negative_values": {
+      "D4": 8,
+      "D6": 2,
+      "D11": 5,
+      "D12": 1,
+      "D14": 3,
+      "D15": 9,
+      "id_01": 92934,
+      "id_03": 123,
+      "id_04": 426,
+      "id_05": 3800,
+      "id_06": 33851,
+      "id_07": 229,
+      "id_08": 3744,
+      "id_09": 325,
+      "id_10": 1573,
+      "id_14": 63042,
+      "card_start_day": 135519
+    },
+    "n_columns_with_negative_values": 17,
+    "categorical_levels": {
+      "ProductCD": [
+        "C",
+        "H",
+        "R",
+        "S",
+        "W"
+      ],
+      "card4": [
+        "american express",
+        "discover",
+        "mastercard",
+        "visa"
+      ],
+      "card6": [
+        "charge card",
+        "credit",
+        "debit",
+        "debit or credit"
+      ],
+      "DeviceType": [
+        "desktop",
+        "mobile"
+      ]
+    },
+    "n_rows_with_null_target": 0,
+    "n_rows_with_null_time": 0
+  },
+  "email_domains": {
+    "P_emaildomain": {
+      "profile": {
+        "column": "P_emaildomain",
+        "n_total": 413378,
+        "count": 349082,
+        "missing_rate": 0.15553803056766446,
+        "all_null": false,
+        "cardinality": 59,
+        "top_value": "gmail.com",
+        "top_value_share": 0.4560934107172527,
+        "top_5": [
+          {
+            "value": "gmail.com",
+            "count": 159214,
+            "share": 0.4560934107172527
+          },
+          {
+            "value": "yahoo.com",
+            "count": 70404,
+            "share": 0.20168327212517403
+          },
+          {
+            "value": "hotmail.com",
+            "count": 32817,
+            "share": 0.09400943044900625
+          },
+          {
+            "value": "anonymous.com",
+            "count": 26745,
+            "share": 0.0766152365346824
+          },
+          {
+            "value": "aol.com",
+            "count": 19798,
+            "share": 0.05671446823382472
+          }
+        ],
+        "rare_tail_share_target": 0.01,
+        "n_categories_in_rare_tail": 30,
+        "rare_tail_category_share": 0.5084745762711864,
+        "rare_tail_row_share": 0.00977993709214454,
+        "n_singleton_categories": 0,
+        "single_value_dominated": false,
+        "effectively_constant": false
+      },
+      "by_domain": [
+        {
+          "value": "gmail.com",
+          "n": 159214,
+          "n_fraud": 7012,
+          "fraud_rate": 0.04404135314733629,
+          "share_of_rows": 0.3851535398594023,
+          "interval": {
+            "point": 0.04404135314733629,
+            "low": 0.043044429654214955,
+            "high": 0.045060278526047506,
+            "n": 159214,
+            "successes": 7012,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "yahoo.com",
+          "n": 70404,
+          "n_fraud": 1665,
+          "fraud_rate": 0.023649224475882052,
+          "share_of_rows": 0.1703138531803821,
+          "interval": {
+            "point": 0.023649224475882052,
+            "low": 0.022552509980560447,
+            "high": 0.024797918462421315,
+            "n": 70404,
+            "successes": 1665,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "(missing)",
+          "n": 64296,
+          "n_fraud": 1929,
+          "fraud_rate": 0.03000186636804778,
+          "share_of_rows": 0.15553803056766446,
+          "interval": {
+            "point": 0.03000186636804778,
+            "low": 0.028711077890942908,
+            "high": 0.0313488129455519,
+            "n": 64296,
+            "successes": 1929,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "hotmail.com",
+          "n": 32817,
+          "n_fraud": 1754,
+          "fraud_rate": 0.05344790809641344,
+          "share_of_rows": 0.07938738878217999,
+          "interval": {
+            "point": 0.05344790809641344,
+            "low": 0.051066227641787414,
+            "high": 0.05593412039093729,
+            "n": 32817,
+            "successes": 1754,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "anonymous.com",
+          "n": 26745,
+          "n_fraud": 631,
+          "fraud_rate": 0.023593194989717705,
+          "share_of_rows": 0.06469865353260212,
+          "interval": {
+            "point": 0.023593194989717705,
+            "low": 0.021841445082447352,
+            "high": 0.02548178051479699,
+            "n": 26745,
+            "successes": 631,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "aol.com",
+          "n": 19798,
+          "n_fraud": 417,
+          "fraud_rate": 0.0210627336094555,
+          "share_of_rows": 0.04789321154004325,
+          "interval": {
+            "point": 0.0210627336094555,
+            "low": 0.019153487608210736,
+            "high": 0.023157802509076772,
+            "n": 19798,
+            "successes": 417,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "comcast.net",
+          "n": 5736,
+          "n_fraud": 118,
+          "fraud_rate": 0.020571827057182707,
+          "share_of_rows": 0.013875919860273164,
+          "interval": {
+            "point": 0.020571827057182707,
+            "low": 0.01720654489516099,
+            "high": 0.02457883550974864,
+            "n": 5736,
+            "successes": 118,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "icloud.com",
+          "n": 4319,
+          "n_fraud": 134,
+          "fraud_rate": 0.03102570039360963,
+          "share_of_rows": 0.010448064483354218,
+          "interval": {
+            "point": 0.03102570039360963,
+            "low": 0.02625698811698107,
+            "high": 0.03662791326333804,
+            "n": 4319,
+            "successes": 134,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "outlook.com",
+          "n": 3550,
+          "n_fraud": 316,
+          "fraud_rate": 0.08901408450704225,
+          "share_of_rows": 0.008587781642951488,
+          "interval": {
+            "point": 0.08901408450704225,
+            "low": 0.0800854612862577,
+            "high": 0.098831202889215,
+            "n": 3550,
+            "successes": 316,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "msn.com",
+          "n": 2964,
+          "n_fraud": 47,
+          "fraud_rate": 0.015856950067476384,
+          "share_of_rows": 0.007170192898509354,
+          "interval": {
+            "point": 0.015856950067476384,
+            "low": 0.011945780499059495,
+            "high": 0.02102143159035332,
+            "n": 2964,
+            "successes": 47,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "att.net",
+          "n": 2712,
+          "n_fraud": 12,
+          "fraud_rate": 0.004424778761061947,
+          "share_of_rows": 0.006560581356530827,
+          "interval": {
+            "point": 0.004424778761061947,
+            "low": 0.0025330007420013927,
+            "high": 0.0077185029789793545,
+            "n": 2712,
+            "successes": 12,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "live.com",
+          "n": 2189,
+          "n_fraud": 78,
+          "fraud_rate": 0.03563270899954317,
+          "share_of_rows": 0.005295395497583326,
+          "interval": {
+            "point": 0.03563270899954317,
+            "low": 0.02864494528861418,
+            "high": 0.0442474465337552,
+            "n": 2189,
+            "successes": 78,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "sbcglobal.net",
+          "n": 2149,
+          "n_fraud": 7,
+          "fraud_rate": 0.003257328990228013,
+          "share_of_rows": 0.005198631760761337,
+          "interval": {
+            "point": 0.003257328990228013,
+            "low": 0.0015787457330430688,
+            "high": 0.006708654506112259,
+            "n": 2149,
+            "successes": 7,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "verizon.net",
+          "n": 2015,
+          "n_fraud": 11,
+          "fraud_rate": 0.005459057071960298,
+          "share_of_rows": 0.004874473242407675,
+          "interval": {
+            "point": 0.005459057071960298,
+            "low": 0.0030509945684630015,
+            "high": 0.009749148160817685,
+            "n": 2015,
+            "successes": 11,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "ymail.com",
+          "n": 1684,
+          "n_fraud": 38,
+          "fraud_rate": 0.022565320665083134,
+          "share_of_rows": 0.00407375332020572,
+          "interval": {
+            "point": 0.022565320665083134,
+            "low": 0.016483986239209027,
+            "high": 0.03081989908926245,
+            "n": 1684,
+            "successes": 38,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "bellsouth.net",
+          "n": 1395,
+          "n_fraud": 32,
+          "fraud_rate": 0.022939068100358423,
+          "share_of_rows": 0.003374635321666852,
+          "interval": {
+            "point": 0.022939068100358423,
+            "low": 0.016295171605615416,
+            "high": 0.03220314705151709,
+            "n": 1395,
+            "successes": 32,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "me.com",
+          "n": 1161,
+          "n_fraud": 15,
+          "fraud_rate": 0.012919896640826873,
+          "share_of_rows": 0.0028085674612582188,
+          "interval": {
+            "point": 0.012919896640826873,
+            "low": 0.007845079474876736,
+            "high": 0.02120733668393324,
+            "n": 1161,
+            "successes": 15,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "yahoo.com.mx",
+          "n": 1148,
+          "n_fraud": 15,
+          "fraud_rate": 0.013066202090592335,
+          "share_of_rows": 0.0027771192467910726,
+          "interval": {
+            "point": 0.013066202090592335,
+            "low": 0.007934091447379154,
+            "high": 0.021446218283217362,
+            "n": 1148,
+            "successes": 15,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "cox.net",
+          "n": 994,
+          "n_fraud": 19,
+          "fraud_rate": 0.019114688128772636,
+          "share_of_rows": 0.0024045788600264165,
+          "interval": {
+            "point": 0.019114688128772636,
+            "low": 0.012270708786410917,
+            "high": 0.02966126191978197,
+            "n": 994,
+            "successes": 19,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "optonline.net",
+          "n": 756,
+          "n_fraud": 7,
+          "fraud_rate": 0.009259259259259259,
+          "share_of_rows": 0.0018288346259355843,
+          "interval": {
+            "point": 0.009259259259259259,
+            "low": 0.004492282471777771,
+            "high": 0.018988219432375785,
+            "n": 756,
+            "successes": 7,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "charter.net",
+          "n": 639,
+          "n_fraud": 11,
+          "fraud_rate": 0.017214397496087636,
+          "share_of_rows": 0.0015458006957312677,
+          "interval": {
+            "point": 0.017214397496087636,
+            "low": 0.00963893733087889,
+            "high": 0.03055986824725045,
+            "n": 639,
+            "successes": 11,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "live.com.mx",
+          "n": 557,
+          "n_fraud": 16,
+          "fraud_rate": 0.02872531418312388,
+          "share_of_rows": 0.001347435035246191,
+          "interval": {
+            "point": 0.02872531418312388,
+            "low": 0.017757486788252612,
+            "high": 0.04614909190166724,
+            "n": 557,
+            "successes": 16,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "rocketmail.com",
+          "n": 468,
+          "n_fraud": 2,
+          "fraud_rate": 0.004273504273504274,
+          "share_of_rows": 0.0011321357208172666,
+          "interval": {
+            "point": 0.004273504273504274,
+            "low": 0.0011727323833604173,
+            "high": 0.015446109971639128,
+            "n": 468,
+            "successes": 2,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "mail.com",
+          "n": 398,
+          "n_fraud": 79,
+          "fraud_rate": 0.1984924623115578,
+          "share_of_rows": 0.0009627991813787865,
+          "interval": {
+            "point": 0.1984924623115578,
+            "low": 0.16227002005004593,
+            "high": 0.24047951031364284,
+            "n": 398,
+            "successes": 79,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "earthlink.net",
+          "n": 355,
+          "n_fraud": 6,
+          "fraud_rate": 0.016901408450704224,
+          "share_of_rows": 0.0008587781642951487,
+          "interval": {
+            "point": 0.016901408450704224,
+            "low": 0.007768501322589497,
+            "high": 0.03637762068002387,
+            "n": 355,
+            "successes": 6,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "gmail",
+          "n": 353,
+          "n_fraud": 8,
+          "fraud_rate": 0.0226628895184136,
+          "share_of_rows": 0.0008539399774540493,
+          "interval": {
+            "point": 0.0226628895184136,
+            "low": 0.011527409992324336,
+            "high": 0.04407559893569395,
+            "n": 353,
+            "successes": 8,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "outlook.es",
+          "n": 340,
+          "n_fraud": 45,
+          "fraud_rate": 0.1323529411764706,
+          "share_of_rows": 0.000822491762986903,
+          "interval": {
+            "point": 0.1323529411764706,
+            "low": 0.10040713056305364,
+            "high": 0.1725135903487036,
+            "n": 340,
+            "successes": 45,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "mac.com",
+          "n": 336,
+          "n_fraud": 9,
+          "fraud_rate": 0.026785714285714284,
+          "share_of_rows": 0.0008128153893047042,
+          "interval": {
+            "point": 0.026785714285714284,
+            "low": 0.014154802097976735,
+            "high": 0.05011475140643555,
+            "n": 336,
+            "successes": 9,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "aim.com",
+          "n": 239,
+          "n_fraud": 40,
+          "fraud_rate": 0.16736401673640167,
+          "share_of_rows": 0.0005781633275113819,
+          "interval": {
+            "point": 0.16736401673640167,
+            "low": 0.1253809309334165,
+            "high": 0.2198709022084681,
+            "n": 239,
+            "successes": 40,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "juno.com",
+          "n": 233,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0005636487669880835,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.016219537068475766,
+            "n": 233,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "roadrunner.com",
+          "n": 232,
+          "n_fraud": 2,
+          "fraud_rate": 0.008620689655172414,
+          "share_of_rows": 0.0005612296735675338,
+          "interval": {
+            "point": 0.008620689655172414,
+            "low": 0.0023672963054105784,
+            "high": 0.030881560192953607,
+            "n": 232,
+            "successes": 2,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "hotmail.es",
+          "n": 201,
+          "n_fraud": 16,
+          "fraud_rate": 0.07960199004975124,
+          "share_of_rows": 0.00048623777753049267,
+          "interval": {
+            "point": 0.07960199004975124,
+            "low": 0.049589579975658,
+            "high": 0.12538212266227125,
+            "n": 201,
+            "successes": 16,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "hotmail.fr",
+          "n": 197,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0004765614038482938,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.019126821938311438,
+            "n": 197,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "frontier.com",
+          "n": 196,
+          "n_fraud": 1,
+          "fraud_rate": 0.00510204081632653,
+          "share_of_rows": 0.0004741423104277441,
+          "interval": {
+            "point": 0.00510204081632653,
+            "low": 0.0009012039505642017,
+            "high": 0.028329261315080803,
+            "n": 196,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "windstream.net",
+          "n": 191,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00046204684332499553,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.019715818409208725,
+            "n": 191,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "embarqmail.com",
+          "n": 178,
+          "n_fraud": 5,
+          "fraud_rate": 0.028089887640449437,
+          "share_of_rows": 0.00043059862885784923,
+          "interval": {
+            "point": 0.028089887640449437,
+            "low": 0.012056734490741777,
+            "high": 0.06406154409358579,
+            "n": 178,
+            "successes": 5,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "netzero.com",
+          "n": 160,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00038705494728795436,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.02344619517150519,
+            "n": 160,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "twc.com",
+          "n": 160,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00038705494728795436,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.02344619517150519,
+            "n": 160,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "prodigy.net.mx",
+          "n": 154,
+          "n_fraud": 1,
+          "fraud_rate": 0.006493506493506494,
+          "share_of_rows": 0.0003725403867646561,
+          "interval": {
+            "point": 0.006493506493506494,
+            "low": 0.0011471844874949774,
+            "high": 0.035861209025453665,
+            "n": 154,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "web.de",
+          "n": 146,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00035318763940025836,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.025636822084673896,
+            "n": 146,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "q.com",
+          "n": 132,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00031932033151256235,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.02827898679860847,
+            "n": 132,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "frontiernet.net",
+          "n": 131,
+          "n_fraud": 5,
+          "fraud_rate": 0.03816793893129771,
+          "share_of_rows": 0.00031690123809201265,
+          "interval": {
+            "point": 0.03816793893129771,
+            "low": 0.01641133346922262,
+            "high": 0.08623854099631437,
+            "n": 131,
+            "successes": 5,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "centurylink.net",
+          "n": 126,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0003048057709892641,
+          "interval": {
+            "point": 0.0,
+            "low": 1.734723475976807e-18,
+            "high": 0.02958576448219845,
+            "n": 126,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "netzero.net",
+          "n": 124,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0002999675841481646,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.030048615340677695,
+            "n": 124,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "cfl.rr.com",
+          "n": 119,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00028787211704541605,
+          "interval": {
+            "point": 0.0,
+            "low": 3.469446951953614e-18,
+            "high": 0.031271680241939506,
+            "n": 119,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "sc.rr.com",
+          "n": 110,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0002661002762604686,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.033743935298164184,
+            "n": 110,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "gmx.de",
+          "n": 105,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00025400480915772005,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.035294076929109894,
+            "n": 105,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "cableone.net",
+          "n": 105,
+          "n_fraud": 1,
+          "fraud_rate": 0.009523809523809525,
+          "share_of_rows": 0.00025400480915772005,
+          "interval": {
+            "point": 0.009523809523809525,
+            "low": 0.0016831692328561944,
+            "high": 0.0519862586118897,
+            "n": 105,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "yahoo.es",
+          "n": 100,
+          "n_fraud": 1,
+          "fraud_rate": 0.01,
+          "share_of_rows": 0.00024190934205497148,
+          "interval": {
+            "point": 0.01,
+            "low": 0.0017674320641406505,
+            "high": 0.054486196178705315,
+            "n": 100,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        }
+      ],
+      "min_rows_listed": 100
+    },
+    "R_emaildomain": {
+      "profile": {
+        "column": "R_emaildomain",
+        "n_total": 413378,
+        "count": 103041,
+        "missing_rate": 0.7507341948531369,
+        "all_null": false,
+        "cardinality": 60,
+        "top_value": "gmail.com",
+        "top_value_share": 0.41408759619957103,
+        "top_5": [
+          {
+            "value": "gmail.com",
+            "count": 42668,
+            "share": 0.41408759619957103
+          },
+          {
+            "value": "hotmail.com",
+            "count": 20496,
+            "share": 0.19891111305208606
+          },
+          {
+            "value": "anonymous.com",
+            "count": 15798,
+            "share": 0.1533176114362244
+          },
+          {
+            "value": "yahoo.com",
+            "count": 8274,
+            "share": 0.08029813375258392
+          },
+          {
+            "value": "aol.com",
+            "count": 3065,
+            "share": 0.02974544113508215
+          }
+        ],
+        "rare_tail_share_target": 0.01,
+        "n_categories_in_rare_tail": 30,
+        "rare_tail_category_share": 0.5,
+        "rare_tail_row_share": 0.009636940635281102,
+        "n_singleton_categories": 0,
+        "single_value_dominated": false,
+        "effectively_constant": false
+      },
+      "by_domain": [
+        {
+          "value": "(missing)",
+          "n": 310337,
+          "n_fraud": 6608,
+          "fraud_rate": 0.02129298150075563,
+          "share_of_rows": 0.7507341948531369,
+          "interval": {
+            "point": 0.02129298150075563,
+            "low": 0.020790978309524893,
+            "high": 0.02180683574768434,
+            "n": 310337,
+            "successes": 6608,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "gmail.com",
+          "n": 42668,
+          "n_fraud": 4739,
+          "fraud_rate": 0.11106684166119808,
+          "share_of_rows": 0.10321787806801523,
+          "interval": {
+            "point": 0.11106684166119808,
+            "low": 0.10812035951811115,
+            "high": 0.11408334987584336,
+            "n": 42668,
+            "successes": 4739,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "hotmail.com",
+          "n": 20496,
+          "n_fraud": 1556,
+          "fraud_rate": 0.07591725214676034,
+          "share_of_rows": 0.04958173874758695,
+          "interval": {
+            "point": 0.07591725214676034,
+            "low": 0.07237009461981471,
+            "high": 0.07962334713824369,
+            "n": 20496,
+            "successes": 1556,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "anonymous.com",
+          "n": 15798,
+          "n_fraud": 453,
+          "fraud_rate": 0.028674515761488797,
+          "share_of_rows": 0.038216837857844396,
+          "interval": {
+            "point": 0.028674515761488797,
+            "low": 0.0261844702754675,
+            "high": 0.031393721556903696,
+            "n": 15798,
+            "successes": 453,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "yahoo.com",
+          "n": 8274,
+          "n_fraud": 455,
+          "fraud_rate": 0.05499153976311337,
+          "share_of_rows": 0.02001557896162834,
+          "interval": {
+            "point": 0.05499153976311337,
+            "low": 0.050282877634164246,
+            "high": 0.06011322784414542,
+            "n": 8274,
+            "successes": 455,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "aol.com",
+          "n": 3065,
+          "n_fraud": 110,
+          "fraud_rate": 0.03588907014681892,
+          "share_of_rows": 0.007414521333984876,
+          "interval": {
+            "point": 0.03588907014681892,
+            "low": 0.029863228516925792,
+            "high": 0.04307682453707353,
+            "n": 3065,
+            "successes": 110,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "outlook.com",
+          "n": 1775,
+          "n_fraud": 259,
+          "fraud_rate": 0.14591549295774647,
+          "share_of_rows": 0.004293890821475744,
+          "interval": {
+            "point": 0.14591549295774647,
+            "low": 0.13025717295626474,
+            "high": 0.16310312412532882,
+            "n": 1775,
+            "successes": 259,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "comcast.net",
+          "n": 1509,
+          "n_fraud": 21,
+          "fraud_rate": 0.013916500994035786,
+          "share_of_rows": 0.0036504119716095195,
+          "interval": {
+            "point": 0.013916500994035786,
+            "low": 0.009120114926071973,
+            "high": 0.021181446783129818,
+            "n": 1509,
+            "successes": 21,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "yahoo.com.mx",
+          "n": 1134,
+          "n_fraud": 15,
+          "fraud_rate": 0.013227513227513227,
+          "share_of_rows": 0.0027432519389033764,
+          "interval": {
+            "point": 0.013227513227513227,
+            "low": 0.008032237391819259,
+            "high": 0.02170956763589419,
+            "n": 1134,
+            "successes": 15,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "icloud.com",
+          "n": 1035,
+          "n_fraud": 118,
+          "fraud_rate": 0.11400966183574879,
+          "share_of_rows": 0.002503761690268955,
+          "interval": {
+            "point": 0.11400966183574879,
+            "low": 0.096057606665551,
+            "high": 0.13481637009406455,
+            "n": 1035,
+            "successes": 118,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "msn.com",
+          "n": 676,
+          "n_fraud": 1,
+          "fraud_rate": 0.0014792899408284023,
+          "share_of_rows": 0.0016353071522916072,
+          "interval": {
+            "point": 0.0014792899408284023,
+            "low": 0.00026117874342152826,
+            "high": 0.008331205179187685,
+            "n": 676,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "live.com",
+          "n": 605,
+          "n_fraud": 23,
+          "fraud_rate": 0.03801652892561983,
+          "share_of_rows": 0.0014635515194325775,
+          "interval": {
+            "point": 0.03801652892561983,
+            "low": 0.025463966689538077,
+            "high": 0.05639882057405495,
+            "n": 605,
+            "successes": 23,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "live.com.mx",
+          "n": 555,
+          "n_fraud": 16,
+          "fraud_rate": 0.02882882882882883,
+          "share_of_rows": 0.0013425968484050918,
+          "interval": {
+            "point": 0.02882882882882883,
+            "low": 0.017821752866705443,
+            "high": 0.04631353676683257,
+            "n": 555,
+            "successes": 16,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "verizon.net",
+          "n": 530,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.001282119512891349,
+          "interval": {
+            "point": 0.0,
+            "low": 4.336808689942018e-19,
+            "high": 0.00719587952044839,
+            "n": 530,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "sbcglobal.net",
+          "n": 468,
+          "n_fraud": 1,
+          "fraud_rate": 0.002136752136752137,
+          "share_of_rows": 0.0011321357208172666,
+          "interval": {
+            "point": 0.002136752136752137,
+            "low": 0.00037728885250814994,
+            "high": 0.01200284161609053,
+            "n": 468,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "me.com",
+          "n": 441,
+          "n_fraud": 1,
+          "fraud_rate": 0.0022675736961451248,
+          "share_of_rows": 0.0010668201984624242,
+          "interval": {
+            "point": 0.0022675736961451248,
+            "low": 0.0004003946471166269,
+            "high": 0.012731157515715144,
+            "n": 441,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "cox.net",
+          "n": 378,
+          "n_fraud": 6,
+          "fraud_rate": 0.015873015873015872,
+          "share_of_rows": 0.0009144173129677921,
+          "interval": {
+            "point": 0.015873015873015872,
+            "low": 0.007294524817301815,
+            "high": 0.03419248099296299,
+            "n": 378,
+            "successes": 6,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "att.net",
+          "n": 360,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0008708736313978973,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.010558056888693507,
+            "n": 360,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "bellsouth.net",
+          "n": 358,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0008660354445567979,
+          "interval": {
+            "point": 0.0,
+            "low": 8.673617379884035e-19,
+            "high": 0.01061641425284467,
+            "n": 358,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "outlook.es",
+          "n": 335,
+          "n_fraud": 45,
+          "fraud_rate": 0.13432835820895522,
+          "share_of_rows": 0.0008103962958841544,
+          "interval": {
+            "point": 0.13432835820895522,
+            "low": 0.10192942515326855,
+            "high": 0.17501855856543133,
+            "n": 335,
+            "successes": 45,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "hotmail.fr",
+          "n": 199,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00048139959068939326,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.018938233056634942,
+            "n": 199,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "hotmail.es",
+          "n": 195,
+          "n_fraud": 16,
+          "fraud_rate": 0.08205128205128205,
+          "share_of_rows": 0.0004717232170071944,
+          "interval": {
+            "point": 0.08205128205128205,
+            "low": 0.05113473050364542,
+            "high": 0.12911670716567017,
+            "n": 195,
+            "successes": 16,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "ymail.com",
+          "n": 173,
+          "n_fraud": 8,
+          "fraud_rate": 0.046242774566473986,
+          "share_of_rows": 0.00041850316175510066,
+          "interval": {
+            "point": 0.046242774566473986,
+            "low": 0.023615435969923965,
+            "high": 0.08858369964573554,
+            "n": 173,
+            "successes": 8,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "mac.com",
+          "n": 170,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.0004112458814934515,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.022097483803655452,
+            "n": 170,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "prodigy.net.mx",
+          "n": 154,
+          "n_fraud": 1,
+          "fraud_rate": 0.006493506493506494,
+          "share_of_rows": 0.0003725403867646561,
+          "interval": {
+            "point": 0.006493506493506494,
+            "low": 0.0011471844874949774,
+            "high": 0.035861209025453665,
+            "n": 154,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "optonline.net",
+          "n": 154,
+          "n_fraud": 2,
+          "fraud_rate": 0.012987012987012988,
+          "share_of_rows": 0.0003725403867646561,
+          "interval": {
+            "point": 0.012987012987012988,
+            "low": 0.003568762647733807,
+            "high": 0.04611057305583393,
+            "n": 154,
+            "successes": 2,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "web.de",
+          "n": 144,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00034834945255915895,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.025983637143036746,
+            "n": 144,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "mail.com",
+          "n": 107,
+          "n_fraud": 39,
+          "fraud_rate": 0.3644859813084112,
+          "share_of_rows": 0.00025884299599881946,
+          "interval": {
+            "point": 0.3644859813084112,
+            "low": 0.27946117772615114,
+            "high": 0.4589038680920145,
+            "n": 107,
+            "successes": 39,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "charter.net",
+          "n": 105,
+          "n_fraud": 5,
+          "fraud_rate": 0.047619047619047616,
+          "share_of_rows": 0.00025400480915772005,
+          "interval": {
+            "point": 0.047619047619047616,
+            "low": 0.020509165674361965,
+            "high": 0.10666166583292792,
+            "n": 105,
+            "successes": 5,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        {
+          "value": "gmx.de",
+          "n": 104,
+          "n_fraud": 0,
+          "fraud_rate": 0.0,
+          "share_of_rows": 0.00025158571573717035,
+          "interval": {
+            "point": 0.0,
+            "low": 0.0,
+            "high": 0.03562135437245191,
+            "n": 104,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        }
+      ],
+      "min_rows_listed": 100
+    },
+    "agreement": {
+      "definition": "compared as raw strings, on rows where both are present",
+      "n_both_present": 96265,
+      "share_both_present": 0.23287402812921829,
+      "agree": {
+        "n": 77595,
+        "n_fraud": 7023,
+        "fraud_rate": 0.09050840904697467,
+        "interval": {
+          "point": 0.09050840904697467,
+          "low": 0.08850991363519226,
+          "high": 0.09254744746312404,
+          "n": 77595,
+          "successes": 7023,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "disagree": {
+        "n": 18670,
+        "n_fraud": 502,
+        "fraud_rate": 0.026888055704338512,
+        "interval": {
+          "point": 0.026888055704338512,
+          "low": 0.02466331727756156,
+          "high": 0.029307445034155215,
+          "n": 18670,
+          "successes": 502,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "recipient_missing_only": {
+        "n": 252817,
+        "n_fraud": 5084,
+        "fraud_rate": 0.02010940719967407,
+        "interval": {
+          "point": 0.02010940719967407,
+          "low": 0.019569470429832918,
+          "high": 0.02066392726051327,
+          "n": 252817,
+          "successes": 5084,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    }
+  },
+  "device_info": {
+    "profile": {
+      "column": "DeviceInfo",
+      "n_total": 413378,
+      "count": 91362,
+      "missing_rate": 0.778986786911737,
+      "all_null": false,
+      "cardinality": 1546,
+      "top_value": "Windows",
+      "top_value_share": 0.40134848186335675,
+      "top_5": [
+        {
+          "value": "Windows",
+          "count": 36668,
+          "share": 0.40134848186335675
+        },
+        {
+          "value": "iOS Device",
+          "count": 16084,
+          "share": 0.1760469341739454
+        },
+        {
+          "value": "MacOS",
+          "count": 10191,
+          "share": 0.11154528140802522
+        },
+        {
+          "value": "Trident/7.0",
+          "count": 6048,
+          "share": 0.06619820056478623
+        },
+        {
+          "value": "rv:11.0",
+          "count": 1550,
+          "share": 0.016965477988660493
+        }
+      ],
+      "rare_tail_share_target": 0.01,
+      "n_categories_in_rare_tail": 636,
+      "rare_tail_category_share": 0.4113842173350582,
+      "rare_tail_row_share": 0.009982268339134433,
+      "n_singleton_categories": 399,
+      "single_value_dominated": false,
+      "effectively_constant": false
+    },
+    "note": "free text. The tail is what makes it free text: the count of distinct strings appearing once, against the share of rows they cover, is the size of the normalisation job stage 3 inherits.",
+    "n_distinct": 1546,
+    "n_appearing_once": 399,
+    "share_of_rows_in_strings_appearing_once": 0.004367242398371314,
+    "share_of_rows_in_top_10": 0.7964908824237648,
+    "share_of_rows_in_top_50": 0.8552023817342003,
+    "top_20": [
+      {
+        "value": "Windows",
+        "n": 36668,
+        "share_of_present": 0.40134848186335675
+      },
+      {
+        "value": "iOS Device",
+        "n": 16084,
+        "share_of_present": 0.1760469341739454
+      },
+      {
+        "value": "MacOS",
+        "n": 10191,
+        "share_of_present": 0.11154528140802522
+      },
+      {
+        "value": "Trident/7.0",
+        "n": 6048,
+        "share_of_present": 0.06619820056478623
+      },
+      {
+        "value": "rv:11.0",
+        "n": 1550,
+        "share_of_present": 0.016965477988660493
+      },
+      {
+        "value": "rv:57.0",
+        "n": 948,
+        "share_of_present": 0.010376305247258159
+      },
+      {
+        "value": "SM-J700M Build/MMB29K",
+        "n": 373,
+        "share_of_present": 0.004082660186948622
+      },
+      {
+        "value": "SM-G610M Build/MMB29K",
+        "n": 308,
+        "share_of_present": 0.0033712046583918914
+      },
+      {
+        "value": "SM-G531H Build/LMY48B",
+        "n": 305,
+        "share_of_present": 0.003338368249381581
+      },
+      {
+        "value": "SM-G955U Build/NRD90M",
+        "n": 294,
+        "share_of_present": 0.003217968083010442
+      },
+      {
+        "value": "SM-G950U Build/NRD90M",
+        "n": 280,
+        "share_of_present": 0.0030647315076289925
+      },
+      {
+        "value": "rv:58.0",
+        "n": 253,
+        "share_of_present": 0.0027692038265361967
+      },
+      {
+        "value": "SM-G930V Build/NRD90M",
+        "n": 240,
+        "share_of_present": 0.0026269127208248507
+      },
+      {
+        "value": "SM-G935F Build/NRD90M",
+        "n": 233,
+        "share_of_present": 0.0025502944331341256
+      },
+      {
+        "value": "ALE-L23 Build/HuaweiALE-L23",
+        "n": 225,
+        "share_of_present": 0.0024627306757732973
+      },
+      {
+        "value": "rv:52.0",
+        "n": 216,
+        "share_of_present": 0.0023642214487423654
+      },
+      {
+        "value": "SAMSUNG",
+        "n": 193,
+        "share_of_present": 0.002112475646329984
+      },
+      {
+        "value": "SM-N950U Build/NMF26X",
+        "n": 192,
+        "share_of_present": 0.0021015301766598806
+      },
+      {
+        "value": "hi6210sft Build/MRA58K",
+        "n": 187,
+        "share_of_present": 0.002046802828309363
+      },
+      {
+        "value": "SM-G950F Build/NRD90M",
+        "n": 174,
+        "share_of_present": 0.0019045117225980166
+      }
+    ]
+  },
+  "seconds": 1.6787568750442006
+}

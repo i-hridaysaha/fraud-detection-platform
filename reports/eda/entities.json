@@ -1,0 +1,108 @@
+{
+  "section": "entities",
+  "generated_at_utc": "2026-09-10T12:09:30+00:00",
+  "regenerate_with": "make eda  # or: .venv/bin/python scripts/eda.py --sections entities",
+  "command": "eda.entity_structure(train, entity_id, isFraud, TransactionDT)",
+  "computed_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "ccdd8f7f478341258f2e7be39514f742f68c6db9",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "entity_key": [
+    "card1",
+    "addr1",
+    "card_start_day"
+  ],
+  "entity_key_source": "ADR 0001",
+  "structure": {
+    "n_entities": 164702,
+    "n_rows": 413378,
+    "transactions_per_entity": {
+      "n": 164702,
+      "mean": 2.5098541608480773,
+      "min": 1.0,
+      "max": 319.0,
+      "percentiles": {
+        "p01": 1.0,
+        "p05": 1.0,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p95": 8.0,
+        "p99": 18.0
+      }
+    },
+    "singleton_entity_share": 0.5849534310451604,
+    "singleton_row_share": 0.23306271741602116,
+    "label_purity": {
+      "n_entities_multi": 68359,
+      "share_all_fraud": 0.020816571336619905,
+      "share_all_clean": 0.946634678681666,
+      "n_entities_mixed": 2225,
+      "share_mixed": 0.032548749981714184,
+      "mixed_rate_percentiles": {
+        "p01": 0.02796825396825397,
+        "p05": 0.058823529411764705,
+        "p25": 0.16666666666666666,
+        "p50": 0.3333333333333333,
+        "p75": 0.5,
+        "p95": 0.8,
+        "p99": 0.9
+      },
+      "n_entities_any_fraud": 5824
+    },
+    "seconds_between_transactions": {
+      "all": {
+        "n": 248676,
+        "mean": 692859.6739210861,
+        "min": 0.0,
+        "max": 10275443.0,
+        "percentiles": {
+          "p01": 35.0,
+          "p05": 105.0,
+          "p25": 2737.0,
+          "p50": 89296.5,
+          "p75": 886340.25,
+          "p95": 3028002.0,
+          "p99": 5841677.75
+        }
+      },
+      "entities_with_fraud": {
+        "n": 25765,
+        "mean": 178930.65678245682,
+        "min": 0.0,
+        "max": 9754931.0,
+        "percentiles": {
+          "p01": 18.0,
+          "p05": 61.0,
+          "p25": 460.0,
+          "p50": 3177.0,
+          "p75": 41511.0,
+          "p95": 1079305.7999999998,
+          "p99": 3296036.3200000073
+        }
+      },
+      "entities_without_fraud": {
+        "n": 222911,
+        "mean": 752261.7721871061,
+        "min": 0.0,
+        "max": 10275443.0,
+        "percentiles": {
+          "p01": 37.0,
+          "p05": 123.0,
+          "p25": 4243.0,
+          "p50": 165394.0,
+          "p75": 1033668.5,
+          "p95": 3176419.5,
+          "p99": 5984539.099999997
+        }
+      }
+    }
+  },
+  "seconds": 0.2720687909750268
+}
