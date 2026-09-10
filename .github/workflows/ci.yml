@@ -1,0 +1,45 @@
+# CI runs lint, type checking and the test suite on a clean checkout.
+#
+# What CI cannot run, and why:
+#   Tests marked `needs_data` are deselected here. They read data/train_transaction.csv and
+#   data/train_identity.csv, which are Vesta-provided under the Kaggle competition rules and are
+#   not redistributable, so the CSVs are gitignored and never reach the runner. Those tests cover
+#   the audit and, later, feature and training code paths that touch the real files. They are run
+#   locally with `make test` after `make data`, and their outputs are committed as artifacts under
+#   reports/ so that a reviewer can check the numbers without the data.
+
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,data]"
+
+      - name: lint
+        run: |
+          ruff check src tests scripts
+          ruff format --check src tests scripts
+
+      - name: types
+        run: mypy
+
+      - name: no em dashes
+        run: bash scripts/check_no_em_dash.sh
+
+      - name: tests
+        run: pytest -m "not needs_data"
