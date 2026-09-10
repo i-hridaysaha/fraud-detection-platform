@@ -89,6 +89,7 @@ module = [
     "xgboost.*",
     "mlflow.*",
     "statsmodels.*",
+    "scipy.*",
     "sklearn.*",
     "matplotlib.*",
     "networkx.*",
