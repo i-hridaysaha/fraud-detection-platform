@@ -1,0 +1,100 @@
+{
+  "generated_at_utc": "2026-09-10T10:54:58+00:00",
+  "regenerate_with": "make split-summary",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3"
+  },
+  "seed": 42,
+  "boundaries": {
+    "train_end_exclusive_dt": 10437998,
+    "val_end_exclusive_dt": 13151845,
+    "rule": "train: dt < train_end; val: train_end <= dt < val_end; test: dt >= val_end",
+    "source": "ADR 0002, quantiles 0.70 and 0.85 of TransactionDT measured in stage 0"
+  },
+  "totals": {
+    "n_rows": 590540,
+    "n_fraud": 20663,
+    "fraud_rate": 0.03499000914417313,
+    "dt_min": 86400,
+    "dt_max": 15811131
+  },
+  "splits": {
+    "train": {
+      "name": "train",
+      "n_rows": 413378,
+      "row_fraction": 0.7,
+      "dt_min": 86400,
+      "dt_max": 10437996,
+      "span_seconds": 10351596,
+      "span_days": 119.81013888888889,
+      "day_index_min": 1,
+      "day_index_max": 120,
+      "n_fraud": 14538,
+      "fraud_rate": 0.03516878014795175,
+      "n_entities": 164702
+    },
+    "val": {
+      "name": "val",
+      "n_rows": 88581,
+      "row_fraction": 0.15,
+      "dt_min": 10438003,
+      "dt_max": 13151840,
+      "span_seconds": 2713837,
+      "span_days": 31.410150462962964,
+      "day_index_min": 120,
+      "day_index_max": 152,
+      "n_fraud": 3042,
+      "fraud_rate": 0.03434145019812375,
+      "n_entities": 46884
+    },
+    "test": {
+      "name": "test",
+      "n_rows": 88581,
+      "row_fraction": 0.15,
+      "dt_min": 13151880,
+      "dt_max": 15811131,
+      "span_seconds": 2659251,
+      "span_days": 30.778368055555557,
+      "day_index_min": 152,
+      "day_index_max": 182,
+      "n_fraud": 3083,
+      "fraud_rate": 0.03480430340592226,
+      "n_entities": 45348
+    }
+  },
+  "entity_overlap": {
+    "key": [
+      "card1",
+      "addr1",
+      "card_start_day"
+    ],
+    "n_train_entities": 164702,
+    "val": {
+      "n_entities": 46884,
+      "n_entities_unseen_in_train": 26894,
+      "share_entities_unseen_in_train": 0.5736285299889088,
+      "n_rows_on_unseen_entities": 47045,
+      "share_rows_on_unseen_entities": 0.5310958331922195,
+      "fraud_rate_on_unseen_entity_rows": 0.04427675629716229,
+      "fraud_rate_on_seen_entity_rows": 0.023088405238828966
+    },
+    "test": {
+      "n_entities": 45348,
+      "n_entities_unseen_in_train": 30227,
+      "share_entities_unseen_in_train": 0.6665564082208697,
+      "n_rows_on_unseen_entities": 58442,
+      "share_rows_on_unseen_entities": 0.6597577358575767,
+      "fraud_rate_on_unseen_entity_rows": 0.044009445261969135,
+      "fraud_rate_on_seen_entity_rows": 0.01695477620359003
+    }
+  },
+  "checks": {
+    "rows_sum_to_total": true,
+    "train_max_dt_below_val_min_dt": true,
+    "val_max_dt_below_test_min_dt": true,
+    "max_fraud_rate_gap": 0.0008273299498280026
+  },
+  "command": "frame = data_loader.add_entity_key(data_loader.load_raw(columns=SUMMARY_COLUMNS)); train, val, test = data_loader.time_based_split(frame)"
+}
