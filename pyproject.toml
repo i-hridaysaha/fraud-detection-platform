@@ -1,0 +1,103 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fraud-detection-platform"
+version = "0.1.0"
+description = "Production-style credit card fraud detection platform on the IEEE-CIS dataset"
+requires-python = ">=3.11"
+
+dependencies = [
+    "pandas==3.0.5",
+    "numpy==2.5.3",
+    "scikit-learn==1.9.0",
+    "xgboost==3.4.1",
+    "lightgbm==4.7.0",
+    "shap==0.52.0",
+    "scipy==1.18.1",
+    "statsmodels==0.15.0",
+    "fastapi==0.141.1",
+    "uvicorn==0.52.4",
+    "redis==8.1.0",
+    "mlflow==3.16.0",
+    "matplotlib==3.11.1",
+    "networkx==3.6.1",
+    "pyarrow==25.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "ruff==0.16.6",
+    "mypy==2.3.1",
+    "pre-commit==4.6.2",
+    "pandas-stubs==3.0.5.260730",
+    "types-redis==4.6.0.20241004",
+]
+data = [
+    "kaggle==2.2.4",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # import sorting
+    "N",    # pep8 naming
+    "UP",   # pyupgrade
+    "B",    # bugbear
+    "A",    # builtin shadowing
+    "C4",   # comprehensions
+    "SIM",  # simplify
+    "PTH",  # use pathlib
+    "RUF",
+]
+ignore = [
+    "E501",  # line length is handled by the formatter
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+strict = true
+warn_unreachable = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "shap.*",
+    "lightgbm.*",
+    "xgboost.*",
+    "mlflow.*",
+    "statsmodels.*",
+    "sklearn.*",
+    "matplotlib.*",
+    "networkx.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing --strict-markers"
+markers = [
+    "needs_data: requires the IEEE-CIS CSVs under data/, which are not present in CI",
+]
