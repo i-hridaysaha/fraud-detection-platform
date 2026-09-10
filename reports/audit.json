@@ -1,0 +1,404 @@
+{
+  "generated_at_utc": "2026-09-10T08:27:49+00:00",
+  "git_commit": "2c8863e4bfc0283d7253cc475c0a4b9967a9e7f2",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "regenerate_with": "make audit",
+  "inputs": {
+    "transactions": {
+      "path": "data/train_transaction.csv",
+      "bytes": 683351067,
+      "sha256": "3a5c83ab6b3cc13dcabe5ffa9f522307fd5f7f7b6e6f6a60c32284ca6283d642"
+    },
+    "identity": {
+      "path": "data/train_identity.csv",
+      "bytes": 26529680,
+      "sha256": "b63c725d8377be90a995268d97f347c17d456b95db45807adcf9f59cd603c37c",
+      "n_columns": 41
+    },
+    "note": "Kaggle competition ieee-fraud-detection, training files only. The test files are unlabelled and are not downloaded. The data is not committed."
+  },
+  "shape": {
+    "n_rows": 590540,
+    "n_columns": 394,
+    "n_fraud": 20663,
+    "n_non_fraud": 569877,
+    "fraud_rate": 0.03499000914417313,
+    "command": "len(df); len(pd.read_csv(path, nrows=0).columns); df['isFraud'].sum(); df['isFraud'].mean()"
+  },
+  "transaction_dt": {
+    "min": 86400,
+    "max": 15811131,
+    "span_seconds": 15724731,
+    "span_days": 181.99920138888888,
+    "is_integer_valued": true,
+    "granularity_units": 1,
+    "is_monotonic_increasing_in_file_order": true,
+    "n_distinct": 573349,
+    "n_rows": 590540,
+    "diurnal_check": {
+      "counts_by_hour_position": {
+        "0": 37795,
+        "1": 32797,
+        "2": 26732,
+        "3": 20802,
+        "4": 14839,
+        "5": 9701,
+        "6": 6007,
+        "7": 3704,
+        "8": 2591,
+        "9": 2479,
+        "10": 3627,
+        "11": 6827,
+        "12": 12451,
+        "13": 20315,
+        "14": 28328,
+        "15": 33859,
+        "16": 38698,
+        "17": 40723,
+        "18": 41639,
+        "19": 42115,
+        "20": 41782,
+        "21": 41641,
+        "22": 41139,
+        "23": 39949
+      },
+      "trough_hour_position": 9,
+      "peak_hour_position": 19,
+      "peak_over_trough_ratio": 16.98870512303348
+    },
+    "command": "dt = df['TransactionDT']; np.gcd.reduce(np.diff(np.sort(dt.unique()))); dt.is_monotonic_increasing; ((dt // 3600) % 24).value_counts().sort_index()"
+  },
+  "label_granularity_card1": {
+    "key": [
+      "card1"
+    ],
+    "n_entities_with_2_or_more_transactions": 10109,
+    "n_all_fraud": 57,
+    "n_all_non_fraud": 8515,
+    "n_mixed": 1537,
+    "fraction_all_fraud": 0.0056385399149272925,
+    "fraction_all_non_fraud": 0.8423187258878228,
+    "fraction_mixed": 0.15204273419724998,
+    "command": "g = df.groupby(['card1'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; (m['sum'] == m['size']).mean(), (m['sum'] == 0).mean()"
+  },
+  "card1_profile": {
+    "cardinality": 13553,
+    "n_missing": 0,
+    "transactions_per_card1": {
+      "median": 4.0,
+      "p90": 46.0,
+      "max": 14932,
+      "mean": 43.572640743746774
+    },
+    "n_appearing_exactly_once": 3444,
+    "share_of_card1_values_appearing_exactly_once": 0.2541134804102413,
+    "share_of_rows_on_single_transaction_card1": 0.005831950418261253,
+    "command": "c = df['card1'].value_counts(); df['card1'].nunique(); c.median(), c.quantile(0.90), c.max(), (c == 1).mean()"
+  },
+  "d1_profile": {
+    "min": 0.0,
+    "max": 640.0,
+    "n_null": 1269,
+    "share_null": 0.0021488806854743116,
+    "share_zero": 0.4743624479290141,
+    "n_negative": 0,
+    "n_rows_with_card_start_day_after_transaction_day": 0,
+    "observation_window_days": 181.99920138888888,
+    "command": "d1 = df['D1']; d1.min(), d1.max(), (d1 == 0).mean(), (d1 < 0).sum(); (df['card_start_day'] > np.floor(df['TransactionDT'] / 86400)).sum()"
+  },
+  "card_start_day_check": {
+    "claim": "D1 is days since the card began, so floor(TransactionDT / 86400 - D1) is near constant per card and can act as part of an entity key.",
+    "by_card1": {
+      "key": [
+        "card1"
+      ],
+      "n_groups_with_2_or_more_non_null": 10097,
+      "n_groups_single_valued": 1554,
+      "fraction_single_valued": 0.1539071011191443,
+      "fraction_spread_within_1_day": 0.15598692680994355,
+      "median_spread_days": 155.0,
+      "p90_spread_days": 620.3999999999996,
+      "distinct_values_per_group": {
+        "median": 4.0,
+        "p90": 27.0,
+        "max": 591
+      },
+      "n_rows_with_null_card_start_day": 1269,
+      "command": "g = df.dropna(subset=['card_start_day']).groupby(['card1'], dropna=False)['card_start_day']; s = g.size(); (g.nunique()[s >= 2] == 1).mean()"
+    },
+    "by_card1_addr1": {
+      "key": [
+        "card1",
+        "addr1"
+      ],
+      "n_groups_with_2_or_more_non_null": 24186,
+      "n_groups_single_valued": 5739,
+      "fraction_single_valued": 0.23728603324237163,
+      "fraction_spread_within_1_day": 0.2413793103448276,
+      "median_spread_days": 113.0,
+      "p90_spread_days": 558.0,
+      "distinct_values_per_group": {
+        "median": 3.0,
+        "p90": 16.0,
+        "max": 504
+      },
+      "n_rows_with_null_card_start_day": 1269,
+      "command": "g = df.dropna(subset=['card_start_day']).groupby(['card1', 'addr1'], dropna=False)['card_start_day']; s = g.size(); (g.nunique()[s >= 2] == 1).mean()"
+    }
+  },
+  "entity_key_candidates": {
+    "card1": {
+      "name": "card1",
+      "key": [
+        "card1"
+      ],
+      "n_entities": 13553,
+      "n_rows_with_null_key_component": 0,
+      "transactions_per_entity": {
+        "mean": 43.572640743746774,
+        "median": 4.0,
+        "p90": 46.0,
+        "max": 14932
+      },
+      "n_singleton_entities": 3444,
+      "share_singleton_entities": 0.2541134804102413,
+      "share_rows_in_singleton_entities": 0.005831950418261253,
+      "n_entities_with_2_or_more_transactions": 10109,
+      "n_label_pure_multi_entities": 8572,
+      "label_purity_multi_entities": 0.84795726580275,
+      "command": "g = df.groupby(['card1'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; ((m['sum'] == 0) | (m['sum'] == m['size'])).mean(); g['size'].describe()"
+    },
+    "card1_addr1": {
+      "name": "card1_addr1",
+      "key": [
+        "card1",
+        "addr1"
+      ],
+      "n_entities": 39974,
+      "n_rows_with_null_key_component": 65706,
+      "transactions_per_entity": {
+        "mean": 14.773102516635813,
+        "median": 2.0,
+        "p90": 22.0,
+        "max": 9928
+      },
+      "n_singleton_entities": 15752,
+      "share_singleton_entities": 0.3940561364887177,
+      "share_rows_in_singleton_entities": 0.026673891692349374,
+      "n_entities_with_2_or_more_transactions": 24222,
+      "n_label_pure_multi_entities": 21556,
+      "label_purity_multi_entities": 0.8899347700437619,
+      "command": "g = df.groupby(['card1', 'addr1'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; ((m['sum'] == 0) | (m['sum'] == m['size'])).mean(); g['size'].describe()"
+    },
+    "card1_addr1_cardday": {
+      "name": "card1_addr1_cardday",
+      "key": [
+        "card1",
+        "addr1",
+        "card_start_day"
+      ],
+      "n_entities": 217850,
+      "n_rows_with_null_key_component": 66794,
+      "transactions_per_entity": {
+        "mean": 2.7107642873536837,
+        "median": 1.0,
+        "p90": 6.0,
+        "max": 1414
+      },
+      "n_singleton_entities": 125222,
+      "share_singleton_entities": 0.5748083543722745,
+      "share_rows_in_singleton_entities": 0.21204660141565346,
+      "n_entities_with_2_or_more_transactions": 92628,
+      "n_label_pure_multi_entities": 89516,
+      "label_purity_multi_entities": 0.9664032473981949,
+      "command": "g = df.groupby(['card1', 'addr1', 'card_start_day'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; ((m['sum'] == 0) | (m['sum'] == m['size'])).mean(); g['size'].describe()"
+    }
+  },
+  "label_granularity_by_candidate": {
+    "card1": {
+      "key": [
+        "card1"
+      ],
+      "n_entities_with_2_or_more_transactions": 10109,
+      "n_all_fraud": 57,
+      "n_all_non_fraud": 8515,
+      "n_mixed": 1537,
+      "fraction_all_fraud": 0.0056385399149272925,
+      "fraction_all_non_fraud": 0.8423187258878228,
+      "fraction_mixed": 0.15204273419724998,
+      "command": "g = df.groupby(['card1'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; (m['sum'] == m['size']).mean(), (m['sum'] == 0).mean()"
+    },
+    "card1_addr1": {
+      "key": [
+        "card1",
+        "addr1"
+      ],
+      "n_entities_with_2_or_more_transactions": 24222,
+      "n_all_fraud": 233,
+      "n_all_non_fraud": 21323,
+      "n_mixed": 2666,
+      "fraction_all_fraud": 0.009619354306002807,
+      "fraction_all_non_fraud": 0.8803154157377591,
+      "fraction_mixed": 0.11006522995623813,
+      "command": "g = df.groupby(['card1', 'addr1'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; (m['sum'] == m['size']).mean(), (m['sum'] == 0).mean()"
+    },
+    "card1_addr1_cardday": {
+      "key": [
+        "card1",
+        "addr1",
+        "card_start_day"
+      ],
+      "n_entities_with_2_or_more_transactions": 92628,
+      "n_all_fraud": 1990,
+      "n_all_non_fraud": 87526,
+      "n_mixed": 3112,
+      "fraction_all_fraud": 0.021483784600768666,
+      "fraction_all_non_fraud": 0.9449194627974262,
+      "fraction_mixed": 0.03359675260180507,
+      "command": "g = df.groupby(['card1', 'addr1', 'card_start_day'], dropna=False)['isFraud'].agg(['size', 'sum']); m = g[g['size'] >= 2]; (m['sum'] == m['size']).mean(), (m['sum'] == 0).mean()"
+    }
+  },
+  "identity_join": {
+    "n_identity_rows": 144233,
+    "n_identity_ids_not_in_transactions": 0,
+    "coverage_overall": 0.2442391709283029,
+    "coverage_fraud": 0.5477423413831486,
+    "coverage_non_fraud": 0.2332345400849657,
+    "n_matched": 144233,
+    "command": "ids = pd.read_csv(identity_path, usecols=['TransactionID'])['TransactionID']; h = df['TransactionID'].isin(set(ids)); h.mean(), h[df['isFraud'] == 1].mean(), h[df['isFraud'] == 0].mean()"
+  },
+  "chronological_split": {
+    "requested_fractions": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "boundaries": {
+      "train_end_exclusive_dt": 10437998,
+      "val_end_exclusive_dt": 13151845,
+      "train_end_day_index": 120.81016203703703,
+      "val_end_day_index": 152.22042824074074
+    },
+    "splits": {
+      "train": {
+        "n_rows": 413378,
+        "row_fraction": 0.7,
+        "dt_min": 86400,
+        "dt_max": 10437996,
+        "span_days": 119.81013888888889,
+        "day_index_min": 1,
+        "day_index_max": 120,
+        "n_fraud": 14538,
+        "fraud_rate": 0.03516878014795175
+      },
+      "val": {
+        "n_rows": 88581,
+        "row_fraction": 0.15,
+        "dt_min": 10438003,
+        "dt_max": 13151840,
+        "span_days": 31.410150462962964,
+        "day_index_min": 120,
+        "day_index_max": 152,
+        "n_fraud": 3042,
+        "fraud_rate": 0.03434145019812375
+      },
+      "test": {
+        "n_rows": 88581,
+        "row_fraction": 0.15,
+        "dt_min": 13151880,
+        "dt_max": 15811131,
+        "span_days": 30.778368055555557,
+        "day_index_min": 152,
+        "day_index_max": 182,
+        "n_fraud": 3083,
+        "fraud_rate": 0.03480430340592226
+      }
+    },
+    "command": "b1, b2 = np.quantile(df['TransactionDT'], 0.70), np.quantile(df['TransactionDT'], 0.85); df[df['TransactionDT'] < b1], df[(df['TransactionDT'] >= b1) & (df['TransactionDT'] < b2)], df[df['TransactionDT'] >= b2]"
+  },
+  "entity_overlap": {
+    "card1": {
+      "key": [
+        "card1"
+      ],
+      "n_train_entities": 12242,
+      "val": {
+        "n_entities": 6310,
+        "n_entities_unseen_in_train": 675,
+        "share_entities_unseen_in_train": 0.10697305863708399,
+        "n_rows_on_unseen_entities": 967,
+        "share_rows_on_unseen_entities": 0.010916562242467346,
+        "fraud_rate_on_unseen_entity_rows": 0.050672182006204755,
+        "fraud_rate_on_seen_entity_rows": 0.03416120711301847
+      },
+      "test": {
+        "n_entities": 6316,
+        "n_entities_unseen_in_train": 774,
+        "share_entities_unseen_in_train": 0.12254591513616213,
+        "n_rows_on_unseen_entities": 1210,
+        "share_rows_on_unseen_entities": 0.013659814181370723,
+        "fraud_rate_on_unseen_entity_rows": 0.03801652892561983,
+        "fraud_rate_on_seen_entity_rows": 0.03475981733069325
+      },
+      "command": "e = lambda p: reduce(lambda a, b: a + '|' + b, [p[c].astype('string').fillna('NA') for c in ['card1']]); set(e(test)) - set(e(train))"
+    },
+    "card1_addr1": {
+      "key": [
+        "card1",
+        "addr1"
+      ],
+      "n_train_entities": 34755,
+      "val": {
+        "n_entities": 14254,
+        "n_entities_unseen_in_train": 2725,
+        "share_entities_unseen_in_train": 0.19117440718394837,
+        "n_rows_on_unseen_entities": 3852,
+        "share_rows_on_unseen_entities": 0.043485623327801676,
+        "fraud_rate_on_unseen_entity_rows": 0.042834890965732085,
+        "fraud_rate_on_seen_entity_rows": 0.03395531636157632
+      },
+      "test": {
+        "n_entities": 14091,
+        "n_entities_unseen_in_train": 2922,
+        "share_entities_unseen_in_train": 0.20736640408771556,
+        "n_rows_on_unseen_entities": 4433,
+        "share_rows_on_unseen_entities": 0.050044591955385465,
+        "fraud_rate_on_unseen_entity_rows": 0.04037897586284683,
+        "fraud_rate_on_seen_entity_rows": 0.03451062413842278
+      },
+      "command": "e = lambda p: reduce(lambda a, b: a + '|' + b, [p[c].astype('string').fillna('NA') for c in ['card1', 'addr1']]); set(e(test)) - set(e(train))"
+    },
+    "card1_addr1_cardday": {
+      "key": [
+        "card1",
+        "addr1",
+        "card_start_day"
+      ],
+      "n_train_entities": 164702,
+      "val": {
+        "n_entities": 46884,
+        "n_entities_unseen_in_train": 26894,
+        "share_entities_unseen_in_train": 0.5736285299889088,
+        "n_rows_on_unseen_entities": 47045,
+        "share_rows_on_unseen_entities": 0.5310958331922195,
+        "fraud_rate_on_unseen_entity_rows": 0.04427675629716229,
+        "fraud_rate_on_seen_entity_rows": 0.023088405238828966
+      },
+      "test": {
+        "n_entities": 45348,
+        "n_entities_unseen_in_train": 30227,
+        "share_entities_unseen_in_train": 0.6665564082208697,
+        "n_rows_on_unseen_entities": 58442,
+        "share_rows_on_unseen_entities": 0.6597577358575767,
+        "fraud_rate_on_unseen_entity_rows": 0.044009445261969135,
+        "fraud_rate_on_seen_entity_rows": 0.01695477620359003
+      },
+      "command": "e = lambda p: reduce(lambda a, b: a + '|' + b, [p[c].astype('string').fillna('NA') for c in ['card1', 'addr1', 'card_start_day']]); set(e(test)) - set(e(train))"
+    }
+  }
+}
