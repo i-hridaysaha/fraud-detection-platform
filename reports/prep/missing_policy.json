@@ -1,0 +1,1177 @@
+{
+  "section": "missing_policy",
+  "stage": 3,
+  "generated_at_utc": "2026-09-10T16:55:17+00:00",
+  "regenerate_with": "make prep  # or: .venv/bin/python scripts/prepare.py --sections missing_policy",
+  "command": "missing_policy.verify_native_nan_support(); missing_policy.missing_indicator_spec(...)",
+  "fitted_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "0017c9535ed6dc43cbafa48da4bc5dd34d8a2f36",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "policy_by_group": {
+    "rule": "three policies, and which one a column gets depends on what the model reading it can do. There is no global fill value anywhere in this stage.",
+    "groups": {
+      "count": {
+        "trees": "no action: the block carries no nulls on train",
+        "complete_data": "no action",
+        "evidence": "missingness.json blocks.all_blocks, the 63 column block at missing rate 0.0, which holds C1 to C14"
+      },
+      "timedelta": {
+        "trees": "left missing",
+        "complete_data": "sentinel below the train minimum, plus the block indicator",
+        "evidence": "missingness.json against_target: D7 runs 0.1478 present against 0.0274 missing, the largest gap measured in the frame, and D6, D8, D12, D13 and D14 all clear 0.07"
+      },
+      "vesta": {
+        "trees": "left missing",
+        "complete_data": "train median, plus the block indicator",
+        "evidence": "missingness.json blocks: 14 multi-column V blocks, so a per-block indicator carries what a per-column one would"
+      },
+      "identity": {
+        "trees": "left missing",
+        "complete_data": "train median for numeric, an explicit level for categorical, plus the block indicator and has_identity_record",
+        "evidence": "missingness.json identity_join: 0.07312 against 0.02142, a factor of 3.41, on a join that fails for 0.7341 of train rows"
+      },
+      "match": {
+        "trees": "left missing",
+        "complete_data": "an explicit category level, never a mode",
+        "evidence": "missingness.json against_target: M1 to M9 are label-linked, and univariate.json records M1 at 0.5380 missing with a top value share of 0.9999 on what remains"
+      },
+      "email": {
+        "trees": "left missing",
+        "complete_data": "an explicit category level, never a mode",
+        "evidence": "quality.json email_domains: R_emaildomain is missing on 0.7507 of rows and that state carries a measured rate of 0.02011"
+      },
+      "address": {
+        "trees": "left missing",
+        "complete_data": "train median, plus the block indicator",
+        "evidence": "bivariate.json: addr1 carries an information value of 0.4257, of which 0.3260 is the missing bin. Present rows alone give 0.0118. The absence is the feature"
+      },
+      "card": {
+        "trees": "left missing",
+        "complete_data": "train median for numeric, an explicit level for categorical",
+        "evidence": "missingness.json missing_rate_by_column: card2 to card6 below 0.02 missing"
+      },
+      "distance": {
+        "trees": "left missing",
+        "complete_data": "train median, plus the block indicator",
+        "evidence": "bivariate.json deciles_reference.dist1: 255,775 rows missing at a fraud rate of 0.0444 against a present-row trough of 0.0128"
+      },
+      "product": {
+        "trees": "no action: ProductCD carries no nulls on train",
+        "complete_data": "no action",
+        "evidence": "univariate.json categorical, ProductCD at missing rate 0.0"
+      },
+      "amount": {
+        "trees": "no action: TransactionAmt carries no nulls and the schema forbids one",
+        "complete_data": "no action",
+        "evidence": "quality.json impossible_values: 0 negative amounts, 0 zero amounts, 0 non-finite amounts, minimum 0.251"
+      },
+      "meta": {
+        "trees": "no action: the label, the identifier and the clock carry no nulls",
+        "complete_data": "no action",
+        "evidence": "quality.json impossible_values: n_rows_with_null_target and n_rows_with_null_time are 0"
+      }
+    }
+  },
+  "library_verification": {
+    "method": "two probes on generated data. accepts_nan fits three columns with nulls at 0.3 and records whether the fit raises. informative_null_auc fits one column that is noise where present and null on exactly the positive rows, so an estimator that learns a direction for the null scores 1.0 and one that only tolerates it scores 0.5.",
+    "seed": 42,
+    "n_rows": 4000,
+    "versions": {
+      "lightgbm": "4.7.0",
+      "xgboost": "3.4.1",
+      "scikit-learn": "1.9.0"
+    },
+    "estimators": [
+      {
+        "estimator": "lightgbm.LGBMClassifier",
+        "accepts_nan": true,
+        "error": null,
+        "informative_null_auc": 1.0,
+        "learns_direction": true
+      },
+      {
+        "estimator": "sklearn.DecisionTreeClassifier",
+        "accepts_nan": true,
+        "error": null,
+        "informative_null_auc": 1.0,
+        "learns_direction": true
+      },
+      {
+        "estimator": "sklearn.ExtraTreesClassifier",
+        "accepts_nan": true,
+        "error": null,
+        "informative_null_auc": 1.0,
+        "learns_direction": true
+      },
+      {
+        "estimator": "sklearn.GradientBoostingClassifier",
+        "accepts_nan": false,
+        "error": "ValueError: Input X contains NaN.",
+        "informative_null_auc": null,
+        "learns_direction": false
+      },
+      {
+        "estimator": "sklearn.HistGradientBoostingClassifier",
+        "accepts_nan": true,
+        "error": null,
+        "informative_null_auc": 1.0,
+        "learns_direction": true
+      },
+      {
+        "estimator": "sklearn.LogisticRegression",
+        "accepts_nan": false,
+        "error": "ValueError: Input X contains NaN.",
+        "informative_null_auc": null,
+        "learns_direction": false
+      },
+      {
+        "estimator": "sklearn.RandomForestClassifier",
+        "accepts_nan": true,
+        "error": null,
+        "informative_null_auc": 1.0,
+        "learns_direction": true
+      },
+      {
+        "estimator": "xgboost.XGBClassifier",
+        "accepts_nan": true,
+        "error": null,
+        "informative_null_auc": 1.0,
+        "learns_direction": true
+      }
+    ],
+    "n_accepting_nan": 6,
+    "n_learning_direction": 6
+  },
+  "mnar_evidence": {
+    "n_columns_with_nulls": 372,
+    "n_label_linked": 251,
+    "gates": {
+      "abs_gap": 0.01,
+      "p_value": 0.0001
+    },
+    "source": "reports/eda/missingness.json, against_target",
+    "largest_gaps": [
+      {
+        "column": "V279",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V280",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V284",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V285",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V286",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V287",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V290",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V291",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V292",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      },
+      {
+        "column": "V293",
+        "n_present": 413366,
+        "n_fraud_present": 14536,
+        "fraud_rate_present": 0.035164962769071474,
+        "n_missing": 12,
+        "n_fraud_missing": 2,
+        "fraud_rate_missing": 0.16666666666666666,
+        "gap": 0.1315017038975952,
+        "risk_ratio": 4.739566134654192,
+        "z": 2.472927437379749,
+        "p_value": 0.013401134983750333,
+        "label_linked": false
+      }
+    ]
+  },
+  "indicators": {
+    "definition": "one indicator per missingness block, computed from the block's representative column. Blocks are groups of columns whose null mask is identical row for row (missingness.json blocks.definition), so every member gives the same indicator.",
+    "n_indicators": 66,
+    "n_columns_covered": 244,
+    "identity_indicator": {
+      "name": "has_identity_record",
+      "witness_column": "id_01",
+      "why": "missingness.json identity_join measured the join at a fraud rate of 0.07312 against 0.02142, and named id_01 and id_12 as the two columns null on precisely the rows where the join fails"
+    },
+    "indicators": [
+      {
+        "indicator": "missing_block_D1",
+        "representative": "D1",
+        "n_columns_covered": 7,
+        "columns": [
+          "D1",
+          "V281",
+          "V283",
+          "V296",
+          "V300",
+          "V314",
+          "V315"
+        ],
+        "missing_rate_train": 0.0006604125038100721
+      },
+      {
+        "indicator": "missing_block_D10",
+        "representative": "D10",
+        "n_columns_covered": 1,
+        "columns": [
+          "D10"
+        ],
+        "missing_rate_train": 0.14801465002975486
+      },
+      {
+        "indicator": "missing_block_D11",
+        "representative": "D11",
+        "n_columns_covered": 11,
+        "columns": [
+          "D11",
+          "V1",
+          "V11",
+          "V2",
+          "V3",
+          "V4",
+          "V5",
+          "V6",
+          "V7",
+          "V8",
+          "V9"
+        ],
+        "missing_rate_train": 0.5461659788377707
+      },
+      {
+        "indicator": "missing_block_D12",
+        "representative": "D12",
+        "n_columns_covered": 1,
+        "columns": [
+          "D12"
+        ],
+        "missing_rate_train": 0.8856034912356245
+      },
+      {
+        "indicator": "missing_block_D13",
+        "representative": "D13",
+        "n_columns_covered": 1,
+        "columns": [
+          "D13"
+        ],
+        "missing_rate_train": 0.8933832956761124
+      },
+      {
+        "indicator": "missing_block_D14",
+        "representative": "D14",
+        "n_columns_covered": 1,
+        "columns": [
+          "D14"
+        ],
+        "missing_rate_train": 0.8912182070647204
+      },
+      {
+        "indicator": "missing_block_D15",
+        "representative": "D15",
+        "n_columns_covered": 1,
+        "columns": [
+          "D15"
+        ],
+        "missing_rate_train": 0.16531842526694696
+      },
+      {
+        "indicator": "missing_block_D2",
+        "representative": "D2",
+        "n_columns_covered": 1,
+        "columns": [
+          "D2"
+        ],
+        "missing_rate_train": 0.49914122183570486
+      },
+      {
+        "indicator": "missing_block_D3",
+        "representative": "D3",
+        "n_columns_covered": 1,
+        "columns": [
+          "D3"
+        ],
+        "missing_rate_train": 0.4710676426902254
+      },
+      {
+        "indicator": "missing_block_D4",
+        "representative": "D4",
+        "n_columns_covered": 1,
+        "columns": [
+          "D4"
+        ],
+        "missing_rate_train": 0.2956495023924834
+      },
+      {
+        "indicator": "missing_block_D5",
+        "representative": "D5",
+        "n_columns_covered": 1,
+        "columns": [
+          "D5"
+        ],
+        "missing_rate_train": 0.5416108259268756
+      },
+      {
+        "indicator": "missing_block_D6",
+        "representative": "D6",
+        "n_columns_covered": 1,
+        "columns": [
+          "D6"
+        ],
+        "missing_rate_train": 0.8728282588817015
+      },
+      {
+        "indicator": "missing_block_D7",
+        "representative": "D7",
+        "n_columns_covered": 1,
+        "columns": [
+          "D7"
+        ],
+        "missing_rate_train": 0.9352989273739774
+      },
+      {
+        "indicator": "missing_block_D8",
+        "representative": "D8",
+        "n_columns_covered": 4,
+        "columns": [
+          "D8",
+          "D9",
+          "id_09",
+          "id_10"
+        ],
+        "missing_rate_train": 0.8640783979795732
+      },
+      {
+        "indicator": "missing_block_DeviceInfo",
+        "representative": "DeviceInfo",
+        "n_columns_covered": 1,
+        "columns": [
+          "DeviceInfo"
+        ],
+        "missing_rate_train": 0.778986786911737
+      },
+      {
+        "indicator": "missing_block_DeviceType",
+        "representative": "DeviceType",
+        "n_columns_covered": 1,
+        "columns": [
+          "DeviceType"
+        ],
+        "missing_rate_train": 0.7401966239132223
+      },
+      {
+        "indicator": "missing_block_M1",
+        "representative": "M1",
+        "n_columns_covered": 3,
+        "columns": [
+          "M1",
+          "M2",
+          "M3"
+        ],
+        "missing_rate_train": 0.5380426631315648
+      },
+      {
+        "indicator": "missing_block_M4",
+        "representative": "M4",
+        "n_columns_covered": 1,
+        "columns": [
+          "M4"
+        ],
+        "missing_rate_train": 0.48417429084276375
+      },
+      {
+        "indicator": "missing_block_M5",
+        "representative": "M5",
+        "n_columns_covered": 1,
+        "columns": [
+          "M5"
+        ],
+        "missing_rate_train": 0.6041564863151885
+      },
+      {
+        "indicator": "missing_block_M6",
+        "representative": "M6",
+        "n_columns_covered": 1,
+        "columns": [
+          "M6"
+        ],
+        "missing_rate_train": 0.31121878764714134
+      },
+      {
+        "indicator": "missing_block_M7",
+        "representative": "M7",
+        "n_columns_covered": 1,
+        "columns": [
+          "M7"
+        ],
+        "missing_rate_train": 0.6692059083937704
+      },
+      {
+        "indicator": "missing_block_M8",
+        "representative": "M8",
+        "n_columns_covered": 2,
+        "columns": [
+          "M8",
+          "M9"
+        ],
+        "missing_rate_train": 0.6691962320200882
+      },
+      {
+        "indicator": "missing_block_P_emaildomain",
+        "representative": "P_emaildomain",
+        "n_columns_covered": 1,
+        "columns": [
+          "P_emaildomain"
+        ],
+        "missing_rate_train": 0.15553803056766446
+      },
+      {
+        "indicator": "missing_block_R_emaildomain",
+        "representative": "R_emaildomain",
+        "n_columns_covered": 1,
+        "columns": [
+          "R_emaildomain"
+        ],
+        "missing_rate_train": 0.7507341948531369
+      },
+      {
+        "indicator": "missing_block_V12",
+        "representative": "V12",
+        "n_columns_covered": 12,
+        "columns": [
+          "V12",
+          "V13",
+          "V16",
+          "V18",
+          "V19",
+          "V20",
+          "V23",
+          "V24",
+          "V25",
+          "V26",
+          "V30",
+          "V32"
+        ],
+        "missing_rate_train": 0.14808238464553025
+      },
+      {
+        "indicator": "missing_block_V138",
+        "representative": "V138",
+        "n_columns_covered": 12,
+        "columns": [
+          "V138",
+          "V140",
+          "V141",
+          "V145",
+          "V146",
+          "V149",
+          "V150",
+          "V152",
+          "V158",
+          "V159",
+          "V160",
+          "V165"
+        ],
+        "missing_rate_train": 0.8423476817827751
+      },
+      {
+        "indicator": "missing_block_V169",
+        "representative": "V169",
+        "n_columns_covered": 9,
+        "columns": [
+          "V169",
+          "V171",
+          "V180",
+          "V184",
+          "V189",
+          "V195",
+          "V198",
+          "V201",
+          "V210"
+        ],
+        "missing_rate_train": 0.7421730232378114
+      },
+      {
+        "indicator": "missing_block_V172",
+        "representative": "V172",
+        "n_columns_covered": 19,
+        "columns": [
+          "V172",
+          "V173",
+          "V176",
+          "V181",
+          "V186",
+          "V187",
+          "V190",
+          "V191",
+          "V192",
+          "V193",
+          "V196",
+          "V199",
+          "V202",
+          "V203",
+          "V204",
+          "V207",
+          "V212",
+          "V213",
+          "V215"
+        ],
+        "missing_rate_train": 0.7421996332654375
+      },
+      {
+        "indicator": "missing_block_V218",
+        "representative": "V218",
+        "n_columns_covered": 32,
+        "columns": [
+          "V218",
+          "V219",
+          "V223",
+          "V226",
+          "V228",
+          "V229",
+          "V230",
+          "V235",
+          "V240",
+          "V241",
+          "V242",
+          "V243",
+          "V244",
+          "V246",
+          "V247",
+          "V248",
+          "V249",
+          "V252",
+          "V253",
+          "V254",
+          "V257",
+          "V258",
+          "V260",
+          "V261",
+          "V262",
+          "V263",
+          "V267",
+          "V268",
+          "V269",
+          "V274",
+          "V275",
+          "V277"
+        ],
+        "missing_rate_train": 0.7560392667244024
+      },
+      {
+        "indicator": "missing_block_V220",
+        "representative": "V220",
+        "n_columns_covered": 8,
+        "columns": [
+          "V220",
+          "V222",
+          "V227",
+          "V234",
+          "V238",
+          "V245",
+          "V251",
+          "V259"
+        ],
+        "missing_rate_train": 0.7384113329688566
+      },
+      {
+        "indicator": "missing_block_V284",
+        "representative": "V284",
+        "n_columns_covered": 17,
+        "columns": [
+          "V284",
+          "V286",
+          "V290",
+          "V291",
+          "V292",
+          "V293",
+          "V295",
+          "V297",
+          "V298",
+          "V299",
+          "V303",
+          "V306",
+          "V307",
+          "V308",
+          "V310",
+          "V312",
+          "V317"
+        ],
+        "missing_rate_train": 2.9029121046596577e-05
+      },
+      {
+        "indicator": "missing_block_V325",
+        "representative": "V325",
+        "n_columns_covered": 8,
+        "columns": [
+          "V325",
+          "V326",
+          "V327",
+          "V328",
+          "V329",
+          "V331",
+          "V332",
+          "V333"
+        ],
+        "missing_rate_train": 0.8416437255973951
+      },
+      {
+        "indicator": "missing_block_V35",
+        "representative": "V35",
+        "n_columns_covered": 12,
+        "columns": [
+          "V35",
+          "V36",
+          "V37",
+          "V38",
+          "V40",
+          "V44",
+          "V45",
+          "V46",
+          "V47",
+          "V49",
+          "V50",
+          "V52"
+        ],
+        "missing_rate_train": 0.29571965610167933
+      },
+      {
+        "indicator": "missing_block_V53",
+        "representative": "V53",
+        "n_columns_covered": 13,
+        "columns": [
+          "V53",
+          "V54",
+          "V55",
+          "V56",
+          "V60",
+          "V61",
+          "V62",
+          "V65",
+          "V66",
+          "V67",
+          "V68",
+          "V70",
+          "V74"
+        ],
+        "missing_rate_train": 0.15131671254880522
+      },
+      {
+        "indicator": "missing_block_V75",
+        "representative": "V75",
+        "n_columns_covered": 12,
+        "columns": [
+          "V75",
+          "V76",
+          "V77",
+          "V78",
+          "V79",
+          "V81",
+          "V82",
+          "V83",
+          "V86",
+          "V87",
+          "V91",
+          "V93"
+        ],
+        "missing_rate_train": 0.1653595498550963
+      },
+      {
+        "indicator": "missing_block_addr1",
+        "representative": "addr1",
+        "n_columns_covered": 2,
+        "columns": [
+          "addr1",
+          "addr2"
+        ],
+        "missing_rate_train": 0.11495048115768135
+      },
+      {
+        "indicator": "missing_block_card2",
+        "representative": "card2",
+        "n_columns_covered": 1,
+        "columns": [
+          "card2"
+        ],
+        "missing_rate_train": 0.01577248910198414
+      },
+      {
+        "indicator": "missing_block_card3",
+        "representative": "card3",
+        "n_columns_covered": 1,
+        "columns": [
+          "card3"
+        ],
+        "missing_rate_train": 0.0019860756982713157
+      },
+      {
+        "indicator": "missing_block_card4",
+        "representative": "card4",
+        "n_columns_covered": 1,
+        "columns": [
+          "card4"
+        ],
+        "missing_rate_train": 0.0020054284456357137
+      },
+      {
+        "indicator": "missing_block_card5",
+        "representative": "card5",
+        "n_columns_covered": 1,
+        "columns": [
+          "card5"
+        ],
+        "missing_rate_train": 0.007182288365612103
+      },
+      {
+        "indicator": "missing_block_card6",
+        "representative": "card6",
+        "n_columns_covered": 1,
+        "columns": [
+          "card6"
+        ],
+        "missing_rate_train": 0.0019981711653740642
+      },
+      {
+        "indicator": "missing_block_dist1",
+        "representative": "dist1",
+        "n_columns_covered": 1,
+        "columns": [
+          "dist1"
+        ],
+        "missing_rate_train": 0.6187436196411032
+      },
+      {
+        "indicator": "missing_block_dist2",
+        "representative": "dist2",
+        "n_columns_covered": 1,
+        "columns": [
+          "dist2"
+        ],
+        "missing_rate_train": 0.9294737504172936
+      },
+      {
+        "indicator": "missing_block_id_01",
+        "representative": "id_01",
+        "n_columns_covered": 2,
+        "columns": [
+          "id_01",
+          "id_12"
+        ],
+        "missing_rate_train": 0.7341150230539603
+      },
+      {
+        "indicator": "missing_block_id_02",
+        "representative": "id_02",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_02"
+        ],
+        "missing_rate_train": 0.7401143747369235
+      },
+      {
+        "indicator": "missing_block_id_03",
+        "representative": "id_03",
+        "n_columns_covered": 2,
+        "columns": [
+          "id_03",
+          "id_04"
+        ],
+        "missing_rate_train": 0.8810604337918322
+      },
+      {
+        "indicator": "missing_block_id_05",
+        "representative": "id_05",
+        "n_columns_covered": 2,
+        "columns": [
+          "id_05",
+          "id_06"
+        ],
+        "missing_rate_train": 0.7469652473039203
+      },
+      {
+        "indicator": "missing_block_id_07",
+        "representative": "id_07",
+        "n_columns_covered": 2,
+        "columns": [
+          "id_07",
+          "id_08"
+        ],
+        "missing_rate_train": 0.9904929628572396
+      },
+      {
+        "indicator": "missing_block_id_11",
+        "representative": "id_11",
+        "n_columns_covered": 8,
+        "columns": [
+          "id_11",
+          "id_15",
+          "id_28",
+          "id_29",
+          "id_35",
+          "id_36",
+          "id_37",
+          "id_38"
+        ],
+        "missing_rate_train": 0.7398410171804015
+      },
+      {
+        "indicator": "missing_block_id_13",
+        "representative": "id_13",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_13"
+        ],
+        "missing_rate_train": 0.7691701058111462
+      },
+      {
+        "indicator": "missing_block_id_14",
+        "representative": "id_14",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_14"
+        ],
+        "missing_rate_train": 0.8457634416925913
+      },
+      {
+        "indicator": "missing_block_id_16",
+        "representative": "id_16",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_16"
+        ],
+        "missing_rate_train": 0.7606694115313345
+      },
+      {
+        "indicator": "missing_block_id_17",
+        "representative": "id_17",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_17"
+        ],
+        "missing_rate_train": 0.7422794633483156
+      },
+      {
+        "indicator": "missing_block_id_18",
+        "representative": "id_18",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_18"
+        ],
+        "missing_rate_train": 0.9176951845526371
+      },
+      {
+        "indicator": "missing_block_id_19",
+        "representative": "id_19",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_19"
+        ],
+        "missing_rate_train": 0.7423592934311938
+      },
+      {
+        "indicator": "missing_block_id_20",
+        "representative": "id_20",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_20"
+        ],
+        "missing_rate_train": 0.7424004180193431
+      },
+      {
+        "indicator": "missing_block_id_21",
+        "representative": "id_21",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_21"
+        ],
+        "missing_rate_train": 0.9904808673901369
+      },
+      {
+        "indicator": "missing_block_id_22",
+        "representative": "id_22",
+        "n_columns_covered": 2,
+        "columns": [
+          "id_22",
+          "id_23"
+        ],
+        "missing_rate_train": 0.9904711910164546
+      },
+      {
+        "indicator": "missing_block_id_24",
+        "representative": "id_24",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_24"
+        ],
+        "missing_rate_train": 0.991269491845236
+      },
+      {
+        "indicator": "missing_block_id_25",
+        "representative": "id_25",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_25"
+        ],
+        "missing_rate_train": 0.9905292492585479
+      },
+      {
+        "indicator": "missing_block_id_26",
+        "representative": "id_26",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_26"
+        ],
+        "missing_rate_train": 0.990485705576978
+      },
+      {
+        "indicator": "missing_block_id_30",
+        "representative": "id_30",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_30"
+        ],
+        "missing_rate_train": 0.8505242175442331
+      },
+      {
+        "indicator": "missing_block_id_31",
+        "representative": "id_31",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_31"
+        ],
+        "missing_rate_train": 0.7405860979539308
+      },
+      {
+        "indicator": "missing_block_id_32",
+        "representative": "id_32",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_32"
+        ],
+        "missing_rate_train": 0.8504758356758221
+      },
+      {
+        "indicator": "missing_block_id_33",
+        "representative": "id_33",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_33"
+        ],
+        "missing_rate_train": 0.8608706801039242
+      },
+      {
+        "indicator": "missing_block_id_34",
+        "representative": "id_34",
+        "n_columns_covered": 1,
+        "columns": [
+          "id_34"
+        ],
+        "missing_rate_train": 0.8503573000982152
+      }
+    ],
+    "breakdown": {
+      "n_multi_column_indicators": 23,
+      "n_columns_under_multi_column_indicators": 201,
+      "n_single_column_indicators": 43,
+      "note": "stage 2 measured 24 multi-column blocks covering 392 of 435 columns. The column plan then removed 146 columns, which shrinks several blocks to one member, and a one-member block still needs its own indicator because its null mask is its own. The count here is against the kept columns, not against the raw frame."
+    }
+  },
+  "imputation": {
+    "note": "for the stage 5 models that cannot read a null. The tree path never calls this and the artifact records both so the difference is visible.",
+    "n_median_columns": 240,
+    "n_sentinel_columns": 15,
+    "sentinel_meaning": "the column measures days since an earlier event of a given kind. A null means the observation window holds no such earlier event for this card, so there is no origin to compute. The sentinel is placed below every value the training window contains, so it orders correctly for a tree and cannot be mistaken for an observation. It is not zero: stage 2 measured D1 exactly zero on 0.5013 of its non-null rows, which is a first observed transaction and a different thing entirely.",
+    "sentinels": {
+      "D1": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D10": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D11": {
+        "sentinel": -54.0,
+        "train_min": -53.0,
+        "margin": 1.0
+      },
+      "D12": {
+        "sentinel": -84.0,
+        "train_min": -83.0,
+        "margin": 1.0
+      },
+      "D13": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D14": {
+        "sentinel": -194.0,
+        "train_min": -193.0,
+        "margin": 1.0
+      },
+      "D15": {
+        "sentinel": -84.0,
+        "train_min": -83.0,
+        "margin": 1.0
+      },
+      "D2": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D3": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D4": {
+        "sentinel": -123.0,
+        "train_min": -122.0,
+        "margin": 1.0
+      },
+      "D5": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D6": {
+        "sentinel": -84.0,
+        "train_min": -83.0,
+        "margin": 1.0
+      },
+      "D7": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D8": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      },
+      "D9": {
+        "sentinel": -1.0,
+        "train_min": 0.0,
+        "margin": 1.0
+      }
+    }
+  },
+  "seconds": 0.997720124999887
+}

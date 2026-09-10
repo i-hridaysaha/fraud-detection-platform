@@ -1,0 +1,2302 @@
+{
+  "section": "schema",
+  "stage": 3,
+  "generated_at_utc": "2026-09-10T16:56:19+00:00",
+  "regenerate_with": "make prep  # or: .venv/bin/python scripts/prepare.py --sections schema",
+  "command": "prepare.fit_preparation(train, ...); schema.declare(prepared_train); schema.validate(...)",
+  "fitted_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "0017c9535ed6dc43cbafa48da4bc5dd34d8a2f36",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "decisions": {
+    "d_origin_columns": [],
+    "d_origin_source": "reports/prep/transforms.json, d_normalisation.applied_to",
+    "v_strategy": "block_mean",
+    "v_strategy_source": "reports/prep/v_reduction.json, decision.chosen",
+    "lag_days": 14,
+    "smoothing": 20.0,
+    "encoding_source": "reports/encoding_spec.json, encoders.target"
+  },
+  "prepared_shape": {
+    "n_columns": 247,
+    "n_rows_train": 413378,
+    "n_raw_columns": 434,
+    "n_columns_kept_by_the_plan": 288,
+    "n_columns_dropped_by_the_plan": 146,
+    "n_raw_columns_in_the_prepared_frame": 92,
+    "n_derived_columns": 155,
+    "note": "the plan's kept count and the prepared frame's raw count differ by the V reduction: a strategy other than keeping representatives consumes the whole V pool and replaces it with derived columns, so V columns the plan kept are not in the frame either."
+  },
+  "schema": {
+    "name": "prepared",
+    "allow_extra_columns": false,
+    "n_columns": 247,
+    "columns": [
+      {
+        "column": "C1",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C11",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C12",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C13",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C14",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C2",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C4",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C5",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C6",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C7",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C8",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "C9",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D1",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D10",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D11",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "D12",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "D13",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D14",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "D15",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "D2",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D3",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D4",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "D5",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D6",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "D7",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D8",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "D9",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "DeviceInfo",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "DeviceInfo_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "DeviceInfo_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "DeviceInfo_norm",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "DeviceInfo_norm_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "DeviceInfo_norm_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "DeviceInfo_norm_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "DeviceInfo_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "DeviceType",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "DeviceType_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "DeviceType_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "M1",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M1_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M2",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M2_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M3",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M3_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M4",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M4_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M5",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M5_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M6",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M6_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M7",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M7_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M8",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M8_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M9",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "M9_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "P_emaildomain",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "P_emaildomain_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "P_emaildomain_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "P_emaildomain_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "ProductCD",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "ProductCD_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "ProductCD_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "R_emaildomain",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "R_emaildomain_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "R_emaildomain_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "R_emaildomain_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "TransactionAmt",
+        "family": "float",
+        "nullable": false,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "strictly positive: quality.json measured 0 negative and 0 zero amounts, minimum 0.251"
+      },
+      {
+        "column": "TransactionAmt_cents",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 99.0,
+        "unique": false,
+        "note": "derived column: round(amount * 100) mod 100"
+      },
+      {
+        "column": "TransactionAmt_is_round",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "TransactionAmt_log1p",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: log1p of an amount stage 2 measured strictly positive"
+      },
+      {
+        "column": "TransactionDT",
+        "family": "integer",
+        "nullable": false,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "TransactionID",
+        "family": "integer",
+        "nullable": false,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": true,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "addr1",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "addr1_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "addr1_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "addr2",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "addr2_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "addr2_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card1",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "card1_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "card1_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card2",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "card2_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "card2_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card3",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "card3_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "card3_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card4",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "card4_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "card4_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card5",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "card5_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "card5_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card6",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "card6_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "card6_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "card_start_day",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "day_index",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: floor(TransactionDT / 86400), and TransactionDT is non-negative"
+      },
+      {
+        "column": "dist1",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "dist2",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "dow_position",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 6.0,
+        "unique": false,
+        "note": "derived column: position inside a seven day cycle"
+      },
+      {
+        "column": "entity_id",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "has_identity_record",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "hour_position",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 23.0,
+        "unique": false,
+        "note": "derived column: position inside an 86,400 unit cycle, in hours"
+      },
+      {
+        "column": "id_01",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_02",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_03",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_04",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_05",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_06",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_07",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_08",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_09",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_10",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_11",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_12",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_12_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_13",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_14",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "no lower bound: quality.json lists this column among the 17 that hold negative values, all of them explicable"
+      },
+      {
+        "column": "id_15",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_15_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_16",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_16_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_17",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_18",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_19",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_20",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_21",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_22",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_23",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_23_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_24",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_25",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_26",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_28",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_28_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_29",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_29_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_30",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_30_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_30_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "id_30_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "id_31",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_31_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_31_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "id_31_norm",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_31_norm_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_31_norm_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "id_31_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "id_32",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "id_33",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_33_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_33_freq",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a count of training rows, so never negative and with no ceiling"
+      },
+      {
+        "column": "id_33_te",
+        "family": "float",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: a smoothed mean of a zero-or-one label, so inside the unit interval"
+      },
+      {
+        "column": "id_34",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_34_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_35",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_35_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_36",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_36_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_37",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_37_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_38",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "id_38_cat",
+        "family": "categorical",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": null
+      },
+      {
+        "column": "isFraud",
+        "family": "integer",
+        "nullable": false,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "quality.json found no negative value in this column on train"
+      },
+      {
+        "column": "missing_block_D1",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D10",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D11",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D12",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D13",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D14",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D15",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D2",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D3",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D4",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D5",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D6",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D7",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_D8",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_DeviceInfo",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_DeviceType",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_M1",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_M4",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_M5",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_M6",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_M7",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_M8",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_P_emaildomain",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_R_emaildomain",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V12",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V138",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V169",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V172",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V218",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V220",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V284",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V325",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V35",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V53",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_V75",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_addr1",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_card2",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_card3",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_card4",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_card5",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_card6",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_dist1",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_dist2",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_01",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_02",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_03",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_05",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_07",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_11",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_13",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_14",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_16",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_17",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_18",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_19",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_20",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_21",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_22",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_24",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_25",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_26",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_30",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_31",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_32",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_33",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "missing_block_id_34",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "unique": false,
+        "note": "derived column: an indicator"
+      },
+      {
+        "column": "vblockmean_V1",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V100",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V12",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V138",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V167",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V169",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V217",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V220",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V279",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V281",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V322",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V35",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V53",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "vblockmean_V75",
+        "family": "float",
+        "nullable": true,
+        "minimum": null,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: a mean of standardised columns, signed and unbounded"
+      },
+      {
+        "column": "week_index",
+        "family": "integer",
+        "nullable": true,
+        "minimum": 0.0,
+        "maximum": null,
+        "unique": false,
+        "note": "derived column: day_index // 7"
+      }
+    ]
+  },
+  "validation": [
+    {
+      "split": "train",
+      "n_rows": 413378,
+      "valid": true,
+      "violations": []
+    },
+    {
+      "split": "val",
+      "n_rows": 88581,
+      "valid": true,
+      "violations": []
+    },
+    {
+      "split": "test",
+      "n_rows": 88581,
+      "valid": true,
+      "violations": []
+    }
+  ],
+  "determinism": {
+    "method": "the pipeline is applied to the train split twice from the same fitted objects and the two frames are compared column by column, values included.",
+    "identical": true,
+    "fingerprint": "52f57b82c9f08ce1c1352974fa7c188ad8811544e26e2856edadce2fce89f407",
+    "seed": 42
+  },
+  "not_caught": [
+    "a value that is the right type, in range, and wrong. The schema knows nothing about what a correct amount is for a given card",
+    "distribution drift. There are no upper bounds and no distributional limits, deliberately: stage 2 measured 130 of 393 numeric columns moving a percentile by more than 10 percent when the later splits are included, so a train-fitted cap would reject later data for being later. Stage 9 monitors drift; the validator does not",
+    "a category level the training window never saw. Stage 2 measured 240 such levels on DeviceInfo and 22 on id_31 covering 0.0456 of val and test. The encoders have an explicit unseen token and that is where the case is handled",
+    "a row that is internally inconsistent across columns, such as a D column implying an origin later than its own timestamp. Nothing here compares two columns to each other",
+    "a label that is wrong. Stage 0 did not establish the host's labelling rule and the validator cannot check what has not been established",
+    "a duplicated row. Stage 2 measured 10 near-duplicate rows in 413,378 and found the core-field repeat grouping to be signal rather than dirt, so duplication is not an error condition here",
+    "a column arriving in a different order. Column order is not part of the contract"
+  ],
+  "seconds": 30.47101320799993
+}

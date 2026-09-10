@@ -1,0 +1,1125 @@
+{
+  "section": "transforms",
+  "stage": 3,
+  "generated_at_utc": "2026-09-10T16:48:48+00:00",
+  "regenerate_with": "make prep  # or: .venv/bin/python scripts/prepare.py --sections transforms",
+  "command": "transforms.d_origin_psi(train, test, D columns); transforms.clip_cost(train, ...)",
+  "fitted_on": "train split only, dt < config.TRAIN_END_DT, guarded by assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "0017c9535ed6dc43cbafa48da4bc5dd34d8a2f36",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "d_normalisation": {
+    "definition": "D_n = TransactionDT / 86400 - D, the day the delta is measured from",
+    "method": "PSI against a later split, deciles of the train distribution of the column being measured with missing as its own level, which is the stage 2 rule. The before number reproduces temporal.json and the artifact records the comparison.",
+    "n_columns": 15,
+    "n_improving": 0,
+    "n_worsening": 15,
+    "applied_to": [],
+    "not_applied_to": [
+      "D1",
+      "D10",
+      "D11",
+      "D12",
+      "D13",
+      "D14",
+      "D15",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6",
+      "D7",
+      "D8",
+      "D9"
+    ],
+    "decision_rule": "the normalisation is applied to a column when it lowers that column's PSI against test and not otherwise. The transformation has an argument behind it, but whether the argument holds is a property of the column and it does not hold for all of them.",
+    "reproduces_stage_2": {
+      "D1": {
+        "stage_2_psi_test": 0.022581154040173225,
+        "recomputed_psi_before_test": 0.022581154040173225,
+        "agrees": true
+      },
+      "D10": {
+        "stage_2_psi_test": 0.07457567243051057,
+        "recomputed_psi_before_test": 0.07457567243051057,
+        "agrees": true
+      },
+      "D11": {
+        "stage_2_psi_test": 0.3312981818994383,
+        "recomputed_psi_before_test": 0.3312981818994383,
+        "agrees": true
+      },
+      "D12": {
+        "stage_2_psi_test": 0.005423756608876218,
+        "recomputed_psi_before_test": 0.005423756608876218,
+        "agrees": true
+      },
+      "D13": {
+        "stage_2_psi_test": 0.009962981878020276,
+        "recomputed_psi_before_test": 0.009962981878020276,
+        "agrees": true
+      },
+      "D14": {
+        "stage_2_psi_test": 0.012401115077666518,
+        "recomputed_psi_before_test": 0.012401115077666518,
+        "agrees": true
+      },
+      "D15": {
+        "stage_2_psi_test": 0.09495395037200424,
+        "recomputed_psi_before_test": 0.09495395037200424,
+        "agrees": true
+      },
+      "D2": {
+        "stage_2_psi_test": 0.037417599513866244,
+        "recomputed_psi_before_test": 0.037417599513866244,
+        "agrees": true
+      },
+      "D3": {
+        "stage_2_psi_test": 0.03520574059027906,
+        "recomputed_psi_before_test": 0.03520574059027906,
+        "agrees": true
+      },
+      "D4": {
+        "stage_2_psi_test": 0.04139831007067045,
+        "recomputed_psi_before_test": 0.04139831007067045,
+        "agrees": true
+      },
+      "D5": {
+        "stage_2_psi_test": 0.020554187316439074,
+        "recomputed_psi_before_test": 0.020554187316439074,
+        "agrees": true
+      },
+      "D6": {
+        "stage_2_psi_test": 0.02071254594603974,
+        "recomputed_psi_before_test": 0.02071254594603974,
+        "agrees": true
+      },
+      "D7": {
+        "stage_2_psi_test": 0.008127666761071031,
+        "recomputed_psi_before_test": 0.008127666761071031,
+        "agrees": true
+      },
+      "D8": {
+        "stage_2_psi_test": 0.015159956979194577,
+        "recomputed_psi_before_test": 0.015159956979194577,
+        "agrees": true
+      },
+      "D9": {
+        "stage_2_psi_test": 0.01199859984121883,
+        "recomputed_psi_before_test": 0.01199859984121883,
+        "agrees": true
+      }
+    },
+    "auc_probe": {
+      "method": "one LightGBM model per column on that column alone, fitted on the whole train window and scored on validation, once on the raw delta and once on its origin. PSI says whether a distribution moved; this says whether the column got better at the job, and a normalisation that fails both has failed.",
+      "n_columns_where_validation_auc_improves": 3
+    },
+    "per_column": [
+      {
+        "column": "D1",
+        "origin_column": "D1_origin",
+        "psi_before": 0.022581154040173225,
+        "psi_after": 1.8303672219402596,
+        "psi_delta": 1.8077860679000863,
+        "improves": false,
+        "n_bins_before": 6,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.0006604125038100721,
+        "psi_before_val": 0.05870826314557697,
+        "psi_after_val": 1.4427585475949538,
+        "train_auc_before": 0.6378083369995577,
+        "validation_auc_before": 0.642562694007514,
+        "train_auc_after": 0.6700433530591308,
+        "validation_auc_after": 0.6196924746499974,
+        "validation_auc_delta": -0.02287021935751654
+      },
+      {
+        "column": "D10",
+        "origin_column": "D10_origin",
+        "psi_before": 0.07457567243051057,
+        "psi_after": 1.2907613281346073,
+        "psi_delta": 1.2161856557040966,
+        "improves": false,
+        "n_bins_before": 7,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.14801465002975486,
+        "psi_before_val": 0.06097475947744054,
+        "psi_after_val": 1.0638861691372954,
+        "train_auc_before": 0.6319020670847921,
+        "validation_auc_before": 0.6497027081679427,
+        "train_auc_after": 0.6551376374896196,
+        "validation_auc_after": 0.628225212011555,
+        "validation_auc_delta": -0.02147749615638772
+      },
+      {
+        "column": "D11",
+        "origin_column": "D11_origin",
+        "psi_before": 0.3312981818994383,
+        "psi_after": 0.9535838774710148,
+        "psi_delta": 0.6222856955715765,
+        "improves": false,
+        "n_bins_before": 9,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.5461659788377707,
+        "psi_before_val": 0.24387796241414708,
+        "psi_after_val": 0.6790851495453182,
+        "train_auc_before": 0.6273621578999514,
+        "validation_auc_before": 0.6889952131596295,
+        "train_auc_after": 0.6237430731677926,
+        "validation_auc_after": 0.6902471402692625,
+        "validation_auc_delta": 0.0012519271096329554
+      },
+      {
+        "column": "D12",
+        "origin_column": "D12_origin",
+        "psi_before": 0.005423756608876218,
+        "psi_after": 0.35837775906878205,
+        "psi_delta": 0.3529540024599058,
+        "improves": false,
+        "n_bins_before": 6,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.8856034912356245,
+        "psi_before_val": 0.0075407814502026225,
+        "psi_after_val": 0.27488905096422805,
+        "train_auc_before": 0.6359512603919643,
+        "validation_auc_before": 0.6284497175312161,
+        "train_auc_after": 0.6377719575964134,
+        "validation_auc_after": 0.628225886467741,
+        "validation_auc_delta": -0.00022383106347512172
+      },
+      {
+        "column": "D13",
+        "origin_column": "D13_origin",
+        "psi_before": 0.009962981878020276,
+        "psi_after": 0.48865375908175523,
+        "psi_delta": 0.478690777203735,
+        "improves": false,
+        "n_bins_before": 3,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.8933832956761124,
+        "psi_before_val": 0.006706031648890122,
+        "psi_after_val": 0.3613972100860159,
+        "train_auc_before": 0.6192566482074396,
+        "validation_auc_before": 0.6028253745927735,
+        "train_auc_after": 0.6221017099161099,
+        "validation_auc_after": 0.6020836764701236,
+        "validation_auc_delta": -0.0007416981226499031
+      },
+      {
+        "column": "D14",
+        "origin_column": "D14_origin",
+        "psi_before": 0.012401115077666518,
+        "psi_after": 0.35046052483463713,
+        "psi_delta": 0.33805940975697063,
+        "improves": false,
+        "n_bins_before": 5,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.8912182070647204,
+        "psi_before_val": 0.008593682754911453,
+        "psi_after_val": 0.2983228485460527,
+        "train_auc_before": 0.6295342244503833,
+        "validation_auc_before": 0.6173800487743655,
+        "train_auc_after": 0.6310210739739274,
+        "validation_auc_after": 0.6175935900575674,
+        "validation_auc_delta": 0.00021354128320194565
+      },
+      {
+        "column": "D15",
+        "origin_column": "D15_origin",
+        "psi_before": 0.09495395037200424,
+        "psi_after": 0.9977271223244821,
+        "psi_delta": 0.9027731719524779,
+        "improves": false,
+        "n_bins_before": 9,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.16531842526694696,
+        "psi_before_val": 0.051443877018253294,
+        "psi_after_val": 0.7182789294998839,
+        "train_auc_before": 0.6393081484316623,
+        "validation_auc_before": 0.6498728229274892,
+        "train_auc_after": 0.6604660920542181,
+        "validation_auc_after": 0.6092050594989875,
+        "validation_auc_delta": -0.040667763428501646
+      },
+      {
+        "column": "D2",
+        "origin_column": "D2_origin",
+        "psi_before": 0.037417599513866244,
+        "psi_after": 0.5138165405060667,
+        "psi_delta": 0.4763989409922005,
+        "improves": false,
+        "n_bins_before": 11,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.49914122183570486,
+        "psi_before_val": 0.035230114170401304,
+        "psi_after_val": 0.32164104722850934,
+        "train_auc_before": 0.6467639073073917,
+        "validation_auc_before": 0.6468960826885284,
+        "train_auc_after": 0.6466779203092462,
+        "validation_auc_after": 0.6374414866985059,
+        "validation_auc_delta": -0.009454595990022518
+      },
+      {
+        "column": "D3",
+        "origin_column": "D3_origin",
+        "psi_before": 0.03520574059027906,
+        "psi_after": 2.2124998437198684,
+        "psi_delta": 2.177294103129589,
+        "improves": false,
+        "n_bins_before": 9,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.4710676426902254,
+        "psi_before_val": 0.02965211142115131,
+        "psi_after_val": 1.6763980210498222,
+        "train_auc_before": 0.644868921374945,
+        "validation_auc_before": 0.6601669900482319,
+        "train_auc_after": 0.5829541166010954,
+        "validation_auc_after": 0.5336759086533145,
+        "validation_auc_delta": -0.12649108139491738
+      },
+      {
+        "column": "D4",
+        "origin_column": "D4_origin",
+        "psi_before": 0.04139831007067045,
+        "psi_after": 0.9894089832768831,
+        "psi_delta": 0.9480106732062127,
+        "improves": false,
+        "n_bins_before": 8,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.2956495023924834,
+        "psi_before_val": 0.028172955526199518,
+        "psi_after_val": 0.726997475027451,
+        "train_auc_before": 0.608913480818131,
+        "validation_auc_before": 0.6208456217905349,
+        "train_auc_after": 0.626728637946868,
+        "validation_auc_after": 0.5973610823746659,
+        "validation_auc_delta": -0.023484539415869032
+      },
+      {
+        "column": "D5",
+        "origin_column": "D5_origin",
+        "psi_before": 0.020554187316439074,
+        "psi_after": 1.601916407433686,
+        "psi_delta": 1.581362220117247,
+        "improves": false,
+        "n_bins_before": 9,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.5416108259268756,
+        "psi_before_val": 0.012695507900601925,
+        "psi_after_val": 1.1890878881156444,
+        "train_auc_before": 0.6743026250883374,
+        "validation_auc_before": 0.6687829564560556,
+        "train_auc_after": 0.6029354145283807,
+        "validation_auc_after": 0.5548606197284668,
+        "validation_auc_delta": -0.11392233672758878
+      },
+      {
+        "column": "D6",
+        "origin_column": "D6_origin",
+        "psi_before": 0.02071254594603974,
+        "psi_after": 0.3652901692195525,
+        "psi_delta": 0.34457762327351277,
+        "improves": false,
+        "n_bins_before": 6,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.8728282588817015,
+        "psi_before_val": 0.009438320549691539,
+        "psi_after_val": 0.2820687562649008,
+        "train_auc_before": 0.6313321667641496,
+        "validation_auc_before": 0.6303692986191386,
+        "train_auc_after": 0.6347100350474348,
+        "validation_auc_after": 0.6298648899392422,
+        "validation_auc_delta": -0.0005044086798964287
+      },
+      {
+        "column": "D7",
+        "origin_column": "D7_origin",
+        "psi_before": 0.008127666761071031,
+        "psi_after": 0.27315586459846225,
+        "psi_delta": 0.26502819783739123,
+        "improves": false,
+        "n_bins_before": 6,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.9352989273739774,
+        "psi_before_val": 0.0041879601333936044,
+        "psi_after_val": 0.1459915781419039,
+        "train_auc_before": 0.6118008780353659,
+        "validation_auc_before": 0.6071909853700347,
+        "train_auc_after": 0.6118635820602818,
+        "validation_auc_after": 0.6070684630059705,
+        "validation_auc_delta": -0.0001225223640641815
+      },
+      {
+        "column": "D8",
+        "origin_column": "D8_origin",
+        "psi_before": 0.015159956979194577,
+        "psi_after": 0.21268704286800522,
+        "psi_delta": 0.19752708588881063,
+        "improves": false,
+        "n_bins_before": 11,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.8640783979795732,
+        "psi_before_val": 0.019869247390627905,
+        "psi_after_val": 0.1367786030752235,
+        "train_auc_before": 0.6419962729582593,
+        "validation_auc_before": 0.6386036016083309,
+        "train_auc_after": 0.6479499832082856,
+        "validation_auc_after": 0.6456073929129404,
+        "validation_auc_delta": 0.007003791304609597
+      },
+      {
+        "column": "D9",
+        "origin_column": "D9_origin",
+        "psi_before": 0.01199859984121883,
+        "psi_after": 1.391865626218182,
+        "psi_delta": 1.3798670263769632,
+        "improves": false,
+        "n_bins_before": 11,
+        "n_bins_after": 11,
+        "missing_rate_train": 0.8640783979795732,
+        "psi_before_val": 0.021105062079832246,
+        "psi_after_val": 1.3188697513617798,
+        "train_auc_before": 0.6296725769037542,
+        "validation_auc_before": 0.6415332375198185,
+        "train_auc_after": 0.6377913019396089,
+        "validation_auc_after": 0.6381926118355385,
+        "validation_auc_delta": -0.003340625684279952
+      }
+    ]
+  },
+  "amount": {
+    "log1p": {
+      "derived_column": "TransactionAmt_log1p",
+      "skew_raw": 17.638590622496896,
+      "skew_log1p": 0.4990779151299569,
+      "kurtosis_raw": 1603.6461305464104,
+      "kurtosis_log1p": 0.7650876845974497,
+      "source": "reports/eda/univariate.json, amount",
+      "raw_column_kept": true,
+      "why_raw_kept": "a monetary threshold is expressed in currency. Stage 7 has to show a reviewer the amount that was charged, not its logarithm."
+    },
+    "cents": {
+      "derived_columns": [
+        "TransactionAmt_cents",
+        "TransactionAmt_is_round"
+      ],
+      "definition": "round(amount * 100) mod 100",
+      "n_distinct": 100,
+      "share_zero_cents": 0.5255359501473228,
+      "top_10": [
+        {
+          "cents": 0,
+          "n": 217245,
+          "share": 0.5255359501473228
+        },
+        {
+          "cents": 95,
+          "n": 112095,
+          "share": 0.2711682769765203
+        },
+        {
+          "cents": 50,
+          "n": 15844,
+          "share": 0.03832811615518968
+        },
+        {
+          "cents": 97,
+          "n": 5529,
+          "share": 0.013375167522219372
+        },
+        {
+          "cents": 99,
+          "n": 4217,
+          "share": 0.010201316954458146
+        },
+        {
+          "cents": 47,
+          "n": 1580,
+          "share": 0.0038221676044685494
+        },
+        {
+          "cents": 36,
+          "n": 1184,
+          "share": 0.002864206609930862
+        },
+        {
+          "cents": 71,
+          "n": 908,
+          "share": 0.002196536825859141
+        },
+        {
+          "cents": 43,
+          "n": 875,
+          "share": 0.0021167067429810004
+        },
+        {
+          "cents": 10,
+          "n": 859,
+          "share": 0.002078001248252205
+        }
+      ],
+      "round_against_not_round": {
+        "definition": "round means the amount is a whole number of currency units",
+        "round": {
+          "n": 217245,
+          "share": 0.5255359501473228,
+          "n_fraud": 7889,
+          "fraud_rate": 0.03631383921379088,
+          "mean_amount": 134.84394198255424,
+          "median_amount": 92.0,
+          "interval": {
+            "point": 0.03631383921379088,
+            "low": 0.03553536055009079,
+            "high": 0.03710871595151912,
+            "n": 217245,
+            "successes": 7889,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        "not_round": {
+          "n": 196133,
+          "share": 0.4744640498526772,
+          "n_fraud": 6649,
+          "fraud_rate": 0.03390046550045123,
+          "mean_amount": 134.34010941045105,
+          "median_amount": 57.95,
+          "interval": {
+            "point": 0.03390046550045123,
+            "low": 0.03310863498559265,
+            "high": 0.034710553698617114,
+            "n": 196133,
+            "successes": 6649,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        }
+      },
+      "source": "reports/eda/univariate.json, amount.cents"
+    }
+  },
+  "clipping": {
+    "chosen_quantile": 0.999,
+    "why": "stage 2 measured TransactionAmt U-shaped against the label, the top decile at a fraud rate of 0.0509 against a trough of 0.0192, so the tail is not noise. The table below is what each quantile would touch and it is why the bound sits at 0.999 rather than at 0.99.",
+    "applies_to": "the models in stage 5 that read a value rather than its rank. Trees get the raw distribution: a tree cuts on order, so a clipped maximum and an unclipped one produce the same split and the clip only costs information.",
+    "columns": [
+      "TransactionAmt",
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6",
+      "C7",
+      "C8",
+      "C9",
+      "C10",
+      "C11",
+      "C12",
+      "C13",
+      "C14"
+    ],
+    "cost_by_quantile": [
+      {
+        "quantile": 0.99,
+        "n_values_touched": 64377,
+        "n_fraud_values_touched": 10004,
+        "share_of_fraud_rows_touched": 0.6881276654285321,
+        "per_column": [
+          {
+            "column": "TransactionAmt",
+            "lower": 9.667,
+            "upper": 1104.0,
+            "n_touched": 7875,
+            "n_fraud_touched": 415,
+            "fraud_rate_touched": 0.052698412698412696
+          },
+          {
+            "column": "C1",
+            "lower": 1.0,
+            "upper": 169.0,
+            "n_touched": 4406,
+            "n_fraud_touched": 555,
+            "fraud_rate_touched": 0.1259645937358148
+          },
+          {
+            "column": "C2",
+            "lower": 1.0,
+            "upper": 158.0,
+            "n_touched": 4494,
+            "n_fraud_touched": 582,
+            "fraud_rate_touched": 0.1295060080106809
+          },
+          {
+            "column": "C3",
+            "lower": 0.0,
+            "upper": 0.0,
+            "n_touched": 1735,
+            "n_fraud_touched": 1,
+            "fraud_rate_touched": 0.0005763688760806917
+          },
+          {
+            "column": "C4",
+            "lower": 0.0,
+            "upper": 6.0,
+            "n_touched": 4084,
+            "n_fraud_touched": 1531,
+            "fraud_rate_touched": 0.3748775710088149
+          },
+          {
+            "column": "C5",
+            "lower": 0.0,
+            "upper": 145.0,
+            "n_touched": 4051,
+            "n_fraud_touched": 25,
+            "fraud_rate_touched": 0.006171315724512466
+          },
+          {
+            "column": "C6",
+            "lower": 0.0,
+            "upper": 121.0,
+            "n_touched": 4089,
+            "n_fraud_touched": 189,
+            "fraud_rate_touched": 0.046221570066030816
+          },
+          {
+            "column": "C7",
+            "lower": 0.0,
+            "upper": 4.0,
+            "n_touched": 3598,
+            "n_fraud_touched": 1686,
+            "fraud_rate_touched": 0.46859366314619233
+          },
+          {
+            "column": "C8",
+            "lower": 0.0,
+            "upper": 13.0,
+            "n_touched": 4040,
+            "n_fraud_touched": 1364,
+            "fraud_rate_touched": 0.33762376237623765
+          },
+          {
+            "column": "C9",
+            "lower": 0.0,
+            "upper": 91.0,
+            "n_touched": 4092,
+            "n_fraud_touched": 28,
+            "fraud_rate_touched": 0.006842619745845552
+          },
+          {
+            "column": "C10",
+            "lower": 0.0,
+            "upper": 17.0,
+            "n_touched": 4088,
+            "n_fraud_touched": 1019,
+            "fraud_rate_touched": 0.24926614481409
+          },
+          {
+            "column": "C11",
+            "lower": 1.0,
+            "upper": 125.0,
+            "n_touched": 5923,
+            "n_fraud_touched": 510,
+            "fraud_rate_touched": 0.08610501435083573
+          },
+          {
+            "column": "C12",
+            "lower": 0.0,
+            "upper": 6.0,
+            "n_touched": 3734,
+            "n_fraud_touched": 1758,
+            "fraud_rate_touched": 0.4708087841456883
+          },
+          {
+            "column": "C13",
+            "lower": 0.0,
+            "upper": 573.0,
+            "n_touched": 4114,
+            "n_fraud_touched": 167,
+            "fraud_rate_touched": 0.04059309674282936
+          },
+          {
+            "column": "C14",
+            "lower": 0.0,
+            "upper": 130.0,
+            "n_touched": 4054,
+            "n_fraud_touched": 174,
+            "fraud_rate_touched": 0.04292057227429699
+          }
+        ]
+      },
+      {
+        "quantile": 0.995,
+        "n_values_touched": 34993,
+        "n_fraud_values_touched": 3932,
+        "share_of_fraud_rows_touched": 0.27046361260145824,
+        "per_column": [
+          {
+            "column": "TransactionAmt",
+            "lower": 7.0,
+            "upper": 1651.0,
+            "n_touched": 4011,
+            "n_fraud_touched": 159,
+            "fraud_rate_touched": 0.039640987284966345
+          },
+          {
+            "column": "C1",
+            "lower": 1.0,
+            "upper": 290.0,
+            "n_touched": 2398,
+            "n_fraud_touched": 308,
+            "fraud_rate_touched": 0.12844036697247707
+          },
+          {
+            "column": "C2",
+            "lower": 1.0,
+            "upper": 291.0,
+            "n_touched": 2466,
+            "n_fraud_touched": 326,
+            "fraud_rate_touched": 0.1321978913219789
+          },
+          {
+            "column": "C3",
+            "lower": 0.0,
+            "upper": 0.0,
+            "n_touched": 1735,
+            "n_fraud_touched": 1,
+            "fraud_rate_touched": 0.0005763688760806917
+          },
+          {
+            "column": "C4",
+            "lower": 0.0,
+            "upper": 52.0,
+            "n_touched": 2057,
+            "n_fraud_touched": 315,
+            "fraud_rate_touched": 0.15313563441905687
+          },
+          {
+            "column": "C5",
+            "lower": 0.0,
+            "upper": 169.0,
+            "n_touched": 2058,
+            "n_fraud_touched": 17,
+            "fraud_rate_touched": 0.00826044703595724
+          },
+          {
+            "column": "C6",
+            "lower": 0.0,
+            "upper": 230.0,
+            "n_touched": 2059,
+            "n_fraud_touched": 166,
+            "fraud_rate_touched": 0.08062166100048568
+          },
+          {
+            "column": "C7",
+            "lower": 0.0,
+            "upper": 17.0,
+            "n_touched": 2046,
+            "n_fraud_touched": 676,
+            "fraud_rate_touched": 0.3304007820136852
+          },
+          {
+            "column": "C8",
+            "lower": 0.0,
+            "upper": 113.22999999998137,
+            "n_touched": 2067,
+            "n_fraud_touched": 375,
+            "fraud_rate_touched": 0.18142235123367198
+          },
+          {
+            "column": "C9",
+            "lower": 0.0,
+            "upper": 107.0,
+            "n_touched": 2006,
+            "n_fraud_touched": 11,
+            "fraud_rate_touched": 0.005483549351944167
+          },
+          {
+            "column": "C10",
+            "lower": 0.0,
+            "upper": 110.0,
+            "n_touched": 2041,
+            "n_fraud_touched": 191,
+            "fraud_rate_touched": 0.09358157765801078
+          },
+          {
+            "column": "C11",
+            "lower": 1.0,
+            "upper": 236.0,
+            "n_touched": 3881,
+            "n_fraud_touched": 299,
+            "fraud_rate_touched": 0.0770419994846689
+          },
+          {
+            "column": "C12",
+            "lower": 0.0,
+            "upper": 33.0,
+            "n_touched": 2058,
+            "n_fraud_touched": 785,
+            "fraud_rate_touched": 0.3814382896015549
+          },
+          {
+            "column": "C13",
+            "lower": 0.0,
+            "upper": 690.0,
+            "n_touched": 2053,
+            "n_fraud_touched": 141,
+            "fraud_rate_touched": 0.06867998051631759
+          },
+          {
+            "column": "C14",
+            "lower": 0.0,
+            "upper": 189.0,
+            "n_touched": 2057,
+            "n_fraud_touched": 162,
+            "fraud_rate_touched": 0.07875546912980068
+          }
+        ]
+      },
+      {
+        "quantile": 0.999,
+        "n_values_touched": 7093,
+        "n_fraud_values_touched": 746,
+        "share_of_fraud_rows_touched": 0.05131379832163984,
+        "per_column": [
+          {
+            "column": "TransactionAmt",
+            "lower": 4.109,
+            "upper": 2734.99,
+            "n_touched": 808,
+            "n_fraud_touched": 41,
+            "fraud_rate_touched": 0.050742574257425746
+          },
+          {
+            "column": "C1",
+            "lower": 1.0,
+            "upper": 3432.6230000000214,
+            "n_touched": 753,
+            "n_fraud_touched": 182,
+            "fraud_rate_touched": 0.24169986719787517
+          },
+          {
+            "column": "C2",
+            "lower": 1.0,
+            "upper": 3776.0,
+            "n_touched": 813,
+            "n_fraud_touched": 70,
+            "fraud_rate_touched": 0.08610086100861009
+          },
+          {
+            "column": "C3",
+            "lower": 0.0,
+            "upper": 1.0,
+            "n_touched": 194,
+            "n_fraud_touched": 0,
+            "fraud_rate_touched": 0.0
+          },
+          {
+            "column": "C4",
+            "lower": 0.0,
+            "upper": 1593.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C5",
+            "lower": 0.0,
+            "upper": 226.0,
+            "n_touched": 387,
+            "n_fraud_touched": 2,
+            "fraud_rate_touched": 0.00516795865633075
+          },
+          {
+            "column": "C6",
+            "lower": 0.0,
+            "upper": 1593.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C7",
+            "lower": 0.0,
+            "upper": 1594.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C8",
+            "lower": 0.0,
+            "upper": 2492.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C9",
+            "lower": 0.0,
+            "upper": 169.0,
+            "n_touched": 412,
+            "n_fraud_touched": 1,
+            "fraud_rate_touched": 0.0024271844660194173
+          },
+          {
+            "column": "C10",
+            "lower": 0.0,
+            "upper": 2416.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C11",
+            "lower": 0.0,
+            "upper": 2271.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C12",
+            "lower": 0.0,
+            "upper": 2271.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C13",
+            "lower": 0.0,
+            "upper": 2154.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          },
+          {
+            "column": "C14",
+            "lower": 0.0,
+            "upper": 1026.6230000000214,
+            "n_touched": 414,
+            "n_fraud_touched": 50,
+            "fraud_rate_touched": 0.12077294685990338
+          }
+        ]
+      },
+      {
+        "quantile": 0.9995,
+        "n_values_touched": 3252,
+        "n_fraud_values_touched": 356,
+        "share_of_fraud_rows_touched": 0.02448754986930802,
+        "per_column": [
+          {
+            "column": "TransactionAmt",
+            "lower": 3.1926549999993172,
+            "upper": 3070.6987350000204,
+            "n_touched": 414,
+            "n_fraud_touched": 34,
+            "fraud_rate_touched": 0.0821256038647343
+          },
+          {
+            "column": "C1",
+            "lower": 0.0,
+            "upper": 3775.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C2",
+            "lower": 0.0,
+            "upper": 4129.0,
+            "n_touched": 204,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14215686274509803
+          },
+          {
+            "column": "C3",
+            "lower": 0.0,
+            "upper": 1.0,
+            "n_touched": 194,
+            "n_fraud_touched": 0,
+            "fraud_rate_touched": 0.0
+          },
+          {
+            "column": "C4",
+            "lower": 0.0,
+            "upper": 1843.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C5",
+            "lower": 0.0,
+            "upper": 246.0,
+            "n_touched": 204,
+            "n_fraud_touched": 2,
+            "fraud_rate_touched": 0.00980392156862745
+          },
+          {
+            "column": "C6",
+            "lower": 0.0,
+            "upper": 1843.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C7",
+            "lower": 0.0,
+            "upper": 1844.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C8",
+            "lower": 0.0,
+            "upper": 2836.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C9",
+            "lower": 0.0,
+            "upper": 189.0,
+            "n_touched": 166,
+            "n_fraud_touched": 1,
+            "fraud_rate_touched": 0.006024096385542169
+          },
+          {
+            "column": "C10",
+            "lower": 0.0,
+            "upper": 2757.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C11",
+            "lower": 0.0,
+            "upper": 2577.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C12",
+            "lower": 0.0,
+            "upper": 2577.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C13",
+            "lower": 0.0,
+            "upper": 2453.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          },
+          {
+            "column": "C14",
+            "lower": 0.0,
+            "upper": 1207.3115000000107,
+            "n_touched": 207,
+            "n_fraud_touched": 29,
+            "fraud_rate_touched": 0.14009661835748793
+          }
+        ]
+      }
+    ],
+    "fitted_bounds": {
+      "quantile": 0.999,
+      "lower_quantile": 0.0010000000000000009,
+      "n_columns": 15,
+      "n_train_rows": 413378,
+      "bounds": {
+        "TransactionAmt": {
+          "lower": 4.109,
+          "upper": 2734.99
+        },
+        "C1": {
+          "lower": 1.0,
+          "upper": 3432.6230000000214
+        },
+        "C2": {
+          "lower": 1.0,
+          "upper": 3776.0
+        },
+        "C3": {
+          "lower": 0.0,
+          "upper": 1.0
+        },
+        "C4": {
+          "lower": 0.0,
+          "upper": 1593.6230000000214
+        },
+        "C5": {
+          "lower": 0.0,
+          "upper": 226.0
+        },
+        "C6": {
+          "lower": 0.0,
+          "upper": 1593.6230000000214
+        },
+        "C7": {
+          "lower": 0.0,
+          "upper": 1594.6230000000214
+        },
+        "C8": {
+          "lower": 0.0,
+          "upper": 2492.6230000000214
+        },
+        "C9": {
+          "lower": 0.0,
+          "upper": 169.0
+        },
+        "C10": {
+          "lower": 0.0,
+          "upper": 2416.6230000000214
+        },
+        "C11": {
+          "lower": 0.0,
+          "upper": 2271.6230000000214
+        },
+        "C12": {
+          "lower": 0.0,
+          "upper": 2271.6230000000214
+        },
+        "C13": {
+          "lower": 0.0,
+          "upper": 2154.6230000000214
+        },
+        "C14": {
+          "lower": 0.0,
+          "upper": 1026.6230000000214
+        }
+      }
+    }
+  },
+  "clock_columns": {
+    "derived": [
+      "day_index",
+      "week_index",
+      "hour_position",
+      "dow_position"
+    ],
+    "in_feature_set": [
+      "hour_position"
+    ],
+    "why": "target.json by_clock: the fraud rate runs 0.0217 to 0.1001 across hour positions, a ratio of 4.62, and 0.0322 to 0.0379 across day-of-week positions, a ratio of 1.18. The hour is a feature on that evidence and the day of week is not.",
+    "note": "all four are positions in a relative cycle. Stage 0 did not establish what TransactionDT counts from, so none of them is a wall-clock value."
+  },
+  "seconds": 27.261247292000007
+}
