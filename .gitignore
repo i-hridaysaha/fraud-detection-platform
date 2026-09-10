@@ -1,0 +1,37 @@
+# data is Vesta-provided under Kaggle competition rules and is not redistributable
+data/
+*.csv
+*.csv.zip
+
+# environments
+.venv/
+venv/
+.env
+
+# build and cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# generated artifacts that are large or rebuildable
+reports/*.parquet
+mlruns/
+
+# working files that are not part of the repo
+CLAUDE.md
+BUILD-LOG.md
+.claude/
+.aider*
+.cursor*
+.continue/
+
+# macos
+.DS_Store
