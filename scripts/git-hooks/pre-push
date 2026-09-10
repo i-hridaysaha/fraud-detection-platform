@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Refuses a direct push to main. main takes changes through a pull request with green CI.
+# Installed by `make setup`. GitHub-side protection is not available on a private repo under the
+# current plan, so this hook is the enforcement until the repo goes public.
+set -euo pipefail
+
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+    if [ "$remote_ref" = "refs/heads/main" ]; then
+        echo "pre-push: direct push to main refused. open a pull request instead."
+        exit 1
+    fi
+done
+
+exit 0
