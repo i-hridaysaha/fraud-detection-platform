@@ -51,6 +51,12 @@ D_ORIGIN_SUFFIX = "_origin"
 # asserted.
 CLIP_QUANTILE = 0.999
 
+# Columns the clipping bounds are fitted for. The amount is the one column denominated in money
+# and the one stage 2 measured a 17.6 skew on; the counters are the widest numeric block that a
+# linear model would have to read. Stage 3's driver and stage 6's complete-data path both read
+# this list, so the bounds the artifact records and the bounds the linear model gets are one set.
+CLIP_COLUMNS: tuple[str, ...] = (config.AMOUNT_COLUMN, *config.COUNT_COLUMNS)
+
 # Names of the derived amount columns.
 AMOUNT_LOG_COLUMN = "TransactionAmt_log1p"
 AMOUNT_CENTS_COLUMN = "TransactionAmt_cents"

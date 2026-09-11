@@ -73,10 +73,8 @@ PREP_DIR = config.REPORTS_DIR / "prep"
 # and the others are there so the choice can be read against its neighbours.
 CLIP_QUANTILE_GRID: tuple[float, ...] = (0.99, 0.995, 0.999, 0.9995)
 
-# Columns the clipping bounds are fitted for. The amount is the one column denominated in money
-# and the one stage 2 measured a 17.6 skew on; the counters are the widest numeric block that a
-# linear model would have to read.
-CLIP_COLUMNS: tuple[str, ...] = (config.AMOUNT_COLUMN, *config.COUNT_COLUMNS)
+# The clip column list lives in fraud_platform.transforms: stage 6 reads it too.
+CLIP_COLUMNS = transforms.CLIP_COLUMNS
 
 # The AUC a tie band is computed at when a sweep has to choose between two settings. It is read
 # from the sweep's own best result rather than assumed, and this is only the floor: an AUC below
@@ -1205,33 +1203,20 @@ def main() -> None:
 
 
 def _plan() -> dict[str, Any]:
-    if not COLUMN_PLAN_PATH.exists():
+    try:
+        return prepare.read_column_plan()
+    except FileNotFoundError as error:
         raise SystemExit(
-            f"{COLUMN_PLAN_PATH} does not exist. Run --sections column_plan first: every other "
-            "section reads the plan rather than re-deciding it."
-        )
-    return dict(json.loads(COLUMN_PLAN_PATH.read_text()))
+            f"{error} Every other section reads the plan rather than re-deciding it."
+        ) from error
 
 
 def _decisions() -> dict[str, Any]:
     """The four measured choices the pipeline needs, read from the artifacts that made them."""
-    transforms_path = PREP_DIR / "transforms.json"
-    v_path = PREP_DIR / "v_reduction.json"
-    for path in (transforms_path, ENCODING_SPEC_PATH, v_path):
-        if not path.exists():
-            raise SystemExit(f"{path} does not exist. Run the earlier sections first.")
-    transforms_report = json.loads(transforms_path.read_text())
-    encoding = json.loads(ENCODING_SPEC_PATH.read_text())
-    v_report = json.loads(v_path.read_text())
-    return {
-        "d_origin_columns": list(transforms_report["d_normalisation"]["applied_to"]),
-        "d_origin_source": "reports/prep/transforms.json, d_normalisation.applied_to",
-        "v_strategy": v_report["decision"]["chosen"],
-        "v_strategy_source": "reports/prep/v_reduction.json, decision.chosen",
-        "lag_days": int(encoding["encoders"]["target"]["chosen_lag_days"]),
-        "smoothing": float(encoding["encoders"]["target"]["chosen_smoothing"]),
-        "encoding_source": "reports/encoding_spec.json, encoders.target",
-    }
+    try:
+        return prepare.read_decisions()
+    except FileNotFoundError as error:
+        raise SystemExit(str(error)) from error
 
 
 if __name__ == "__main__":

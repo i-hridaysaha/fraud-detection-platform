@@ -17,7 +17,9 @@ frame that reaches past the training boundary even by accident.
 
 from __future__ import annotations
 
+import json
 from collections.abc import Mapping, Sequence
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -157,3 +159,45 @@ def apply_preparation(
         out = transforms.apply_clip(out, fitted["clip"])
 
     return out[sorted(out.columns)]
+
+
+# --- the recorded decisions ------------------------------------------------------------------
+
+
+def read_decisions(reports_dir: Path = config.REPORTS_DIR) -> dict[str, Any]:
+    """The four measured choices the pipeline needs, read from the artifacts that made them.
+
+    Stage 3's driver writes the artifacts and then reads them back through this function to
+    assemble the schema section; stage 6 reads the same four values the same way to rebuild the
+    prepared frame, so there is one copy of each decision and it is in the artifact.
+    """
+    transforms_path = reports_dir / "prep" / "transforms.json"
+    encoding_path = reports_dir / "encoding_spec.json"
+    v_path = reports_dir / "prep" / "v_reduction.json"
+    for path in (transforms_path, encoding_path, v_path):
+        if not path.exists():
+            raise FileNotFoundError(
+                f"{path} does not exist. Run the earlier stage 3 sections first."
+            )
+    transforms_report = json.loads(transforms_path.read_text())
+    encoding = json.loads(encoding_path.read_text())
+    v_report = json.loads(v_path.read_text())
+    return {
+        "d_origin_columns": list(transforms_report["d_normalisation"]["applied_to"]),
+        "d_origin_source": "reports/prep/transforms.json, d_normalisation.applied_to",
+        "v_strategy": v_report["decision"]["chosen"],
+        "v_strategy_source": "reports/prep/v_reduction.json, decision.chosen",
+        "lag_days": int(encoding["encoders"]["target"]["chosen_lag_days"]),
+        "smoothing": float(encoding["encoders"]["target"]["chosen_smoothing"]),
+        "encoding_source": "reports/encoding_spec.json, encoders.target",
+    }
+
+
+def read_column_plan(reports_dir: Path = config.REPORTS_DIR) -> dict[str, Any]:
+    """The stage 3 column plan, which every later section reads rather than re-deciding."""
+    path = reports_dir / "column_plan.json"
+    if not path.exists():
+        raise FileNotFoundError(
+            f"{path} does not exist. Run scripts/prepare.py --sections column_plan first."
+        )
+    return dict(json.loads(path.read_text()))
