@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments serve test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures serve test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -67,8 +67,19 @@ train-figures:
 experiments:
 	$(PY) scripts/train.py --sections comparison ablations search
 
+# Stage 7. The leakage delta rebuilds its variants from the raw files; the label latency reads
+# the stage 6 cache, so `make train` runs first. Both write one artifact each under reports/.
+leakage:
+	$(PY) scripts/leakage_delta.py --transactions data/train_transaction.csv --identity data/train_identity.csv
+
+latency:
+	$(PY) scripts/label_latency.py
+
+experiment-figures:
+	$(PY) scripts/experiment_figures.py --reports-dir reports --out-dir figures
+
 serve:
-	@echo "serve: not implemented until stage 7"
+	@echo "serve: not implemented until stage 8"
 	@exit 1
 
 test:
@@ -82,8 +93,8 @@ lint:
 
 # The single entry point the README promises: raw data in, every committed artifact out.
 # Stages append their steps here as they land, so the chain is never retrofitted.
-reproduce: data audit split-summary memory-profile eda prep features graph train
-	@echo "reproduce: stages 0 to 6 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train)"
+reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures
+	@echo "reproduce: stages 0 to 7 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures)"
 	@echo "later stages append serve here"
 
 clean:
