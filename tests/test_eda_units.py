@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from fraud_platform import eda
+from fraud_platform import config, eda
 
 # --- univariate ------------------------------------------------------------------------
 
@@ -516,3 +516,88 @@ def test_time_consistency_maps_a_late_category_onto_the_early_category_set() -> 
     result = eda.time_consistency(early_x, early_y, late_x, late_y, seed=42)
     assert result["status"] == "ok"
     assert result["late_auc"] is not None
+
+
+# --- a count feature against the label, per split --------------------------------------------------
+# Written in stage 4's driver and moved into the package in stage 5, because the graph features are
+# counts too and are judged by the same comparison. Tested here for the first time.
+
+
+def _count_frame() -> tuple[pd.Series, np.ndarray, dict[str, pd.Series]]:
+    """A count that is riskier when positive on train, and a label that follows it on train only."""
+    rng = np.random.default_rng(config.SEED)
+    n = 3_000
+    values = pd.Series(rng.integers(0, 3, n).astype("float64"))
+    split = np.repeat(["train", "val", "test"], n // 3)
+    labels = np.where(
+        (split == "train") & (values.to_numpy() > 0),
+        rng.random(n) < 0.20,
+        rng.random(n) < 0.05,
+    ).astype("int64")
+    masks = {name: pd.Series(split == name) for name in ("train", "val", "test")}
+    return values, labels, masks
+
+
+def test_zero_against_positive_reports_both_sides_and_their_intervals() -> None:
+    values, labels, masks = _count_frame()
+    block = eda.zero_against_positive(values, labels, masks["train"].to_numpy(dtype=bool))
+    train = masks["train"].to_numpy(dtype=bool)
+    assert block["n_positive"] == int((train & (values.to_numpy() > 0)).sum())
+    assert block["n_zero"] == int((train & (values.to_numpy() == 0)).sum())
+    assert block["n_positive"] + block["n_zero"] == int(train.sum())
+    assert block["share_positive"] == pytest.approx(block["n_positive"] / train.sum())
+    assert block["n_distinct_train"] == 3
+    assert block["fraud_rate_positive"] > block["fraud_rate_zero"]
+    assert block["lift"] == pytest.approx(block["fraud_rate_positive"] / block["fraud_rate_zero"])
+    for side in ("positive", "zero"):
+        interval = block[f"interval_{side}"]
+        assert interval["low"] <= block[f"fraud_rate_{side}"] <= interval["high"]
+        assert interval["n"] == block[f"n_{side}"]
+
+
+def test_zero_against_positive_on_an_empty_side_returns_no_rate_and_no_lift() -> None:
+    values = pd.Series([1.0, 2.0, 3.0])
+    labels = np.array([1, 0, 0], dtype="int64")
+    block = eda.zero_against_positive(values, labels, np.ones(3, dtype=bool))
+    assert block["n_zero"] == 0
+    assert block["fraud_rate_zero"] is None
+    assert block["lift"] is None
+    assert block["interval_zero"]["n"] == 0
+    empty = eda.zero_against_positive(values, labels, np.zeros(3, dtype=bool))
+    assert empty["share_positive"] is None
+
+
+def test_zero_against_positive_by_split_flags_a_train_only_separation_as_unstable() -> None:
+    """The case the block exists for: a lift on train that the later windows do not carry."""
+    values, labels, masks = _count_frame()
+    out = eda.zero_against_positive_by_split(values, labels, masks)
+    assert set(out) >= {"train", "val", "test", "definitions"}
+    assert out["train"]["fraud_rate_positive"] > out["train"]["fraud_rate_zero"]
+    assert out["positive_is_riskier"] is False
+    assert out["disjoint_on_every_split"] is False
+    assert isinstance(out["direction_stable"], bool)
+
+
+def test_zero_against_positive_by_split_passes_a_separation_that_holds_everywhere() -> None:
+    rng = np.random.default_rng(config.SEED)
+    n = 6_000
+    values = pd.Series(rng.integers(0, 2, n).astype("float64"))
+    labels = np.where(values.to_numpy() > 0, rng.random(n) < 0.30, rng.random(n) < 0.02).astype(
+        "int64"
+    )
+    split = np.repeat(["train", "val", "test"], n // 3)
+    masks = {name: pd.Series(split == name) for name in ("train", "val", "test")}
+    out = eda.zero_against_positive_by_split(values, labels, masks)
+    assert out["positive_is_riskier"] is True
+    assert out["direction_stable"] is True
+    assert out["disjoint_on_every_split"] is True
+
+
+def test_zero_against_positive_by_split_with_no_defined_rate_passes_nothing() -> None:
+    values = pd.Series([np.nan, np.nan])
+    labels = np.array([0, 1], dtype="int64")
+    masks = {"train": pd.Series([True, False]), "val": pd.Series([False, True])}
+    out = eda.zero_against_positive_by_split(values, labels, masks)
+    assert out["direction_stable"] is False
+    assert out["disjoint_on_every_split"] is False
+    assert out["positive_is_riskier"] is False
