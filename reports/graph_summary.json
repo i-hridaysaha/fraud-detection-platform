@@ -1,12 +1,12 @@
 {
   "section": "graph",
   "stage": 5,
-  "generated_at_utc": "2026-09-11T10:35:32+00:00",
+  "generated_at_utc": "2026-09-11T10:52:45+00:00",
   "regenerate_with": "make graph  # or: .venv/bin/python scripts/graph.py",
   "command": ".venv/bin/python scripts/graph.py",
   "computed_on": "the whole time-sorted stream. Every feature reads only rows strictly before its own timestamp, so the whole frame is the correct input; the labels behind the component fraud rate come from the train split through assert_train_only and mature under the stage 3 lag. The end-of-train graph and the hub sweep are built over the train split only",
   "n_train_rows": 413378,
-  "git_commit": "464fa8a6f976d95732afe6f5aef26530965cdbb8",
+  "git_commit": "547d6e3597abc7bca6a5661fcbb6d0f0c990e2db",
   "environment": {
     "python": "3.12.13",
     "pandas": "3.0.5",
@@ -101,7 +101,7 @@
     "source": "reports/encoding_spec.json encoders.target.chosen_lag_days, read not retyped",
     "decided_in": "ADR 0014"
   },
-  "build_seconds": 2.3748951670022507,
+  "build_seconds": 2.4128451670003415,
   "link_columns": {
     "card1": {
       "n_values": 12242,
@@ -6627,6 +6627,16 @@
         "graph": "six_column_graph",
         "hub_share": null,
         "n_hub_values_by_column": {},
+        "final_graph_over_every_row": {
+          "n_transactions": 590540,
+          "n_components": 17,
+          "giant_component": {
+            "n_transactions": 590521,
+            "share_of_transactions": 0.9999678260575067,
+            "n_nodes": 607473
+          },
+          "n_transactions_in_a_component_of_size_1": 14
+        },
         "component_size": {
           "share_rows_where_transductive_exceeds_causal": 1.0,
           "median_transductive_over_causal_plus_one": 2.0169134636625987,
@@ -6722,6 +6732,16 @@
           "R_emaildomain": 41,
           "DeviceInfo_norm": 49,
           "dist1": 159
+        },
+        "final_graph_over_every_row": {
+          "n_transactions": 590540,
+          "n_components": 473480,
+          "giant_component": {
+            "n_transactions": 19620,
+            "share_of_transactions": 0.033223829037829784,
+            "n_nodes": 20805
+          },
+          "n_transactions_in_a_component_of_size_1": 464772
         },
         "component_size": {
           "share_rows_where_transductive_exceeds_causal": 1.0,
@@ -6828,5 +6848,5 @@
       "a label without a lag": "`label_source` requires lag_days and `build_graph_features` reads labels through it and through nothing else"
     }
   },
-  "seconds": 34.69477808300144
+  "seconds": 35.83488504200068
 }
