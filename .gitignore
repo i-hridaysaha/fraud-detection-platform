@@ -23,8 +23,13 @@ dist/
 
 # generated artifacts that are large or rebuildable
 reports/*.parquet
+reports/cache/
 mlruns/
 
 
 # macos
 .DS_Store
+
+# the shipped model binary is rebuilt by `make train`; the bundle beside it is committed
+models/*.ubj
+models/*.pkl
