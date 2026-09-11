@@ -1,0 +1,2630 @@
+{
+  "section": "velocity_c",
+  "stage": 4,
+  "generated_at_utc": "2026-09-11T09:25:50+00:00",
+  "regenerate_with": "make features  # or: .venv/bin/python scripts/features.py --sections velocity_c",
+  "command": ".venv/bin/python scripts/features.py --sections velocity_c",
+  "computed_on": "the whole time-sorted stream. Every feature reads only rows strictly before its own timestamp, so the whole frame is the correct input; the one fitted object, the dist1 bucket edges, is fitted on the train split through assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "1d4a8febc8f9b5f2133fd3e7d526487191e97b9e",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "what_the_c_columns_are": {
+    "claim": "counts associated with the payment card",
+    "status": "not established in this repo",
+    "why": "the competition's own data description is rendered client side and returned no text when fetched in stage 0 and again in stage 4, so the meaning of the C block is not restated anywhere here as fact. What is measured is their structure: stage 1 found C1 to C14 integer valued with no nulls, stage 2 found C8 with C10 at Spearman 0.9710 over all 413,378 train rows and named the block running counters, and the correlations below are against this repo's own counts"
+  },
+  "per_feature": [
+    {
+      "feature": "vel_count_10m_entity",
+      "grain": "entity",
+      "window_seconds": 600,
+      "information_value": 0.0,
+      "n_bins": 1,
+      "n_bins_requested": 10,
+      "zero_against_positive": {
+        "n_positive": 38231,
+        "n_zero": 375147,
+        "share_positive": 0.09248436056103615,
+        "n_distinct_train": 14,
+        "fraud_rate_positive": 0.07747639350265491,
+        "fraud_rate_zero": 0.030857237296313178,
+        "interval_positive": {
+          "point": 0.07747639350265491,
+          "low": 0.07483877304152568,
+          "high": 0.08019891595229527,
+          "n": 38231,
+          "successes": 2962,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.030857237296313178,
+          "low": 0.030308647917860167,
+          "high": 0.03141543450396335,
+          "n": 375147,
+          "successes": 11576,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 2.510801364317595
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 38231,
+          "n_zero": 375147,
+          "share_positive": 0.09248436056103615,
+          "n_distinct_train": 14,
+          "fraud_rate_positive": 0.07747639350265491,
+          "fraud_rate_zero": 0.030857237296313178,
+          "interval_positive": {
+            "point": 0.07747639350265491,
+            "low": 0.07483877304152568,
+            "high": 0.08019891595229527,
+            "n": 38231,
+            "successes": 2962,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.030857237296313178,
+            "low": 0.030308647917860167,
+            "high": 0.03141543450396335,
+            "n": 375147,
+            "successes": 11576,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.510801364317595
+        },
+        "val": {
+          "n_positive": 7118,
+          "n_zero": 81463,
+          "share_positive": 0.0803558325148734,
+          "n_distinct_train": 9,
+          "fraud_rate_positive": 0.07488058443382972,
+          "fraud_rate_zero": 0.03079925855910045,
+          "interval_positive": {
+            "point": 0.07488058443382972,
+            "low": 0.06899285734080761,
+            "high": 0.081226922895335,
+            "n": 7118,
+            "successes": 533,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03079925855910045,
+            "low": 0.029634767213663767,
+            "high": 0.032007998958375694,
+            "n": 81463,
+            "successes": 2509,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.4312463330940894
+        },
+        "test": {
+          "n_positive": 9486,
+          "n_zero": 79095,
+          "share_positive": 0.10708842754089477,
+          "n_distinct_train": 58,
+          "fraud_rate_positive": 0.06188066624499262,
+          "fraud_rate_zero": 0.03155698843163285,
+          "interval_positive": {
+            "point": 0.06188066624499262,
+            "low": 0.057207190723688385,
+            "high": 0.0669088405010382,
+            "n": 9486,
+            "successes": 587,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03155698843163285,
+            "low": 0.030361244074038393,
+            "high": 0.03279823293829633,
+            "n": 79095,
+            "successes": 2496,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.9609179874389786
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "spearman_against_c": {
+        "C1": -0.010761328978033695,
+        "C2": 0.0593643845435337,
+        "C3": -0.006348600057068283,
+        "C4": 0.16490453608699715,
+        "C5": -0.09647676024044388,
+        "C6": 0.0017530217787438168,
+        "C7": 0.15888524262314344,
+        "C8": 0.157313646368169,
+        "C9": -0.10187551390276818,
+        "C10": 0.1501106653685472,
+        "C11": 0.006413289935413907,
+        "C12": 0.1567274996736349,
+        "C13": -0.08858702264692159,
+        "C14": -0.0836042560399201
+      },
+      "closest_c_column": "C4",
+      "closest_abs_rho": 0.16490453608699715,
+      "max_abs_rho": 0.16490453608699715
+    },
+    {
+      "feature": "vel_count_1h_entity",
+      "grain": "entity",
+      "window_seconds": 3600,
+      "information_value": 0.07378125143871972,
+      "n_bins": 2,
+      "n_bins_requested": 10,
+      "zero_against_positive": {
+        "n_positive": 66752,
+        "n_zero": 346626,
+        "share_positive": 0.16147932400853457,
+        "n_distinct_train": 25,
+        "fraud_rate_positive": 0.0682076941514861,
+        "fraud_rate_zero": 0.028806263811716373,
+        "interval_positive": {
+          "point": 0.0682076941514861,
+          "low": 0.06631997594946024,
+          "high": 0.07014510725138942,
+          "n": 66752,
+          "successes": 4553,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.028806263811716373,
+          "low": 0.028254645479278848,
+          "high": 0.0293683259728013,
+          "n": 346626,
+          "successes": 9985,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 2.3678077308916397
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 66752,
+          "n_zero": 346626,
+          "share_positive": 0.16147932400853457,
+          "n_distinct_train": 25,
+          "fraud_rate_positive": 0.0682076941514861,
+          "fraud_rate_zero": 0.028806263811716373,
+          "interval_positive": {
+            "point": 0.0682076941514861,
+            "low": 0.06631997594946024,
+            "high": 0.07014510725138942,
+            "n": 66752,
+            "successes": 4553,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.028806263811716373,
+            "low": 0.028254645479278848,
+            "high": 0.0293683259728013,
+            "n": 346626,
+            "successes": 9985,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.3678077308916397
+        },
+        "val": {
+          "n_positive": 11973,
+          "n_zero": 76608,
+          "share_positive": 0.13516442577979476,
+          "n_distinct_train": 13,
+          "fraud_rate_positive": 0.0669840474400735,
+          "fraud_rate_zero": 0.029239766081871343,
+          "interval_positive": {
+            "point": 0.0669840474400735,
+            "low": 0.06264357263509483,
+            "high": 0.07160229380213286,
+            "n": 11973,
+            "successes": 802,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.029239766081871343,
+            "low": 0.02807013013672882,
+            "high": 0.030456611597194705,
+            "n": 76608,
+            "successes": 2240,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.2908544224505136
+        },
+        "test": {
+          "n_positive": 14641,
+          "n_zero": 73940,
+          "share_positive": 0.16528375159458575,
+          "n_distinct_train": 192,
+          "fraud_rate_positive": 0.059490471962297654,
+          "fraud_rate_zero": 0.02991614822829321,
+          "interval_positive": {
+            "point": 0.059490471962297654,
+            "low": 0.05577328857047455,
+            "high": 0.06343875368548045,
+            "n": 14641,
+            "successes": 871,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02991614822829321,
+            "low": 0.02871245058795386,
+            "high": 0.031168688550409114,
+            "n": 73940,
+            "successes": 2212,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.9885739136041087
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "spearman_against_c": {
+        "C1": -0.04545992215728871,
+        "C2": 0.030606202581356608,
+        "C3": -0.010712269627411265,
+        "C4": 0.21251642392171785,
+        "C5": -0.13917076067250367,
+        "C6": -0.019580423360201785,
+        "C7": 0.2453005452553024,
+        "C8": 0.19612972557174901,
+        "C9": -0.148007913409816,
+        "C10": 0.1815764072311718,
+        "C11": -0.022327160040228937,
+        "C12": 0.23140186686807915,
+        "C13": -0.14147647171074515,
+        "C14": -0.1122382100804933
+      },
+      "closest_c_column": "C7",
+      "closest_abs_rho": 0.2453005452553024,
+      "max_abs_rho": 0.2453005452553024
+    },
+    {
+      "feature": "vel_count_24h_entity",
+      "grain": "entity",
+      "window_seconds": 86400,
+      "information_value": 0.17466212851874754,
+      "n_bins": 3,
+      "n_bins_requested": 10,
+      "zero_against_positive": {
+        "n_positive": 123329,
+        "n_zero": 290049,
+        "share_positive": 0.2983443724629758,
+        "n_distinct_train": 144,
+        "fraud_rate_positive": 0.061396751777765164,
+        "fraud_rate_zero": 0.02401663167257946,
+        "interval_positive": {
+          "point": 0.061396751777765164,
+          "low": 0.060070597412535634,
+          "high": 0.0627502285706099,
+          "n": 123329,
+          "successes": 7572,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.02401663167257946,
+          "low": 0.02346573113761497,
+          "high": 0.024580140051684123,
+          "n": 290049,
+          "successes": 6966,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 2.5564264221058006
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 123329,
+          "n_zero": 290049,
+          "share_positive": 0.2983443724629758,
+          "n_distinct_train": 144,
+          "fraud_rate_positive": 0.061396751777765164,
+          "fraud_rate_zero": 0.02401663167257946,
+          "interval_positive": {
+            "point": 0.061396751777765164,
+            "low": 0.060070597412535634,
+            "high": 0.0627502285706099,
+            "n": 123329,
+            "successes": 7572,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02401663167257946,
+            "low": 0.02346573113761497,
+            "high": 0.024580140051684123,
+            "n": 290049,
+            "successes": 6966,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.5564264221058006
+        },
+        "val": {
+          "n_positive": 22352,
+          "n_zero": 66229,
+          "share_positive": 0.2523340219685937,
+          "n_distinct_train": 60,
+          "fraud_rate_positive": 0.06393163922691482,
+          "fraud_rate_zero": 0.024354889851877577,
+          "interval_positive": {
+            "point": 0.06393163922691482,
+            "low": 0.060798950652913665,
+            "high": 0.06721418918314156,
+            "n": 22352,
+            "successes": 1429,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.024354889851877577,
+            "low": 0.023208200631857304,
+            "high": 0.025556753244216416,
+            "n": 66229,
+            "successes": 1613,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.6250021911713213
+        },
+        "test": {
+          "n_positive": 25288,
+          "n_zero": 63293,
+          "share_positive": 0.2854788272880189,
+          "n_distinct_train": 881,
+          "fraud_rate_positive": 0.060700727617842454,
+          "fraud_rate_zero": 0.02445768094418024,
+          "interval_positive": {
+            "point": 0.060700727617842454,
+            "low": 0.05782392108989181,
+            "high": 0.06371098034563304,
+            "n": 25288,
+            "successes": 1535,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02445768094418024,
+            "low": 0.023282856995482056,
+            "high": 0.025690225821570857,
+            "n": 63293,
+            "successes": 1548,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 2.4818676699716424
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "spearman_against_c": {
+        "C1": -0.08198265204239098,
+        "C2": -0.025239489181803226,
+        "C3": -0.013225879440927995,
+        "C4": 0.238585964571607,
+        "C5": -0.19722314605684094,
+        "C6": -0.04936056622345753,
+        "C7": 0.2773431661593779,
+        "C8": 0.2181415730104406,
+        "C9": -0.19037244317265872,
+        "C10": 0.19944137623782032,
+        "C11": -0.061254910347444486,
+        "C12": 0.26476493187852645,
+        "C13": -0.20034540948136292,
+        "C14": -0.14191173726821021
+      },
+      "closest_c_column": "C7",
+      "closest_abs_rho": 0.2773431661593779,
+      "max_abs_rho": 0.2773431661593779
+    },
+    {
+      "feature": "vel_count_10m_card",
+      "grain": "card",
+      "window_seconds": 600,
+      "information_value": 0.016471330358871387,
+      "n_bins": 2,
+      "n_bins_requested": 10,
+      "zero_against_positive": {
+        "n_positive": 80938,
+        "n_zero": 332440,
+        "share_positive": 0.1957965832724528,
+        "n_distinct_train": 19,
+        "fraud_rate_positive": 0.05199041241444068,
+        "fraud_rate_zero": 0.031073276380700277,
+        "interval_positive": {
+          "point": 0.05199041241444068,
+          "low": 0.050482097138255785,
+          "high": 0.05354125230709014,
+          "n": 80938,
+          "successes": 4208,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.031073276380700277,
+          "low": 0.030488838575318252,
+          "high": 0.03166855128079762,
+          "n": 332440,
+          "successes": 10330,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 1.673155150344304
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 80938,
+          "n_zero": 332440,
+          "share_positive": 0.1957965832724528,
+          "n_distinct_train": 19,
+          "fraud_rate_positive": 0.05199041241444068,
+          "fraud_rate_zero": 0.031073276380700277,
+          "interval_positive": {
+            "point": 0.05199041241444068,
+            "low": 0.050482097138255785,
+            "high": 0.05354125230709014,
+            "n": 80938,
+            "successes": 4208,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.031073276380700277,
+            "low": 0.030488838575318252,
+            "high": 0.03166855128079762,
+            "n": 332440,
+            "successes": 10330,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.673155150344304
+        },
+        "val": {
+          "n_positive": 14915,
+          "n_zero": 73666,
+          "share_positive": 0.1683769657149953,
+          "n_distinct_train": 12,
+          "fraud_rate_positive": 0.050955414012738856,
+          "fraud_rate_zero": 0.030977655906388294,
+          "interval_positive": {
+            "point": 0.050955414012738856,
+            "low": 0.04754041011602113,
+            "high": 0.0546016672716121,
+            "n": 14915,
+            "successes": 760,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.030977655906388294,
+            "low": 0.029750766876716704,
+            "high": 0.032253458575213785,
+            "n": 73666,
+            "successes": 2282,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.644908645338484
+        },
+        "test": {
+          "n_positive": 17398,
+          "n_zero": 71183,
+          "share_positive": 0.1964078075433784,
+          "n_distinct_train": 58,
+          "fraud_rate_positive": 0.048396367398551556,
+          "fraud_rate_zero": 0.03148223592711743,
+          "interval_positive": {
+            "point": 0.048396367398551556,
+            "low": 0.04530601191585355,
+            "high": 0.05168610600538841,
+            "n": 17398,
+            "successes": 842,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03148223592711743,
+            "low": 0.030224540744159915,
+            "high": 0.03279049640165319,
+            "n": 71183,
+            "successes": 2241,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.537259536158454
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "spearman_against_c": {
+        "C1": -0.007419625884411359,
+        "C2": 0.041751243958629974,
+        "C3": -0.0040586298098974185,
+        "C4": 0.09333476889601688,
+        "C5": -0.06852068865905553,
+        "C6": 0.0010334421875893413,
+        "C7": 0.0774160332252174,
+        "C8": 0.09093444954852849,
+        "C9": -0.05793946074583528,
+        "C10": 0.08755826964148596,
+        "C11": 0.00463636934997379,
+        "C12": 0.08024367237485001,
+        "C13": -0.05752968584594495,
+        "C14": -0.05261092619743338
+      },
+      "closest_c_column": "C4",
+      "closest_abs_rho": 0.09333476889601688,
+      "max_abs_rho": 0.09333476889601688
+    },
+    {
+      "feature": "vel_count_1h_card",
+      "grain": "card",
+      "window_seconds": 3600,
+      "information_value": 0.017353142481890446,
+      "n_bins": 4,
+      "n_bins_requested": 10,
+      "zero_against_positive": {
+        "n_positive": 176905,
+        "n_zero": 236473,
+        "share_positive": 0.4279497215623473,
+        "n_distinct_train": 69,
+        "fraud_rate_positive": 0.042265622791893956,
+        "fraud_rate_zero": 0.029859645710081067,
+        "interval_positive": {
+          "point": 0.042265622791893956,
+          "low": 0.04133797017494845,
+          "high": 0.04321315420908892,
+          "n": 176905,
+          "successes": 7477,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.029859645710081067,
+          "low": 0.029181257351019,
+          "high": 0.030553308501935876,
+          "n": 236473,
+          "successes": 7061,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 1.4154763657367992
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 176905,
+          "n_zero": 236473,
+          "share_positive": 0.4279497215623473,
+          "n_distinct_train": 69,
+          "fraud_rate_positive": 0.042265622791893956,
+          "fraud_rate_zero": 0.029859645710081067,
+          "interval_positive": {
+            "point": 0.042265622791893956,
+            "low": 0.04133797017494845,
+            "high": 0.04321315420908892,
+            "n": 176905,
+            "successes": 7477,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.029859645710081067,
+            "low": 0.029181257351019,
+            "high": 0.030553308501935876,
+            "n": 236473,
+            "successes": 7061,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.4154763657367992
+        },
+        "val": {
+          "n_positive": 34111,
+          "n_zero": 54470,
+          "share_positive": 0.38508257978573285,
+          "n_distinct_train": 49,
+          "fraud_rate_positive": 0.04048547389405177,
+          "fraud_rate_zero": 0.03049384982559207,
+          "interval_positive": {
+            "point": 0.04048547389405177,
+            "low": 0.038445106197723164,
+            "high": 0.042629327701061995,
+            "n": 34111,
+            "successes": 1381,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03049384982559207,
+            "low": 0.029082684893962905,
+            "high": 0.03197123327582235,
+            "n": 54470,
+            "successes": 1661,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.327660302835039
+        },
+        "test": {
+          "n_positive": 36227,
+          "n_zero": 52354,
+          "share_positive": 0.4089703209491877,
+          "n_distinct_train": 192,
+          "fraud_rate_positive": 0.041157147983548185,
+          "fraud_rate_zero": 0.03040837376322726,
+          "interval_positive": {
+            "point": 0.041157147983548185,
+            "low": 0.0391596923225662,
+            "high": 0.0432519033952519,
+            "n": 36227,
+            "successes": 1491,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03040837376322726,
+            "low": 0.028971642080451398,
+            "high": 0.0319140126753491,
+            "n": 52354,
+            "successes": 1592,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.3534807321172624
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "spearman_against_c": {
+        "C1": -0.022959745912024817,
+        "C2": 0.02157512380094925,
+        "C3": -0.006454319617381695,
+        "C4": 0.08185730359419917,
+        "C5": -0.07101576094926865,
+        "C6": -0.006502150861911483,
+        "C7": 0.08448433493851015,
+        "C8": 0.07902418165416109,
+        "C9": -0.05986280987026092,
+        "C10": 0.07374014790027397,
+        "C11": -0.010390628989506198,
+        "C12": 0.08263642318304561,
+        "C13": -0.06307972364894407,
+        "C14": -0.04847345426149505
+      },
+      "closest_c_column": "C7",
+      "closest_abs_rho": 0.08448433493851015,
+      "max_abs_rho": 0.08448433493851015
+    },
+    {
+      "feature": "vel_count_24h_card",
+      "grain": "card",
+      "window_seconds": 86400,
+      "information_value": 0.03855067950987656,
+      "n_bins": 8,
+      "n_bins_requested": 10,
+      "zero_against_positive": {
+        "n_positive": 325465,
+        "n_zero": 87913,
+        "share_positive": 0.7873302401192129,
+        "n_distinct_train": 655,
+        "fraud_rate_positive": 0.03814849522990183,
+        "fraud_rate_zero": 0.024137499573441926,
+        "interval_positive": {
+          "point": 0.03814849522990183,
+          "low": 0.037495832587382844,
+          "high": 0.03881206019738008,
+          "n": 325465,
+          "successes": 12416,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.024137499573441926,
+          "low": 0.023143577904865688,
+          "high": 0.025173006134499937,
+          "n": 87913,
+          "successes": 2122,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 1.5804659100595475
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 325465,
+          "n_zero": 87913,
+          "share_positive": 0.7873302401192129,
+          "n_distinct_train": 655,
+          "fraud_rate_positive": 0.03814849522990183,
+          "fraud_rate_zero": 0.024137499573441926,
+          "interval_positive": {
+            "point": 0.03814849522990183,
+            "low": 0.037495832587382844,
+            "high": 0.03881206019738008,
+            "n": 325465,
+            "successes": 12416,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.024137499573441926,
+            "low": 0.023143577904865688,
+            "high": 0.025173006134499937,
+            "n": 87913,
+            "successes": 2122,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.5804659100595475
+        },
+        "val": {
+          "n_positive": 68414,
+          "n_zero": 20167,
+          "share_positive": 0.7723326672762783,
+          "n_distinct_train": 500,
+          "fraud_rate_positive": 0.03730230654544391,
+          "fraud_rate_zero": 0.024297119055883373,
+          "interval_positive": {
+            "point": 0.03730230654544391,
+            "low": 0.03590808767149878,
+            "high": 0.03874848362496633,
+            "n": 68414,
+            "successes": 2552,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.024297119055883373,
+            "low": 0.022260963749454805,
+            "high": 0.026514465913667205,
+            "n": 20167,
+            "successes": 490,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.5352563593917703
+        },
+        "test": {
+          "n_positive": 69054,
+          "n_zero": 19527,
+          "share_positive": 0.7795576929589867,
+          "n_distinct_train": 881,
+          "fraud_rate_positive": 0.037753062820401424,
+          "fraud_rate_zero": 0.02437650432734163,
+          "interval_positive": {
+            "point": 0.037753062820401424,
+            "low": 0.03635699742713823,
+            "high": 0.039200554743560614,
+            "n": 69054,
+            "successes": 2607,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02437650432734163,
+            "low": 0.022305240472653726,
+            "high": 0.026634865914263277,
+            "n": 19527,
+            "successes": 476,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.5487480203655013
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "spearman_against_c": {
+        "C1": -0.021168024841473898,
+        "C2": 0.0014576955537937372,
+        "C3": -0.009969704474453523,
+        "C4": 0.051772950154780555,
+        "C5": -0.04366215338949839,
+        "C6": -0.003624004723138362,
+        "C7": 0.0773359827541993,
+        "C8": 0.04861139743864867,
+        "C9": -0.046123805051567296,
+        "C10": 0.04143828156722883,
+        "C11": -0.011815435145409394,
+        "C12": 0.070738766213674,
+        "C13": -0.047671326177434054,
+        "C14": -0.02514053778744776
+      },
+      "closest_c_column": "C7",
+      "closest_abs_rho": 0.0773359827541993,
+      "max_abs_rho": 0.0773359827541993
+    }
+  ],
+  "native_c_columns": [
+    {
+      "column": "C1",
+      "information_value": 0.22718301153560905,
+      "zero_against_positive": {
+        "n_positive": 413039,
+        "n_zero": 339,
+        "share_positive": 0.9991799273304336,
+        "n_distinct_train": 1548,
+        "fraud_rate_positive": 0.03487806236214982,
+        "fraud_rate_zero": 0.3893805309734513,
+        "interval_positive": {
+          "point": 0.03487806236214982,
+          "low": 0.03432284862732075,
+          "high": 0.035441927726256504,
+          "n": 413039,
+          "successes": 14406,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.3893805309734513,
+          "low": 0.33899036216343215,
+          "high": 0.44224963063678235,
+          "n": 339,
+          "successes": 132,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.08957320561188477
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 413039,
+          "n_zero": 339,
+          "share_positive": 0.9991799273304336,
+          "n_distinct_train": 1548,
+          "fraud_rate_positive": 0.03487806236214982,
+          "fraud_rate_zero": 0.3893805309734513,
+          "interval_positive": {
+            "point": 0.03487806236214982,
+            "low": 0.03432284862732075,
+            "high": 0.035441927726256504,
+            "n": 413039,
+            "successes": 14406,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.3893805309734513,
+            "low": 0.33899036216343215,
+            "high": 0.44224963063678235,
+            "n": 339,
+            "successes": 132,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.08957320561188477
+        },
+        "val": {
+          "n_positive": 88507,
+          "n_zero": 74,
+          "share_positive": 0.9991646064054368,
+          "n_distinct_train": 362,
+          "fraud_rate_positive": 0.03409899781938152,
+          "fraud_rate_zero": 0.32432432432432434,
+          "interval_positive": {
+            "point": 0.03409899781938152,
+            "low": 0.032923444476206876,
+            "high": 0.03531499229914234,
+            "n": 88507,
+            "successes": 3018,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.32432432432432434,
+            "low": 0.22864074907764337,
+            "high": 0.4373470112508166,
+            "n": 74,
+            "successes": 24,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.10513857660975968
+        },
+        "test": {
+          "n_positive": 88500,
+          "n_zero": 81,
+          "share_positive": 0.9990855826870322,
+          "n_distinct_train": 329,
+          "fraud_rate_positive": 0.03456497175141243,
+          "fraud_rate_zero": 0.2962962962962963,
+          "interval_positive": {
+            "point": 0.03456497175141243,
+            "low": 0.03338150258573393,
+            "high": 0.035788844801606115,
+            "n": 88500,
+            "successes": 3059,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.2962962962962963,
+            "low": 0.20791957048345946,
+            "high": 0.40311964950752444,
+            "n": 81,
+            "successes": 24,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.11665677966101697
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.08198265204239098
+    },
+    {
+      "column": "C2",
+      "information_value": 0.25822476273922457,
+      "zero_against_positive": {
+        "n_positive": 412974,
+        "n_zero": 404,
+        "share_positive": 0.9990226862580979,
+        "n_distinct_train": 1027,
+        "fraud_rate_positive": 0.03515475550518919,
+        "fraud_rate_zero": 0.04950495049504951,
+        "interval_positive": {
+          "point": 0.03515475550518919,
+          "low": 0.03459736127991692,
+          "high": 0.0357207975739313,
+          "n": 412974,
+          "successes": 14518,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.04950495049504951,
+          "low": 0.032272398601332006,
+          "high": 0.07522392839657835,
+          "n": 404,
+          "successes": 20,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.7101260612048217
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 412974,
+          "n_zero": 404,
+          "share_positive": 0.9990226862580979,
+          "n_distinct_train": 1027,
+          "fraud_rate_positive": 0.03515475550518919,
+          "fraud_rate_zero": 0.04950495049504951,
+          "interval_positive": {
+            "point": 0.03515475550518919,
+            "low": 0.03459736127991692,
+            "high": 0.0357207975739313,
+            "n": 412974,
+            "successes": 14518,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.04950495049504951,
+            "low": 0.032272398601332006,
+            "high": 0.07522392839657835,
+            "n": 404,
+            "successes": 20,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.7101260612048217
+        },
+        "val": {
+          "n_positive": 88563,
+          "n_zero": 18,
+          "share_positive": 0.9997967961526738,
+          "n_distinct_train": 392,
+          "fraud_rate_positive": 0.034348429931235394,
+          "fraud_rate_zero": 0.0,
+          "interval_positive": {
+            "point": 0.034348429931235394,
+            "low": 0.033169023337512205,
+            "high": 0.03556823045347059,
+            "n": 88563,
+            "successes": 3042,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.0,
+            "low": 1.3877787807814457e-17,
+            "high": 0.17587922364665765,
+            "n": 18,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": null
+        },
+        "test": {
+          "n_positive": 88560,
+          "n_zero": 21,
+          "share_positive": 0.9997629288447861,
+          "n_distinct_train": 350,
+          "fraud_rate_positive": 0.03477868112014453,
+          "fraud_rate_zero": 0.14285714285714285,
+          "interval_positive": {
+            "point": 0.03477868112014453,
+            "low": 0.03359201761549814,
+            "high": 0.03600570259728961,
+            "n": 88560,
+            "successes": 3080,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.14285714285714285,
+            "low": 0.04981012499725268,
+            "high": 0.34636060280620945,
+            "n": 21,
+            "successes": 3,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.24345076784101174
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": false,
+        "disjoint_on_every_split": false
+      },
+      "max_abs_rho_against_own_velocity": 0.0593643845435337
+    },
+    {
+      "column": "C3",
+      "information_value": 0.0,
+      "zero_against_positive": {
+        "n_positive": 1735,
+        "n_zero": 411643,
+        "share_positive": 0.0041971270846537555,
+        "n_distinct_train": 23,
+        "fraud_rate_positive": 0.0005763688760806917,
+        "fraud_rate_zero": 0.03531458083825062,
+        "interval_positive": {
+          "point": 0.0005763688760806917,
+          "low": 0.00010175050575369051,
+          "high": 0.0032576465175125253,
+          "n": 1735,
+          "successes": 1,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.03531458083825062,
+          "low": 0.03475506096364406,
+          "high": 0.03588277353491,
+          "n": 411643,
+          "successes": 14537,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.016320988736086135
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 1735,
+          "n_zero": 411643,
+          "share_positive": 0.0041971270846537555,
+          "n_distinct_train": 23,
+          "fraud_rate_positive": 0.0005763688760806917,
+          "fraud_rate_zero": 0.03531458083825062,
+          "interval_positive": {
+            "point": 0.0005763688760806917,
+            "low": 0.00010175050575369051,
+            "high": 0.0032576465175125253,
+            "n": 1735,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03531458083825062,
+            "low": 0.03475506096364406,
+            "high": 0.03588277353491,
+            "n": 411643,
+            "successes": 14537,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.016320988736086135
+        },
+        "val": {
+          "n_positive": 203,
+          "n_zero": 88378,
+          "share_positive": 0.0022916878337340967,
+          "n_distinct_train": 10,
+          "fraud_rate_positive": 0.0,
+          "fraud_rate_zero": 0.0344203308515694,
+          "interval_positive": {
+            "point": 0.0,
+            "low": 1.734723475976807e-18,
+            "high": 0.018571996361832828,
+            "n": 203,
+            "successes": 0,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.0344203308515694,
+            "low": 0.033238497150454696,
+            "high": 0.03564263678311662,
+            "n": 88378,
+            "successes": 3042,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.0
+        },
+        "test": {
+          "n_positive": 491,
+          "n_zero": 88090,
+          "share_positive": 0.005542949390952913,
+          "n_distinct_train": 12,
+          "fraud_rate_positive": 0.008146639511201629,
+          "fraud_rate_zero": 0.03495288909070269,
+          "interval_positive": {
+            "point": 0.008146639511201629,
+            "low": 0.0031724986900911935,
+            "high": 0.02075730470373656,
+            "n": 491,
+            "successes": 4,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03495288909070269,
+            "low": 0.03376019323389238,
+            "high": 0.03618614304548346,
+            "n": 88090,
+            "successes": 3079,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.23307485369982187
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.013225879440927995
+    },
+    {
+      "column": "C4",
+      "information_value": 0.5628827432228678,
+      "zero_against_positive": {
+        "n_positive": 104267,
+        "n_zero": 309111,
+        "share_positive": 0.2522316136804571,
+        "n_distinct_train": 1203,
+        "fraud_rate_positive": 0.07800166879261895,
+        "fraud_rate_zero": 0.02072071197725089,
+        "interval_positive": {
+          "point": 0.07800166879261895,
+          "low": 0.07638940658912316,
+          "high": 0.07964502481273797,
+          "n": 104267,
+          "successes": 8133,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.02072071197725089,
+          "low": 0.020224470867786906,
+          "high": 0.02122886536915245,
+          "n": 309111,
+          "successes": 6405,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 3.764429951936805
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 104267,
+          "n_zero": 309111,
+          "share_positive": 0.2522316136804571,
+          "n_distinct_train": 1203,
+          "fraud_rate_positive": 0.07800166879261895,
+          "fraud_rate_zero": 0.02072071197725089,
+          "interval_positive": {
+            "point": 0.07800166879261895,
+            "low": 0.07638940658912316,
+            "high": 0.07964502481273797,
+            "n": 104267,
+            "successes": 8133,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02072071197725089,
+            "low": 0.020224470867786906,
+            "high": 0.02122886536915245,
+            "n": 309111,
+            "successes": 6405,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 3.764429951936805
+        },
+        "val": {
+          "n_positive": 15815,
+          "n_zero": 72766,
+          "share_positive": 0.1785371580813041,
+          "n_distinct_train": 122,
+          "fraud_rate_positive": 0.09807145115396775,
+          "fraud_rate_zero": 0.02049033889453866,
+          "interval_positive": {
+            "point": 0.09807145115396775,
+            "low": 0.09353336553686932,
+            "high": 0.10280474600598676,
+            "n": 15815,
+            "successes": 1551,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02049033889453866,
+            "low": 0.019486018480312808,
+            "high": 0.02154528513342854,
+            "n": 72766,
+            "successes": 1491,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 4.786228849543673
+        },
+        "test": {
+          "n_positive": 18575,
+          "n_zero": 70006,
+          "share_positive": 0.20969508133798445,
+          "n_distinct_train": 115,
+          "fraud_rate_positive": 0.09512786002691791,
+          "fraud_rate_zero": 0.018798388709539184,
+          "interval_positive": {
+            "point": 0.09512786002691791,
+            "low": 0.09099196914938372,
+            "high": 0.09943117788387922,
+            "n": 18575,
+            "successes": 1767,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.018798388709539184,
+            "low": 0.017818422771450692,
+            "high": 0.019831161971161224,
+            "n": 70006,
+            "successes": 1316,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 5.060426268270832
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.238585964571607
+    },
+    {
+      "column": "C5",
+      "information_value": 0.1677223998350705,
+      "zero_against_positive": {
+        "n_positive": 147518,
+        "n_zero": 265860,
+        "share_positive": 0.3568598232126528,
+        "n_distinct_train": 305,
+        "fraud_rate_positive": 0.008053254518092707,
+        "fraud_rate_zero": 0.050214398555630785,
+        "interval_positive": {
+          "point": 0.008053254518092707,
+          "low": 0.007609795679078508,
+          "high": 0.00852233387737774,
+          "n": 147518,
+          "successes": 1188,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.050214398555630785,
+          "low": 0.049390743455434316,
+          "high": 0.05105105153366282,
+          "n": 265860,
+          "successes": 13350,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.1603773967176125
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 147518,
+          "n_zero": 265860,
+          "share_positive": 0.3568598232126528,
+          "n_distinct_train": 305,
+          "fraud_rate_positive": 0.008053254518092707,
+          "fraud_rate_zero": 0.050214398555630785,
+          "interval_positive": {
+            "point": 0.008053254518092707,
+            "low": 0.007609795679078508,
+            "high": 0.00852233387737774,
+            "n": 147518,
+            "successes": 1188,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.050214398555630785,
+            "low": 0.049390743455434316,
+            "high": 0.05105105153366282,
+            "n": 265860,
+            "successes": 13350,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.1603773967176125
+        },
+        "val": {
+          "n_positive": 36942,
+          "n_zero": 51639,
+          "share_positive": 0.4170420293290886,
+          "n_distinct_train": 285,
+          "fraud_rate_positive": 0.010908992474690054,
+          "fraud_rate_zero": 0.05110478514301207,
+          "interval_positive": {
+            "point": 0.010908992474690054,
+            "low": 0.009899431240784682,
+            "high": 0.012020260579560826,
+            "n": 36942,
+            "successes": 403,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.05110478514301207,
+            "low": 0.04923862925067813,
+            "high": 0.05303772328178979,
+            "n": 51639,
+            "successes": 2639,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.2134632294052746
+        },
+        "test": {
+          "n_positive": 33645,
+          "n_zero": 54936,
+          "share_positive": 0.3798218579605107,
+          "n_distinct_train": 274,
+          "fraud_rate_positive": 0.009303016792985584,
+          "fraud_rate_zero": 0.05042230959662152,
+          "interval_positive": {
+            "point": 0.009303016792985584,
+            "low": 0.008331748724209257,
+            "high": 0.01038632392002996,
+            "n": 33645,
+            "successes": 313,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.05042230959662152,
+            "low": 0.04862376986738652,
+            "high": 0.052283719335617346,
+            "n": 54936,
+            "successes": 2770,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.18450199658464117
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.19722314605684094
+    },
+    {
+      "column": "C6",
+      "information_value": 0.10760176691250384,
+      "zero_against_positive": {
+        "n_positive": 380079,
+        "n_zero": 33299,
+        "share_positive": 0.919446608189115,
+        "n_distinct_train": 1281,
+        "fraud_rate_positive": 0.035584707389779494,
+        "fraud_rate_zero": 0.030421333973993214,
+        "interval_positive": {
+          "point": 0.035584707389779494,
+          "low": 0.03500044024560158,
+          "high": 0.03617836213070034,
+          "n": 380079,
+          "successes": 13525,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.030421333973993214,
+          "low": 0.02863016432273954,
+          "high": 0.03232083474833414,
+          "n": 33299,
+          "successes": 1013,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 1.1697286982944395
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 380079,
+          "n_zero": 33299,
+          "share_positive": 0.919446608189115,
+          "n_distinct_train": 1281,
+          "fraud_rate_positive": 0.035584707389779494,
+          "fraud_rate_zero": 0.030421333973993214,
+          "interval_positive": {
+            "point": 0.035584707389779494,
+            "low": 0.03500044024560158,
+            "high": 0.03617836213070034,
+            "n": 380079,
+            "successes": 13525,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.030421333973993214,
+            "low": 0.02863016432273954,
+            "high": 0.03232083474833414,
+            "n": 33299,
+            "successes": 1013,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.1697286982944395
+        },
+        "val": {
+          "n_positive": 81560,
+          "n_zero": 7021,
+          "share_positive": 0.9207392104401622,
+          "n_distinct_train": 235,
+          "fraud_rate_positive": 0.034269249632172635,
+          "fraud_rate_zero": 0.03518017376442102,
+          "interval_positive": {
+            "point": 0.034269249632172635,
+            "low": 0.03304251751393592,
+            "high": 0.03553985132464887,
+            "n": 81560,
+            "successes": 2795,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03518017376442102,
+            "low": 0.031118603572773112,
+            "high": 0.03975010737807445,
+            "n": 7021,
+            "successes": 247,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.9741068893420408
+        },
+        "test": {
+          "n_positive": 79835,
+          "n_zero": 8746,
+          "share_positive": 0.901265508404737,
+          "n_distinct_train": 254,
+          "fraud_rate_positive": 0.03516001753616835,
+          "fraud_rate_zero": 0.03155728332952207,
+          "interval_positive": {
+            "point": 0.03516001753616835,
+            "low": 0.03390459274360324,
+            "high": 0.03646017403120356,
+            "n": 79835,
+            "successes": 2807,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.03155728332952207,
+            "low": 0.028094193720902976,
+            "high": 0.035431695455106216,
+            "n": 8746,
+            "successes": 276,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.1141649035193057
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": false,
+        "disjoint_on_every_split": false
+      },
+      "max_abs_rho_against_own_velocity": 0.04936056622345753
+    },
+    {
+      "column": "C7",
+      "information_value": 0.48994430867512817,
+      "zero_against_positive": {
+        "n_positive": 48887,
+        "n_zero": 364491,
+        "share_positive": 0.11826222005041391,
+        "n_distinct_train": 1097,
+        "fraud_rate_positive": 0.11232024873688301,
+        "fraud_rate_zero": 0.024820914645354755,
+        "interval_positive": {
+          "point": 0.11232024873688301,
+          "low": 0.10955161715496742,
+          "high": 0.1151498019865653,
+          "n": 48887,
+          "successes": 5491,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.024820914645354755,
+          "low": 0.024320825577760465,
+          "high": 0.025331019662044724,
+          "n": 364491,
+          "successes": 9047,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 4.525226017724685
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 48887,
+          "n_zero": 364491,
+          "share_positive": 0.11826222005041391,
+          "n_distinct_train": 1097,
+          "fraud_rate_positive": 0.11232024873688301,
+          "fraud_rate_zero": 0.024820914645354755,
+          "interval_positive": {
+            "point": 0.11232024873688301,
+            "low": 0.10955161715496742,
+            "high": 0.1151498019865653,
+            "n": 48887,
+            "successes": 5491,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.024820914645354755,
+            "low": 0.024320825577760465,
+            "high": 0.025331019662044724,
+            "n": 364491,
+            "successes": 9047,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 4.525226017724685
+        },
+        "val": {
+          "n_positive": 9123,
+          "n_zero": 79458,
+          "share_positive": 0.10299048328648355,
+          "n_distinct_train": 63,
+          "fraud_rate_positive": 0.1260550257590705,
+          "fraud_rate_zero": 0.023811321704548315,
+          "interval_positive": {
+            "point": 0.1260550257590705,
+            "low": 0.11940118174771433,
+            "high": 0.13302365429390797,
+            "n": 9123,
+            "successes": 1150,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.023811321704548315,
+            "low": 0.022774039776475373,
+            "high": 0.024894644830886235,
+            "n": 79458,
+            "successes": 1892,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 5.293911330213648
+        },
+        "test": {
+          "n_positive": 9388,
+          "n_zero": 79193,
+          "share_positive": 0.10598209548323004,
+          "n_distinct_train": 51,
+          "fraud_rate_positive": 0.13527907967618236,
+          "fraud_rate_zero": 0.022893437551298725,
+          "interval_positive": {
+            "point": 0.13527907967618236,
+            "low": 0.12850951841634842,
+            "high": 0.14234699784559843,
+            "n": 9388,
+            "successes": 1270,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.022893437551298725,
+            "low": 0.02187467551048076,
+            "high": 0.023958483892827915,
+            "n": 79193,
+            "successes": 1813,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 5.909076754989471
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.2773431661593779
+    },
+    {
+      "column": "C8",
+      "information_value": 0.5532450677992542,
+      "zero_against_positive": {
+        "n_positive": 108998,
+        "n_zero": 304380,
+        "share_positive": 0.2636763446530778,
+        "n_distinct_train": 1208,
+        "fraud_rate_positive": 0.07386374061909393,
+        "fraud_rate_zero": 0.02131217557001117,
+        "interval_positive": {
+          "point": 0.07386374061909393,
+          "low": 0.07232599769970106,
+          "high": 0.0754315194511009,
+          "n": 108998,
+          "successes": 8051,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.02131217557001117,
+          "low": 0.020805115204438136,
+          "high": 0.02183131844007394,
+          "n": 304380,
+          "successes": 6487,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 3.4658001186434113
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 108998,
+          "n_zero": 304380,
+          "share_positive": 0.2636763446530778,
+          "n_distinct_train": 1208,
+          "fraud_rate_positive": 0.07386374061909393,
+          "fraud_rate_zero": 0.02131217557001117,
+          "interval_positive": {
+            "point": 0.07386374061909393,
+            "low": 0.07232599769970106,
+            "high": 0.0754315194511009,
+            "n": 108998,
+            "successes": 8051,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02131217557001117,
+            "low": 0.020805115204438136,
+            "high": 0.02183131844007394,
+            "n": 304380,
+            "successes": 6487,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 3.4658001186434113
+        },
+        "val": {
+          "n_positive": 15454,
+          "n_zero": 73127,
+          "share_positive": 0.17446179203215137,
+          "n_distinct_train": 109,
+          "fraud_rate_positive": 0.09622104309563867,
+          "fraud_rate_zero": 0.021264375675195207,
+          "interval_positive": {
+            "point": 0.09622104309563867,
+            "low": 0.09167151544098816,
+            "high": 0.1009712585681508,
+            "n": 15454,
+            "successes": 1487,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.021264375675195207,
+            "low": 0.02024364168112312,
+            "high": 0.02233540426864992,
+            "n": 73127,
+            "successes": 1555,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 4.524987921835865
+        },
+        "test": {
+          "n_positive": 18421,
+          "n_zero": 70160,
+          "share_positive": 0.2079565595330827,
+          "n_distinct_train": 113,
+          "fraud_rate_positive": 0.0960317029477227,
+          "fraud_rate_zero": 0.018728620296465222,
+          "interval_positive": {
+            "point": 0.0960317029477227,
+            "low": 0.09186077432246303,
+            "high": 0.10037108106346623,
+            "n": 18421,
+            "successes": 1769,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.018728620296465222,
+            "low": 0.017751536185436772,
+            "high": 0.01975840346581974,
+            "n": 70160,
+            "successes": 1314,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 5.127537502901236
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.2181415730104406
+    },
+    {
+      "column": "C9",
+      "information_value": 0.052640892367826125,
+      "zero_against_positive": {
+        "n_positive": 269063,
+        "n_zero": 144315,
+        "share_positive": 0.6508885330133679,
+        "n_distinct_train": 203,
+        "fraud_rate_positive": 0.021218079037251498,
+        "fraud_rate_zero": 0.06117867165575304,
+        "interval_positive": {
+          "point": 0.021218079037251498,
+          "low": 0.020680351480994397,
+          "high": 0.02176947770231933,
+          "n": 269063,
+          "successes": 5709,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.06117867165575304,
+          "low": 0.059953842670254116,
+          "high": 0.06242686161124642,
+          "n": 144315,
+          "successes": 8829,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.3468215059758693
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 269063,
+          "n_zero": 144315,
+          "share_positive": 0.6508885330133679,
+          "n_distinct_train": 203,
+          "fraud_rate_positive": 0.021218079037251498,
+          "fraud_rate_zero": 0.06117867165575304,
+          "interval_positive": {
+            "point": 0.021218079037251498,
+            "low": 0.020680351480994397,
+            "high": 0.02176947770231933,
+            "n": 269063,
+            "successes": 5709,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.06117867165575304,
+            "low": 0.059953842670254116,
+            "high": 0.06242686161124642,
+            "n": 144315,
+            "successes": 8829,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.3468215059758693
+        },
+        "val": {
+          "n_positive": 69997,
+          "n_zero": 18584,
+          "share_positive": 0.7902033167383524,
+          "n_distinct_train": 167,
+          "fraud_rate_positive": 0.020415160649742133,
+          "fraud_rate_zero": 0.08679509255273353,
+          "interval_positive": {
+            "point": 0.020415160649742133,
+            "low": 0.019393552302732535,
+            "high": 0.021489405661483163,
+            "n": 69997,
+            "successes": 1429,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.08679509255273353,
+            "low": 0.0828322875813191,
+            "high": 0.09092868762260924,
+            "n": 18584,
+            "successes": 1613,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.2352110015590873
+        },
+        "test": {
+          "n_positive": 67685,
+          "n_zero": 20896,
+          "share_positive": 0.7641029114595681,
+          "n_distinct_train": 166,
+          "fraud_rate_positive": 0.018748614907291128,
+          "fraud_rate_zero": 0.08681087289433384,
+          "interval_positive": {
+            "point": 0.018748614907291128,
+            "low": 0.01775376560084902,
+            "high": 0.019798087910590574,
+            "n": 67685,
+            "successes": 1269,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.08681087289433384,
+            "low": 0.08306887082585036,
+            "high": 0.09070476597309719,
+            "n": 20896,
+            "successes": 1814,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.21597081427935802
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.19037244317265872
+    },
+    {
+      "column": "C10",
+      "information_value": 0.5226184651975072,
+      "zero_against_positive": {
+        "n_positive": 104837,
+        "n_zero": 308541,
+        "share_positive": 0.25361049693017046,
+        "n_distinct_train": 1127,
+        "fraud_rate_positive": 0.07502122342302812,
+        "fraud_rate_zero": 0.021627595684204044,
+        "interval_positive": {
+          "point": 0.07502122342302812,
+          "low": 0.07344215923266466,
+          "high": 0.07663143079093905,
+          "n": 104837,
+          "successes": 7865,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.021627595684204044,
+          "low": 0.021120247830665222,
+          "high": 0.02214685524486101,
+          "n": 308541,
+          "successes": 6673,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 3.4687731599227516
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 104837,
+          "n_zero": 308541,
+          "share_positive": 0.25361049693017046,
+          "n_distinct_train": 1127,
+          "fraud_rate_positive": 0.07502122342302812,
+          "fraud_rate_zero": 0.021627595684204044,
+          "interval_positive": {
+            "point": 0.07502122342302812,
+            "low": 0.07344215923266466,
+            "high": 0.07663143079093905,
+            "n": 104837,
+            "successes": 7865,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.021627595684204044,
+            "low": 0.021120247830665222,
+            "high": 0.02214685524486101,
+            "n": 308541,
+            "successes": 6673,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 3.4687731599227516
+        },
+        "val": {
+          "n_positive": 14673,
+          "n_zero": 73908,
+          "share_positive": 0.16564500287872116,
+          "n_distinct_train": 157,
+          "fraud_rate_positive": 0.09834389695358822,
+          "fraud_rate_zero": 0.021635005682740703,
+          "interval_positive": {
+            "point": 0.09834389695358822,
+            "low": 0.09363033094440229,
+            "high": 0.103267718743524,
+            "n": 14673,
+            "successes": 1443,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.021635005682740703,
+            "low": 0.020610707293813466,
+            "high": 0.022709028700108033,
+            "n": 73908,
+            "successes": 1599,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 4.545591454687804
+        },
+        "test": {
+          "n_positive": 17588,
+          "n_zero": 70993,
+          "share_positive": 0.19855273704293247,
+          "n_distinct_train": 168,
+          "fraud_rate_positive": 0.09716852399363202,
+          "fraud_rate_zero": 0.01935402081895398,
+          "interval_positive": {
+            "point": 0.09716852399363202,
+            "low": 0.0928787857870154,
+            "high": 0.10163419154003724,
+            "n": 17588,
+            "successes": 1709,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.01935402081895398,
+            "low": 0.018366318423460672,
+            "high": 0.020393736281463157,
+            "n": 70993,
+            "successes": 1374,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 5.020585898020319
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.19944137623782032
+    },
+    {
+      "column": "C11",
+      "information_value": 0.191660115432434,
+      "zero_against_positive": {
+        "n_positive": 411563,
+        "n_zero": 1815,
+        "share_positive": 0.9956093454417023,
+        "n_distinct_train": 1401,
+        "fraud_rate_positive": 0.035020154873008504,
+        "fraud_rate_zero": 0.06887052341597796,
+        "interval_positive": {
+          "point": 0.035020154873008504,
+          "low": 0.03446285359397036,
+          "high": 0.03558613615610712,
+          "n": 411563,
+          "successes": 14413,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.06887052341597796,
+          "low": 0.05810767657169276,
+          "high": 0.08145449229665964,
+          "n": 1815,
+          "successes": 125,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.5084926487560835
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 411563,
+          "n_zero": 1815,
+          "share_positive": 0.9956093454417023,
+          "n_distinct_train": 1401,
+          "fraud_rate_positive": 0.035020154873008504,
+          "fraud_rate_zero": 0.06887052341597796,
+          "interval_positive": {
+            "point": 0.035020154873008504,
+            "low": 0.03446285359397036,
+            "high": 0.03558613615610712,
+            "n": 411563,
+            "successes": 14413,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.06887052341597796,
+            "low": 0.05810767657169276,
+            "high": 0.08145449229665964,
+            "n": 1815,
+            "successes": 125,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.5084926487560835
+        },
+        "val": {
+          "n_positive": 88568,
+          "n_zero": 13,
+          "share_positive": 0.99985324166582,
+          "n_distinct_train": 253,
+          "fraud_rate_positive": 0.03433520007226086,
+          "fraud_rate_zero": 0.07692307692307693,
+          "interval_positive": {
+            "point": 0.03433520007226086,
+            "low": 0.033156049532525295,
+            "high": 0.0355547434078039,
+            "n": 88568,
+            "successes": 3041,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.07692307692307693,
+            "low": 0.013710421242556559,
+            "high": 0.3331395092109959,
+            "n": 13,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.44635760093939114
+        },
+        "test": {
+          "n_positive": 88545,
+          "n_zero": 36,
+          "share_positive": 0.9995935923053476,
+          "n_distinct_train": 262,
+          "fraud_rate_positive": 0.034807160201027726,
+          "fraud_rate_zero": 0.027777777777777776,
+          "interval_positive": {
+            "point": 0.034807160201027726,
+            "low": 0.033619920541447905,
+            "high": 0.03603476219868738,
+            "n": 88545,
+            "successes": 3082,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.027777777777777776,
+            "low": 0.004920407139810443,
+            "high": 0.14169718653273855,
+            "n": 36,
+            "successes": 1,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 1.2530577672369982
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": false,
+        "disjoint_on_every_split": false
+      },
+      "max_abs_rho_against_own_velocity": 0.061254910347444486
+    },
+    {
+      "column": "C12",
+      "information_value": 0.5012633881568491,
+      "zero_against_positive": {
+        "n_positive": 62861,
+        "n_zero": 350517,
+        "share_positive": 0.15206663150917563,
+        "n_distinct_train": 1182,
+        "fraud_rate_positive": 0.09937799271408346,
+        "fraud_rate_zero": 0.02365363163555548,
+        "interval_positive": {
+          "point": 0.09937799271408346,
+          "low": 0.09706372036445361,
+          "high": 0.10174122638797468,
+          "n": 62861,
+          "successes": 6247,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.02365363163555548,
+          "low": 0.023155739189461705,
+          "high": 0.024161964915642715,
+          "n": 350517,
+          "successes": 8291,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 4.201384136070726
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 62861,
+          "n_zero": 350517,
+          "share_positive": 0.15206663150917563,
+          "n_distinct_train": 1182,
+          "fraud_rate_positive": 0.09937799271408346,
+          "fraud_rate_zero": 0.02365363163555548,
+          "interval_positive": {
+            "point": 0.09937799271408346,
+            "low": 0.09706372036445361,
+            "high": 0.10174122638797468,
+            "n": 62861,
+            "successes": 6247,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02365363163555548,
+            "low": 0.023155739189461705,
+            "high": 0.024161964915642715,
+            "n": 350517,
+            "successes": 8291,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 4.201384136070726
+        },
+        "val": {
+          "n_positive": 18389,
+          "n_zero": 70192,
+          "share_positive": 0.20759530824894729,
+          "n_distinct_train": 106,
+          "fraud_rate_positive": 0.08380009788460492,
+          "fraud_rate_zero": 0.02138420332801459,
+          "interval_positive": {
+            "point": 0.08380009788460492,
+            "low": 0.0798816471846607,
+            "high": 0.0878924004375902,
+            "n": 18389,
+            "successes": 1541,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.02138420332801459,
+            "low": 0.020339924072229676,
+            "high": 0.022480866965427802,
+            "n": 70192,
+            "successes": 1501,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 3.918785123728307
+        },
+        "test": {
+          "n_positive": 20091,
+          "n_zero": 68490,
+          "share_positive": 0.22680936092390017,
+          "n_distinct_train": 76,
+          "fraud_rate_positive": 0.0833208899507242,
+          "fraud_rate_zero": 0.020572346327931083,
+          "interval_positive": {
+            "point": 0.0833208899507242,
+            "low": 0.07957858834325784,
+            "high": 0.08722250166232631,
+            "n": 20091,
+            "successes": 1674,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.020572346327931083,
+            "low": 0.01953585289510369,
+            "high": 0.021662616904801143,
+            "n": 68490,
+            "successes": 1409,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 4.050140349698439
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": true,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.26476493187852645
+    },
+    {
+      "column": "C13",
+      "information_value": 0.08282128042746836,
+      "zero_against_positive": {
+        "n_positive": 387551,
+        "n_zero": 25827,
+        "share_positive": 0.9375220742274625,
+        "n_distinct_train": 1582,
+        "fraud_rate_positive": 0.028182097323965104,
+        "fraud_rate_zero": 0.14000851821736943,
+        "interval_positive": {
+          "point": 0.028182097323965104,
+          "low": 0.027665725556003006,
+          "high": 0.028707822447117778,
+          "n": 387551,
+          "successes": 10922,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.14000851821736943,
+          "low": 0.13583013057119986,
+          "high": 0.14429397883328898,
+          "n": 25827,
+          "successes": 3616,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.20128844789437134
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 387551,
+          "n_zero": 25827,
+          "share_positive": 0.9375220742274625,
+          "n_distinct_train": 1582,
+          "fraud_rate_positive": 0.028182097323965104,
+          "fraud_rate_zero": 0.14000851821736943,
+          "interval_positive": {
+            "point": 0.028182097323965104,
+            "low": 0.027665725556003006,
+            "high": 0.028707822447117778,
+            "n": 387551,
+            "successes": 10922,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.14000851821736943,
+            "low": 0.13583013057119986,
+            "high": 0.14429397883328898,
+            "n": 25827,
+            "successes": 3616,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.20128844789437134
+        },
+        "val": {
+          "n_positive": 84106,
+          "n_zero": 4475,
+          "share_positive": 0.9494812657341868,
+          "n_distinct_train": 800,
+          "fraud_rate_positive": 0.02917746653033077,
+          "fraud_rate_zero": 0.13139664804469273,
+          "interval_positive": {
+            "point": 0.02917746653033077,
+            "low": 0.028061353106544187,
+            "high": 0.030336586702027213,
+            "n": 84106,
+            "successes": 2454,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.13139664804469273,
+            "low": 0.12181383160017252,
+            "high": 0.14161175951940094,
+            "n": 4475,
+            "successes": 588,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.22205639918916703
+        },
+        "test": {
+          "n_positive": 83423,
+          "n_zero": 5158,
+          "share_positive": 0.9417708086384213,
+          "n_distinct_train": 761,
+          "fraud_rate_positive": 0.027402514893974085,
+          "fraud_rate_zero": 0.15451725474990308,
+          "interval_positive": {
+            "point": 0.027402514893974085,
+            "low": 0.026316273519642355,
+            "high": 0.028532278562714963,
+            "n": 83423,
+            "successes": 2286,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.15451725474990308,
+            "low": 0.14491079207059174,
+            "high": 0.16463793614349545,
+            "n": 5158,
+            "successes": 797,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.17734275009174194
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.20034540948136292
+    },
+    {
+      "column": "C14",
+      "information_value": 0.01910308661208954,
+      "zero_against_positive": {
+        "n_positive": 387210,
+        "n_zero": 26168,
+        "share_positive": 0.936697163371055,
+        "n_distinct_train": 1081,
+        "fraud_rate_positive": 0.027811781720513417,
+        "fraud_rate_zero": 0.14403087740752063,
+        "interval_positive": {
+          "point": 0.027811781720513417,
+          "low": 0.027298525536291002,
+          "high": 0.02833440684459245,
+          "n": 387210,
+          "successes": 10769,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_zero": {
+          "point": 0.14403087740752063,
+          "low": 0.13982889993750514,
+          "high": 0.14833735197438952,
+          "n": 26168,
+          "successes": 3769,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "lift": 0.1930959681778708
+      },
+      "by_split": {
+        "train": {
+          "n_positive": 387210,
+          "n_zero": 26168,
+          "share_positive": 0.936697163371055,
+          "n_distinct_train": 1081,
+          "fraud_rate_positive": 0.027811781720513417,
+          "fraud_rate_zero": 0.14403087740752063,
+          "interval_positive": {
+            "point": 0.027811781720513417,
+            "low": 0.027298525536291002,
+            "high": 0.02833440684459245,
+            "n": 387210,
+            "successes": 10769,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.14403087740752063,
+            "low": 0.13982889993750514,
+            "high": 0.14833735197438952,
+            "n": 26168,
+            "successes": 3769,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.1930959681778708
+        },
+        "val": {
+          "n_positive": 84047,
+          "n_zero": 4534,
+          "share_positive": 0.9488152086790621,
+          "n_distinct_train": 251,
+          "fraud_rate_positive": 0.028936190464858947,
+          "fraud_rate_zero": 0.1345390383767093,
+          "interval_positive": {
+            "point": 0.028936190464858947,
+            "low": 0.027824276187528623,
+            "high": 0.030091163733505507,
+            "n": 84047,
+            "successes": 2432,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.1345390383767093,
+            "low": 0.12491537748060194,
+            "high": 0.1447814530337786,
+            "n": 4534,
+            "successes": 610,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.2150765369961811
+        },
+        "test": {
+          "n_positive": 83336,
+          "n_zero": 5245,
+          "share_positive": 0.9407886567096782,
+          "n_distinct_train": 244,
+          "fraud_rate_positive": 0.02697513679562254,
+          "fraud_rate_zero": 0.15919923736892277,
+          "interval_positive": {
+            "point": 0.02697513679562254,
+            "low": 0.025896792998060764,
+            "high": 0.028097087720372383,
+            "n": 83336,
+            "successes": 2248,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "interval_zero": {
+            "point": 0.15919923736892277,
+            "low": 0.14954783643874417,
+            "high": 0.16934948060782015,
+            "n": 5245,
+            "successes": 835,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "lift": 0.16944262574016794
+        },
+        "definitions": {
+          "positive_is_riskier": "the positive side of the count carries the higher fraud rate on every split. False for a column whose zero side is the risky one, which is an ordinary inverse relationship and not a fault",
+          "direction_stable": "the sign of (rate positive minus rate zero) is the same on all three splits. This is the instability test. A column can be stably inverse and pass it; a column whose marginal relationship flips between the training window and the later ones fails it, and that is the case ADR 0009 said to treat as a candidate rather than a result",
+          "disjoint_on_every_split": "the two Wilson intervals do not overlap on any split, so the separation is larger than the split resolves wherever it is measured"
+        },
+        "positive_is_riskier": false,
+        "direction_stable": true,
+        "disjoint_on_every_split": true
+      },
+      "max_abs_rho_against_own_velocity": 0.14191173726821021
+    }
+  ],
+  "summary": {
+    "n_pairs": 84,
+    "n_pairs_measured": 84,
+    "max_abs_rho": 0.2773431661593779,
+    "median_abs_rho": 0.0658002061539998,
+    "n_pairs_above_0.5": 0,
+    "n_pairs_above_0.8": 0,
+    "reading": "a high correlation would mean this repo has reconstructed the native counters and one of the two is redundant. A low one means they count different things, and stage 6 has two candidate blocks to measure rather than one",
+    "on_the_information_values": "the velocity counts are zero-inflated, so ten equal-frequency bins collapse and the information value understates them. n_bins records the collapse and zero_against_positive is the number to read instead. The C columns are counters over a longer history and do not have the problem, which is part of the comparison in itself: the two blocks are not zero on the same rows"
+  },
+  "stage_6_owes": "separate model importances for the two blocks, and a like-for-like model comparison with each block switched off through features.FeatureConfig.native_groups. ADR 0021",
+  "seconds": 4.4838516659983725
+}
