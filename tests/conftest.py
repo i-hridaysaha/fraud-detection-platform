@@ -28,6 +28,9 @@ def build_feature_frame(n_days: int = 30, per_day: int = 30) -> pd.DataFrame:
     Deliberately present: same-timestamp ties on one entity and on one card, entities with a
     single transaction, cards using several addresses, repeated amounts inside a day, rows with no
     identity record at all and rows with part of one, and repeated content on the six core fields.
+    Stage 5 reads the same frame: the recipient email domain is here for the graph's sixth link
+    column, and the small value sets make every link column a hub, which is what the real file
+    does too.
     """
     rng = np.random.default_rng(config.SEED)
     n = n_days * per_day
@@ -49,6 +52,7 @@ def build_feature_frame(n_days: int = 30, per_day: int = 30) -> pd.DataFrame:
             "D1": rng.integers(0, 20, n).astype("float64"),
             "ProductCD": rng.choice(["W", "C", "H"], n),
             "P_emaildomain": rng.choice(["a.com", "b.com", None], n),
+            "R_emaildomain": rng.choice(["a.com", "c.com", None], n, p=[0.2, 0.1, 0.7]),
             "DeviceType": rng.choice(["mobile", "desktop", None], n, p=[0.3, 0.3, 0.4]),
             "id_30": rng.choice(["ios 11.1.2", "windows 10", None], n, p=[0.3, 0.3, 0.4]),
             "DeviceInfo": rng.choice(
