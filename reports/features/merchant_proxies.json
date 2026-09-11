@@ -1,0 +1,174 @@
+{
+  "section": "merchant",
+  "stage": 4,
+  "generated_at_utc": "2026-09-10T22:02:12+00:00",
+  "regenerate_with": "make features  # or: .venv/bin/python scripts/features.py --sections merchant",
+  "command": ".venv/bin/python scripts/features.py --sections merchant",
+  "computed_on": "the whole time-sorted stream. Every feature reads only rows strictly before its own timestamp, so the whole frame is the correct input; the one fitted object, the dist1 bucket edges, is fitted on the train split through assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "1d4a8febc8f9b5f2133fd3e7d526487191e97b9e",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "column_inventory": {
+    "n_columns": 434,
+    "n_transaction_columns": 394,
+    "n_identity_columns": 40,
+    "screen_pattern": "merch|mcc|categor|\\bsic\\b|acquir|terminal|store|retail|seller|vendor",
+    "n_name_matches": 0,
+    "name_matches": [],
+    "unnumbered_columns": [
+      "TransactionID",
+      "isFraud",
+      "TransactionDT",
+      "TransactionAmt",
+      "ProductCD",
+      "card1",
+      "card2",
+      "card3",
+      "card4",
+      "card5",
+      "card6",
+      "addr1",
+      "addr2",
+      "dist1",
+      "dist2",
+      "P_emaildomain",
+      "R_emaildomain",
+      "DeviceType",
+      "DeviceInfo"
+    ],
+    "reading": "every column is either a numbered member of the V, C, D, M or id_ blocks or one of the named columns listed. None of the named columns is a merchant identifier or a merchant category code, and the numbered blocks are unlabelled, so nothing in the file can be asserted to identify a seller"
+  },
+  "proxies": [
+    {
+      "column": "ProductCD",
+      "proxy_for": "the product class of the purchase, five levels, the closest thing to a category",
+      "present_in_file": true,
+      "information_value": 0.516066614364506,
+      "information_value_present_bins": 0.516066614364506,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "P_emaildomain",
+      "proxy_for": "the purchaser's email domain, which correlates with where they buy",
+      "present_in_file": true,
+      "information_value": 0.18497454977939307,
+      "information_value_present_bins": 0.18100564505344693,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "R_emaildomain",
+      "proxy_for": "the recipient's email domain, and its agreement with the purchaser's",
+      "present_in_file": true,
+      "information_value": 0.5787197105441323,
+      "information_value_present_bins": 0.4192473754081285,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "dist1",
+      "proxy_for": "a distance, unit not established, between two points the file does not name",
+      "present_in_file": true,
+      "information_value": 0.15925483461216858,
+      "information_value_present_bins": 0.11830176535843662,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "dist2",
+      "proxy_for": "a second distance on a different missingness block",
+      "present_in_file": true,
+      "information_value": 0.152483551230853,
+      "information_value_present_bins": 0.13597993434729547,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "addr1",
+      "proxy_for": "the billing region, which is a property of the account and not of the seller",
+      "present_in_file": true,
+      "information_value": 0.4256900658943047,
+      "information_value_present_bins": 0.0996423334664907,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "addr2",
+      "proxy_for": "a coarser address field",
+      "present_in_file": true,
+      "information_value": 0.4200489935731179,
+      "information_value_present_bins": 0.09380724421417935,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "card4",
+      "proxy_for": "the card network",
+      "present_in_file": true,
+      "information_value": 0.00790760172484279,
+      "information_value_present_bins": 0.007888354205296613,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    },
+    {
+      "column": "card6",
+      "proxy_for": "the card funding type, credit against debit",
+      "present_in_file": true,
+      "information_value": 0.2515166645434901,
+      "information_value_present_bins": 0.2514586230228037,
+      "source": "reports/eda/bivariate.json per_feature, read not recomputed"
+    }
+  ],
+  "email_agreement": {
+    "why_here": "the strongest of the proxies is not a column but a comparison between two: stage 2 measured purchaser and recipient domain agreement carrying more rate than either domain alone",
+    "measured": {
+      "definition": "compared as raw strings, on rows where both are present",
+      "n_both_present": 96265,
+      "share_both_present": 0.23287402812921829,
+      "agree": {
+        "n": 77595,
+        "n_fraud": 7023,
+        "fraud_rate": 0.09050840904697467,
+        "interval": {
+          "point": 0.09050840904697467,
+          "low": 0.08850991363519226,
+          "high": 0.09254744746312404,
+          "n": 77595,
+          "successes": 7023,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "disagree": {
+        "n": 18670,
+        "n_fraud": 502,
+        "fraud_rate": 0.026888055704338512,
+        "interval": {
+          "point": 0.026888055704338512,
+          "low": 0.02466331727756156,
+          "high": 0.029307445034155215,
+          "n": 18670,
+          "successes": 502,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "recipient_missing_only": {
+        "n": 252817,
+        "n_fraud": 5084,
+        "fraud_rate": 0.02010940719967407,
+        "interval": {
+          "point": 0.02010940719967407,
+          "low": 0.019569470429832918,
+          "high": 0.02066392726051327,
+          "n": 252817,
+          "successes": 5084,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    },
+    "source": "reports/eda/quality.json email_domains"
+  },
+  "not_comparable": "None of these is a merchant risk feature and no number above should be read as one. A merchant risk feature is a statistic over a seller's own transaction history: its chargeback rate, its dispute rate, the share of its volume that is card-not-present. Those are computed over a merchant identifier and this file has none, so the feature cannot be built here at any strength. Published fraud results that include merchant risk are therefore not comparable with anything in this repo, in either direction, and the gap is a property of the dataset rather than of the pipeline. ADR 0019",
+  "seconds": 0.04420591699999932
+}

@@ -1,0 +1,2020 @@
+{
+  "section": "catalogue",
+  "stage": 4,
+  "generated_at_utc": "2026-09-10T22:01:34+00:00",
+  "regenerate_with": "make features  # or: .venv/bin/python scripts/features.py --sections catalogue",
+  "command": ".venv/bin/python scripts/features.py --sections catalogue",
+  "computed_on": "the whole time-sorted stream. Every feature reads only rows strictly before its own timestamp, so the whole frame is the correct input; the one fitted object, the dist1 bucket edges, is fitted on the train split through assert_train_only",
+  "n_train_rows": 413378,
+  "git_commit": "1d4a8febc8f9b5f2133fd3e7d526487191e97b9e",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "config": {
+    "families": [
+      "velocity",
+      "recency",
+      "tenure",
+      "geography",
+      "device",
+      "amount",
+      "duplicate"
+    ],
+    "velocity_grains": [
+      "entity",
+      "card"
+    ],
+    "native_groups": [
+      "count",
+      "timedelta",
+      "match",
+      "vesta"
+    ],
+    "windows": [
+      {
+        "suffix": "10m",
+        "seconds": 600
+      },
+      {
+        "suffix": "1h",
+        "seconds": 3600
+      },
+      {
+        "suffix": "24h",
+        "seconds": 86400
+      }
+    ],
+    "amount_repeat_window_seconds": 86400,
+    "duplicate_window_seconds": 3600,
+    "include_d_origin_tenure": false
+  },
+  "n_features_derived": 36,
+  "n_features_listed": 37,
+  "families": {
+    "velocity": [
+      "vel_amount_mean_10m_card",
+      "vel_amount_mean_10m_entity",
+      "vel_amount_mean_1h_card",
+      "vel_amount_mean_1h_entity",
+      "vel_amount_mean_24h_card",
+      "vel_amount_mean_24h_entity",
+      "vel_amount_sum_10m_card",
+      "vel_amount_sum_10m_entity",
+      "vel_amount_sum_1h_card",
+      "vel_amount_sum_1h_entity",
+      "vel_amount_sum_24h_card",
+      "vel_amount_sum_24h_entity",
+      "vel_count_10m_card",
+      "vel_count_10m_entity",
+      "vel_count_1h_card",
+      "vel_count_1h_entity",
+      "vel_count_24h_card",
+      "vel_count_24h_entity"
+    ],
+    "recency": [
+      "rec_gap_deviation",
+      "rec_mean_gap",
+      "rec_prior_count",
+      "rec_seconds_since_prev"
+    ],
+    "tenure": [
+      "D1"
+    ],
+    "geography": [
+      "geo_addr1_differs_from_card_mode",
+      "geo_addr2_differs_from_card_mode",
+      "geo_dist1_bucket",
+      "geo_n_distinct_addr1_on_card"
+    ],
+    "device": [
+      "dev_combination_is_new",
+      "dev_n_distinct_so_far"
+    ],
+    "amount": [
+      "amt_deviation_from_entity_mean",
+      "amt_entity_mean",
+      "amt_entity_std",
+      "amt_repeat_within_24h",
+      "amt_zscore_within_entity"
+    ],
+    "duplicate": [
+      "dup_prior_count",
+      "dup_prior_count_1h",
+      "dup_seconds_since_prev"
+    ]
+  },
+  "running_state": {
+    "definition": "a feature requires running state when its value depends on earlier rows of a key, so a serving path has to hold something per key rather than computing from the request alone. state_key names which keyspace and state_fields names what is held",
+    "n_requiring_state": 35,
+    "by_state_key": {
+      "entity": [
+        "amt_deviation_from_entity_mean",
+        "amt_entity_mean",
+        "amt_entity_std",
+        "amt_repeat_within_24h",
+        "amt_zscore_within_entity",
+        "dev_combination_is_new",
+        "dev_n_distinct_so_far",
+        "rec_gap_deviation",
+        "rec_mean_gap",
+        "rec_prior_count",
+        "rec_seconds_since_prev",
+        "vel_amount_mean_10m_entity",
+        "vel_amount_mean_1h_entity",
+        "vel_amount_mean_24h_entity",
+        "vel_amount_sum_10m_entity",
+        "vel_amount_sum_1h_entity",
+        "vel_amount_sum_24h_entity",
+        "vel_count_10m_entity",
+        "vel_count_1h_entity",
+        "vel_count_24h_entity"
+      ],
+      "card": [
+        "geo_addr1_differs_from_card_mode",
+        "geo_addr2_differs_from_card_mode",
+        "geo_n_distinct_addr1_on_card",
+        "vel_amount_mean_10m_card",
+        "vel_amount_mean_1h_card",
+        "vel_amount_mean_24h_card",
+        "vel_amount_sum_10m_card",
+        "vel_amount_sum_1h_card",
+        "vel_amount_sum_24h_card",
+        "vel_count_10m_card",
+        "vel_count_1h_card",
+        "vel_count_24h_card"
+      ],
+      "content": [
+        "dup_prior_count",
+        "dup_prior_count_1h",
+        "dup_seconds_since_prev"
+      ],
+      "none": [
+        "D1",
+        "geo_dist1_bucket"
+      ]
+    }
+  },
+  "per_feature": [
+    {
+      "feature": "vel_count_10m_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 600,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "transactions on the entity key in [t - 600s, t), current row and same-timestamp ties excluded",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.0,
+        "test": 0.0
+      }
+    },
+    {
+      "feature": "vel_amount_sum_10m_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 600,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "sum of TransactionAmt over the same window",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.0,
+        "test": 0.0
+      }
+    },
+    {
+      "feature": "vel_amount_mean_10m_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 600,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "mean of TransactionAmt over the same window",
+      "null_meaning": "the window holds no transaction, so there is no mean",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 375147,
+          "null_rate": 0.9075156394389639
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 81463,
+          "null_rate": 0.9196441674851266
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 79095,
+          "null_rate": 0.8929115724591052
+        }
+      },
+      "drift": {
+        "val": 0.003516567540731132,
+        "test": 0.011790249384275066
+      }
+    },
+    {
+      "feature": "vel_count_1h_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "transactions on the entity key in [t - 3600s, t), current row and same-timestamp ties excluded",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.006541824156088132,
+        "test": 0.0007100886068468618
+      }
+    },
+    {
+      "feature": "vel_amount_sum_1h_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "sum of TransactionAmt over the same window",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.004613808878783319,
+        "test": 0.0004286015994413849
+      }
+    },
+    {
+      "feature": "vel_amount_mean_1h_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "mean of TransactionAmt over the same window",
+      "null_meaning": "the window holds no transaction, so there is no mean",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 346626,
+          "null_rate": 0.8385206759914654
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 76608,
+          "null_rate": 0.8648355742202052
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 73940,
+          "null_rate": 0.8347162484054143
+        }
+      },
+      "drift": {
+        "val": 0.007516905024984991,
+        "test": 0.005288478428376927
+      }
+    },
+    {
+      "feature": "vel_count_24h_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "transactions on the entity key in [t - 86400s, t), current row and same-timestamp ties excluded",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.018838579884495516,
+        "test": 0.0012721671759636376
+      }
+    },
+    {
+      "feature": "vel_amount_sum_24h_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "sum of TransactionAmt over the same window",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.015627167005547962,
+        "test": 0.0010450038522044512
+      }
+    },
+    {
+      "feature": "vel_amount_mean_24h_entity",
+      "family": "velocity",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "mean of TransactionAmt over the same window",
+      "null_meaning": "the window holds no transaction, so there is no mean",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 290049,
+          "null_rate": 0.7016556275370243
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 66229,
+          "null_rate": 0.7476659780314063
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 63293,
+          "null_rate": 0.7145211727119811
+        }
+      },
+      "drift": {
+        "val": 0.013553690864688576,
+        "test": 0.009798627345252435
+      }
+    },
+    {
+      "feature": "vel_count_10m_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 600,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "transactions on the card key in [t - 600s, t), current row and same-timestamp ties excluded",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.004182711580155491,
+        "test": 0.0011451883547357218
+      }
+    },
+    {
+      "feature": "vel_amount_sum_10m_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 600,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "sum of TransactionAmt over the same window",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.00250491594061866,
+        "test": 0.0008364533570308238
+      }
+    },
+    {
+      "feature": "vel_amount_mean_10m_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 600,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "mean of TransactionAmt over the same window",
+      "null_meaning": "the window holds no transaction, so there is no mean",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 332440,
+          "null_rate": 0.8042034167275471
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 73666,
+          "null_rate": 0.8316230342850047
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 71183,
+          "null_rate": 0.8035921924566216
+        }
+      },
+      "drift": {
+        "val": 0.007818917621507604,
+        "test": 0.006406058666380104
+      }
+    },
+    {
+      "feature": "vel_count_1h_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "transactions on the card key in [t - 3600s, t), current row and same-timestamp ties excluded",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.01771337747611601,
+        "test": 0.002393335230940474
+      }
+    },
+    {
+      "feature": "vel_amount_sum_1h_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "sum of TransactionAmt over the same window",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.012268333455530318,
+        "test": 0.00208785750404686
+      }
+    },
+    {
+      "feature": "vel_amount_mean_1h_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "mean of TransactionAmt over the same window",
+      "null_meaning": "the window holds no transaction, so there is no mean",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 236473,
+          "null_rate": 0.5720502784376527
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 54470,
+          "null_rate": 0.6149174202142672
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 52354,
+          "null_rate": 0.5910296790508123
+        }
+      },
+      "drift": {
+        "val": 0.010708099328183085,
+        "test": 0.006164083875446828
+      }
+    },
+    {
+      "feature": "vel_count_24h_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "transactions on the card key in [t - 86400s, t), current row and same-timestamp ties excluded",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.02187022818351703,
+        "test": 0.007478973682862772
+      }
+    },
+    {
+      "feature": "vel_amount_sum_24h_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "sum of TransactionAmt over the same window",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.01623165436238079,
+        "test": 0.004465059870663198
+      }
+    },
+    {
+      "feature": "vel_amount_mean_24h_card",
+      "family": "velocity",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "the card's (timestamp, amount) pairs inside the widest window, as a bounded ring"
+      ],
+      "definition": "mean of TransactionAmt over the same window",
+      "null_meaning": "the window holds no transaction, so there is no mean",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 87913,
+          "null_rate": 0.21266975988078707
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 20167,
+          "null_rate": 0.2276673327237218
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 19527,
+          "null_rate": 0.2204423070410133
+        }
+      },
+      "drift": {
+        "val": 0.006213741982812024,
+        "test": 0.007503656093513796
+      }
+    },
+    {
+      "feature": "rec_seconds_since_prev",
+      "family": "recency",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "first prior timestamp",
+        "last prior timestamp",
+        "prior transaction count"
+      ],
+      "definition": "t minus the timestamp of the entity's latest strictly earlier row",
+      "null_meaning": "the stream holds no earlier transaction on this key to compare against",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 164711,
+          "null_rate": 0.3984512963921641
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 26894,
+          "null_rate": 0.30360912611056545
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 26255,
+          "null_rate": 0.2963953895304862
+        }
+      },
+      "drift": {
+        "val": 0.10633560554967703,
+        "test": 0.09537484318703063
+      }
+    },
+    {
+      "feature": "rec_prior_count",
+      "family": "recency",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "first prior timestamp",
+        "last prior timestamp",
+        "prior transaction count"
+      ],
+      "definition": "transactions on the entity strictly before t, over all history",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.09003311605502326,
+        "test": 0.11939809919839958
+      }
+    },
+    {
+      "feature": "rec_mean_gap",
+      "family": "recency",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "first prior timestamp",
+        "last prior timestamp",
+        "prior transaction count"
+      ],
+      "definition": "mean gap between the entity's consecutive prior transactions, as (last_prior - first_prior) / (n_prior - 1)",
+      "null_meaning": "fewer than two earlier transactions, so no gap to average",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 233068,
+          "null_rate": 0.5638132653406809
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 39123,
+          "null_rate": 0.4416635621634436
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 38294,
+          "null_rate": 0.4323048960838103
+        }
+      },
+      "drift": {
+        "val": 0.1617854989820693,
+        "test": 0.14443380756741442
+      }
+    },
+    {
+      "feature": "rec_gap_deviation",
+      "family": "recency",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "first prior timestamp",
+        "last prior timestamp",
+        "prior transaction count"
+      ],
+      "definition": "rec_seconds_since_prev minus rec_mean_gap",
+      "null_meaning": "either input is null",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 233068,
+          "null_rate": 0.5638132653406809
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 39123,
+          "null_rate": 0.4416635621634436
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 38294,
+          "null_rate": 0.4323048960838103
+        }
+      },
+      "drift": {
+        "val": 0.1416218723559594,
+        "test": 0.1279372363008947
+      }
+    },
+    {
+      "feature": "D1",
+      "family": "tenure",
+      "grain": "row",
+      "derived_in_stage_4": false,
+      "window_seconds": null,
+      "requires_running_state": false,
+      "state_key": "none",
+      "state_fields": [],
+      "definition": "days since the card began, native column, carried through stage 3 unchanged. Listed because it is the tenure feature and stage 6 needs to know that; not recomputed, because it already exists and there is one source per number",
+      "null_meaning": "null on 0.0021 of rows (stage 0 audit, d1_profile)",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 273,
+          "null_rate": 0.0006604125038100721
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 955,
+          "null_rate": 0.010781093010916563
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 41,
+          "null_rate": 0.0004628532077985121
+        }
+      },
+      "drift": {
+        "val": 0.05870826314557697,
+        "test": 0.022581154040173225
+      }
+    },
+    {
+      "feature": "geo_addr1_differs_from_card_mode",
+      "family": "geography",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "a count per addr1 value the card has used"
+      ],
+      "definition": "whether addr1 differs from the card's modal addr1 over strictly earlier rows, ties broken on the smaller value",
+      "null_meaning": "addr1 is null, or no earlier row of the card carries one",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 58503,
+          "null_rate": 0.14152422238241996
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 9461,
+          "null_rate": 0.10680619997516397
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 9808,
+          "null_rate": 0.11072351858750748
+        }
+      },
+      "drift": {
+        "val": 0.011147957750893313,
+        "test": 0.008645275202128102
+      }
+    },
+    {
+      "feature": "geo_addr2_differs_from_card_mode",
+      "family": "geography",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "a count per addr2 value the card has used"
+      ],
+      "definition": "the same for addr2",
+      "null_meaning": "addr2 is null, or no earlier row of the card carries one",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 58503,
+          "null_rate": 0.14152422238241996
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 9461,
+          "null_rate": 0.10680619997516397
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 9808,
+          "null_rate": 0.11072351858750748
+        }
+      },
+      "drift": {
+        "val": 0.011147957750893313,
+        "test": 0.008645275202128102
+      }
+    },
+    {
+      "feature": "geo_n_distinct_addr1_on_card",
+      "family": "geography",
+      "grain": "card",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "card",
+      "state_fields": [
+        "a count per addr1 value the card has used"
+      ],
+      "definition": "distinct addr1 values over the card's strictly earlier rows",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.08573762345789189,
+        "test": 0.11265188578304715
+      }
+    },
+    {
+      "feature": "geo_dist1_bucket",
+      "family": "geography",
+      "grain": "row",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": false,
+      "state_key": "none",
+      "state_fields": [],
+      "definition": "index of the train-fitted quantile bucket dist1 falls in. No key state: the edges are a fitted artifact read from the model bundle",
+      "null_meaning": "dist1 is null; the distance block indicator carries that state",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 255775,
+          "null_rate": 0.6187436196411032
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 47554,
+          "null_rate": 0.5368419864304986
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 48942,
+          "null_rate": 0.5525112608798727
+        }
+      },
+      "drift": {
+        "val": 0.030573852388472156,
+        "test": 0.01990079668902559
+      }
+    },
+    {
+      "feature": "dev_combination_is_new",
+      "family": "device",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the set of device combinations the entity has used"
+      ],
+      "definition": "whether the normalised (DeviceInfo, DeviceType, id_30, id_31) combination appears in no strictly earlier row of the entity",
+      "null_meaning": "the row carries no identity record, or the entity has no earlier row that does. Stage 3's identity policy leaves that null and lets has_identity_record carry the join state",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 360830,
+          "null_rate": 0.8728814789369536
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 80220,
+          "null_rate": 0.9056118129169912
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 77817,
+          "null_rate": 0.8784840992989468
+        }
+      },
+      "drift": {
+        "val": 0.010948785298077728,
+        "test": 0.0002883824888161834
+      }
+    },
+    {
+      "feature": "dev_n_distinct_so_far",
+      "family": "device",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the set of device combinations the entity has used"
+      ],
+      "definition": "distinct device combinations over the entity's strictly earlier rows",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.007657528699078606,
+        "test": 7.965913698628044e-07
+      }
+    },
+    {
+      "feature": "amt_entity_mean",
+      "family": "amount",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "prior transaction count",
+        "prior amount sum",
+        "prior amount sum of squares"
+      ],
+      "definition": "mean TransactionAmt over the entity's strictly earlier rows",
+      "null_meaning": "the stream holds no earlier transaction on this key to compare against",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 164711,
+          "null_rate": 0.3984512963921641
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 26894,
+          "null_rate": 0.30360912611056545
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 26255,
+          "null_rate": 0.2963953895304862
+        }
+      },
+      "drift": {
+        "val": 0.0458100708700776,
+        "test": 0.052300977210976596
+      }
+    },
+    {
+      "feature": "amt_entity_std",
+      "family": "amount",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "prior transaction count",
+        "prior amount sum",
+        "prior amount sum of squares"
+      ],
+      "definition": "sample standard deviation of the same, clamped at zero",
+      "null_meaning": "fewer than two earlier transactions",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 233068,
+          "null_rate": 0.5638132653406809
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 39123,
+          "null_rate": 0.4416635621634436
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 38294,
+          "null_rate": 0.4323048960838103
+        }
+      },
+      "drift": {
+        "val": 0.0630346612158814,
+        "test": 0.07349660106723283
+      }
+    },
+    {
+      "feature": "amt_deviation_from_entity_mean",
+      "family": "amount",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "prior transaction count",
+        "prior amount sum",
+        "prior amount sum of squares"
+      ],
+      "definition": "TransactionAmt minus amt_entity_mean",
+      "null_meaning": "the stream holds no earlier transaction on this key to compare against",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 164711,
+          "null_rate": 0.3984512963921641
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 26894,
+          "null_rate": 0.30360912611056545
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 26255,
+          "null_rate": 0.2963953895304862
+        }
+      },
+      "drift": {
+        "val": 0.045181720339805186,
+        "test": 0.051015491874237796
+      }
+    },
+    {
+      "feature": "amt_zscore_within_entity",
+      "family": "amount",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "prior transaction count",
+        "prior amount sum",
+        "prior amount sum of squares"
+      ],
+      "definition": "the same deviation divided by amt_entity_std",
+      "null_meaning": "fewer than two earlier transactions, or a zero running spread",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 247587,
+          "null_rate": 0.5989360827136422
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 42372,
+          "null_rate": 0.4783418566058184
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 41965,
+          "null_rate": 0.473747191835721
+        }
+      },
+      "drift": {
+        "val": 0.06229982372908286,
+        "test": 0.069131898278737
+      }
+    },
+    {
+      "feature": "amt_repeat_within_24h",
+      "family": "amount",
+      "grain": "entity",
+      "derived_in_stage_4": true,
+      "window_seconds": 86400,
+      "requires_running_state": true,
+      "state_key": "entity",
+      "state_fields": [
+        "the entity's amounts inside the last 86400 seconds"
+      ],
+      "definition": "whether TransactionAmt equals the amount of a strictly earlier transaction of the entity inside 86400 seconds",
+      "null_meaning": "the window holds no earlier transaction of the entity",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 290049,
+          "null_rate": 0.7016556275370243
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 66229,
+          "null_rate": 0.7476659780314063
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 63293,
+          "null_rate": 0.7145211727119811
+        }
+      },
+      "drift": {
+        "val": 0.010628774596829364,
+        "test": 0.0008008862416255073
+      }
+    },
+    {
+      "feature": "dup_prior_count",
+      "family": "duplicate",
+      "grain": "content",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "content",
+      "state_fields": [
+        "per content key: the prior count, the last prior timestamp, and the timestamps inside the last 3600 seconds"
+      ],
+      "definition": "strictly earlier transactions agreeing on all of ['card1', 'card2', 'addr1', 'TransactionAmt', 'ProductCD', 'P_emaildomain'], nulls compared as a level",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.08747995052953556,
+        "test": 0.1596709958600332
+      }
+    },
+    {
+      "feature": "dup_seconds_since_prev",
+      "family": "duplicate",
+      "grain": "content",
+      "derived_in_stage_4": true,
+      "window_seconds": null,
+      "requires_running_state": true,
+      "state_key": "content",
+      "state_fields": [
+        "per content key: the prior count, the last prior timestamp, and the timestamps inside the last 3600 seconds"
+      ],
+      "definition": "t minus the timestamp of the latest strictly earlier identical row",
+      "null_meaning": "no earlier transaction shares this content",
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 273586,
+          "null_rate": 0.6618300925545143
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 47660,
+          "null_rate": 0.5380386313091973
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 43918,
+          "null_rate": 0.4957948092706111
+        }
+      },
+      "drift": {
+        "val": 0.13331557864607313,
+        "test": 0.19138038980421618
+      }
+    },
+    {
+      "feature": "dup_prior_count_1h",
+      "family": "duplicate",
+      "grain": "content",
+      "derived_in_stage_4": true,
+      "window_seconds": 3600,
+      "requires_running_state": true,
+      "state_key": "content",
+      "state_fields": [
+        "per content key: the prior count, the last prior timestamp, and the timestamps inside the last 3600 seconds"
+      ],
+      "definition": "the same count restricted to [t - 3600s, t). The stage's 'whether any fell inside a short window' is this column being positive",
+      "null_meaning": null,
+      "null_rate_by_split": {
+        "train": {
+          "present": true,
+          "n_rows": 413378,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "val": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        },
+        "test": {
+          "present": true,
+          "n_rows": 88581,
+          "n_null": 0,
+          "null_rate": 0.0
+        }
+      },
+      "drift": {
+        "val": 0.0,
+        "test": 0.0
+      }
+    }
+  ],
+  "dist1_buckets": {
+    "column": "dist1",
+    "n_buckets_requested": 10,
+    "n_buckets": 10,
+    "quantiles": [
+      0.1,
+      0.2,
+      0.30000000000000004,
+      0.4,
+      0.5,
+      0.6000000000000001,
+      0.7000000000000001,
+      0.8,
+      0.9
+    ],
+    "edges": [
+      1.0,
+      2.0,
+      4.0,
+      6.0,
+      9.0,
+      12.0,
+      19.0,
+      40.0,
+      315.0
+    ],
+    "n_train_rows": 413378,
+    "n_present_train": 157603,
+    "missing_rate_train": 0.6187436196411032
+  },
+  "state_footprint": {
+    "whole_stream": {
+      "n_rows": 590540,
+      "entity": {
+        "n_keys": 217850,
+        "transactions_per_key": {
+          "n_groups": 217850,
+          "mean": 2.7107642873536837,
+          "p95": 9.0,
+          "p99": 20.0,
+          "max": 1414
+        },
+        "distinct_devices_per_key": {
+          "n_groups": 69186,
+          "mean": 1.3613592345272165,
+          "p95": 3.0,
+          "p99": 7.0,
+          "max": 25
+        }
+      },
+      "card": {
+        "n_keys": 13553,
+        "transactions_per_key": {
+          "n_groups": 13553,
+          "mean": 43.572640743746774,
+          "p95": 107.0,
+          "p99": 786.4399999999987,
+          "max": 14932
+        },
+        "distinct_addr1_per_key": {
+          "n_groups": 12066,
+          "mean": 3.110475716890436,
+          "p95": 12.0,
+          "p99": 35.350000000000364,
+          "max": 64
+        },
+        "distinct_addr2_per_key": {
+          "n_groups": 12066,
+          "mean": 1.0151665837891597,
+          "p95": 1.0,
+          "p99": 2.0,
+          "max": 5
+        }
+      },
+      "content": {
+        "n_keys": 365153,
+        "window_seconds": 3600,
+        "transactions_per_key": {
+          "n_groups": 365153,
+          "mean": 1.617239896700835,
+          "p95": 4.0,
+          "p99": 9.0,
+          "max": 553
+        }
+      },
+      "note": "the velocity ring holds a key's (timestamp, amount) pairs inside the widest window and nothing older, so it is bounded by activity inside that window rather than by lifetime count. The addr counter and the device set are bounded by the distinct-value counts above. The duplicate family reads a second keyspace, keyed by content."
+    },
+    "train": {
+      "n_rows": 413378,
+      "entity": {
+        "n_keys": 164702,
+        "transactions_per_key": {
+          "n_groups": 164702,
+          "mean": 2.5098541608480773,
+          "p95": 8.0,
+          "p99": 18.0,
+          "max": 319
+        },
+        "distinct_devices_per_key": {
+          "n_groups": 54881,
+          "mean": 1.3544760481769647,
+          "p95": 3.0,
+          "p99": 7.0,
+          "max": 25
+        }
+      },
+      "card": {
+        "n_keys": 12242,
+        "transactions_per_key": {
+          "n_groups": 12242,
+          "mean": 33.76719490279366,
+          "p95": 84.0,
+          "p99": 603.7700000000004,
+          "max": 10147
+        },
+        "distinct_addr1_per_key": {
+          "n_groups": 10985,
+          "mean": 2.977787892580792,
+          "p95": 11.0,
+          "p99": 33.159999999999854,
+          "max": 63
+        },
+        "distinct_addr2_per_key": {
+          "n_groups": 10985,
+          "mean": 1.012016385980883,
+          "p95": 1.0,
+          "p99": 2.0,
+          "max": 5
+        }
+      },
+      "content": {
+        "n_keys": 273575,
+        "window_seconds": 3600,
+        "transactions_per_key": {
+          "n_groups": 273575,
+          "mean": 1.5110225715068994,
+          "p95": 4.0,
+          "p99": 8.0,
+          "max": 140
+        }
+      },
+      "note": "the velocity ring holds a key's (timestamp, amount) pairs inside the widest window and nothing older, so it is bounded by activity inside that window rather than by lifetime count. The addr counter and the device set are bounded by the distinct-value counts above. The duplicate family reads a second keyspace, keyed by content."
+    }
+  },
+  "coverage": {
+    "definition": "a row is cold for a grain when the stream holds no strictly earlier transaction on that key. Cold rows take the null branch of every comparison feature and zero on every count feature",
+    "train": {
+      "n_rows": 413378,
+      "entity": {
+        "share_cold": 0.3984512963921641,
+        "n_cold": 164711,
+        "fraud_rate_cold": 0.026330967573507537,
+        "fraud_rate_warm": 0.04102273321349435,
+        "interval_cold": {
+          "point": 0.026330967573507537,
+          "low": 0.025568683944444493,
+          "high": 0.02711534490179755,
+          "n": 164711,
+          "successes": 4337,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.04102273321349435,
+          "low": 0.04025022663280157,
+          "high": 0.04180942032504192,
+          "n": 248667,
+          "successes": 10201,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "card": {
+        "share_cold": 0.21266975988078707,
+        "n_cold": 87913,
+        "fraud_rate_cold": 0.024137499573441926,
+        "fraud_rate_warm": 0.03814849522990183,
+        "interval_cold": {
+          "point": 0.024137499573441926,
+          "low": 0.023143577904865688,
+          "high": 0.025173006134499937,
+          "n": 87913,
+          "successes": 2122,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.03814849522990183,
+          "low": 0.037495832587382844,
+          "high": 0.03881206019738008,
+          "n": 325465,
+          "successes": 12416,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "content": {
+        "share_cold": 0.6618300925545143,
+        "n_cold": 273586,
+        "fraud_rate_cold": 0.03160980459526438,
+        "fraud_rate_warm": 0.04213402769829461,
+        "interval_cold": {
+          "point": 0.03160980459526438,
+          "low": 0.030960755403954338,
+          "high": 0.03227200706476685,
+          "n": 273586,
+          "successes": 8648,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.04213402769829461,
+          "low": 0.04109343375390606,
+          "high": 0.04319978509904408,
+          "n": 139792,
+          "successes": 5890,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      }
+    },
+    "val": {
+      "n_rows": 88581,
+      "entity": {
+        "share_cold": 0.30360912611056545,
+        "n_cold": 26894,
+        "fraud_rate_cold": 0.03141964750501971,
+        "fraud_rate_warm": 0.03561528360918832,
+        "interval_cold": {
+          "point": 0.03141964750501971,
+          "low": 0.029400726156957286,
+          "high": 0.033572410978001455,
+          "n": 26894,
+          "successes": 845,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.03561528360918832,
+          "low": 0.0341814644905247,
+          "high": 0.03710693675062715,
+          "n": 61687,
+          "successes": 2197,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "card": {
+        "share_cold": 0.2276673327237218,
+        "n_cold": 20167,
+        "fraud_rate_cold": 0.024297119055883373,
+        "fraud_rate_warm": 0.03730230654544391,
+        "interval_cold": {
+          "point": 0.024297119055883373,
+          "low": 0.022260963749454805,
+          "high": 0.026514465913667205,
+          "n": 20167,
+          "successes": 490,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.03730230654544391,
+          "low": 0.03590808767149878,
+          "high": 0.03874848362496633,
+          "n": 68414,
+          "successes": 2552,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "content": {
+        "share_cold": 0.5380386313091973,
+        "n_cold": 47660,
+        "fraud_rate_cold": 0.037578682333193454,
+        "fraud_rate_warm": 0.030571100412990885,
+        "interval_cold": {
+          "point": 0.037578682333193454,
+          "low": 0.035908255689520885,
+          "high": 0.03932364650448694,
+          "n": 47660,
+          "successes": 1791,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.030571100412990885,
+          "low": 0.028946689276518327,
+          "high": 0.03228363855119278,
+          "n": 40921,
+          "successes": 1251,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "entity_history_against_training_overlap": {
+        "share_entity_seen_in_train": 0.46890416680778046,
+        "share_with_any_earlier_row_in_the_stream": 0.6963908738894345,
+        "why_they_differ": "an entity the training window never saw can still have transacted earlier inside this split, and at authorisation the online store holds that history whatever window the model was fitted on. The first number is what a train-fitted entity statistic covers, which is what ADR 0015 excluded. The second is what a point-in-time behavioural feature covers"
+      }
+    },
+    "test": {
+      "n_rows": 88581,
+      "entity": {
+        "share_cold": 0.2963953895304862,
+        "n_cold": 26255,
+        "fraud_rate_cold": 0.032869929537231,
+        "fraud_rate_warm": 0.03561916375188525,
+        "interval_cold": {
+          "point": 0.032869929537231,
+          "low": 0.030780671144294832,
+          "high": 0.03509586272843691,
+          "n": 26255,
+          "successes": 863,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.03561916375188525,
+          "low": 0.03419249178538256,
+          "high": 0.037103076353621874,
+          "n": 62326,
+          "successes": 2220,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "card": {
+        "share_cold": 0.2204423070410133,
+        "n_cold": 19527,
+        "fraud_rate_cold": 0.02437650432734163,
+        "fraud_rate_warm": 0.037753062820401424,
+        "interval_cold": {
+          "point": 0.02437650432734163,
+          "low": 0.022305240472653726,
+          "high": 0.026634865914263277,
+          "n": 19527,
+          "successes": 476,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.037753062820401424,
+          "low": 0.03635699742713823,
+          "high": 0.039200554743560614,
+          "n": 69054,
+          "successes": 2607,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "content": {
+        "share_cold": 0.4957948092706111,
+        "n_cold": 43918,
+        "fraud_rate_cold": 0.036978004462862604,
+        "fraud_rate_warm": 0.032666860712446545,
+        "interval_cold": {
+          "point": 0.036978004462862604,
+          "low": 0.03525322757772911,
+          "high": 0.03878377430593477,
+          "n": 43918,
+          "successes": 1624,
+          "method": "wilson",
+          "z": 1.959963984540054
+        },
+        "interval_warm": {
+          "point": 0.032666860712446545,
+          "low": 0.0310580313239535,
+          "high": 0.03435607371220406,
+          "n": 44663,
+          "successes": 1459,
+          "method": "wilson",
+          "z": 1.959963984540054
+        }
+      },
+      "entity_history_against_training_overlap": {
+        "share_entity_seen_in_train": 0.3402422641424233,
+        "share_with_any_earlier_row_in_the_stream": 0.7036046104695137,
+        "why_they_differ": "an entity the training window never saw can still have transacted earlier inside this split, and at authorisation the online store holds that history whatever window the model was fitted on. The first number is what a train-fitted entity statistic covers, which is what ADR 0015 excluded. The second is what a point-in-time behavioural feature covers"
+      }
+    },
+    "note": "the card and content lines use a window rather than all history, so 'cold' there means no earlier transaction inside that window and not no earlier transaction at all"
+  },
+  "entity_key_pins_addr1": {
+    "why": "addr1 is a component of the ADR 0001 entity key, so a deviation from the entity's own modal addr1 is identically zero and carries nothing. The geography family is keyed on card1 instead",
+    "entity": {
+      "n_keys": 164702,
+      "addr1": {
+        "max_distinct_per_key": 1,
+        "share_keys_with_more_than_one": 0.0,
+        "mean_distinct_per_key": 0.9204624108996855
+      },
+      "addr2": {
+        "max_distinct_per_key": 2,
+        "share_keys_with_more_than_one": 0.00011535986205389127,
+        "mean_distinct_per_key": 0.9205777707617394
+      }
+    },
+    "card": {
+      "n_keys": 12242,
+      "addr1": {
+        "max_distinct_per_key": 63,
+        "share_keys_with_more_than_one": 0.3319719000163372,
+        "mean_distinct_per_key": 2.6720307139356314
+      },
+      "addr2": {
+        "max_distinct_per_key": 5,
+        "share_keys_with_more_than_one": 0.009965691880411697,
+        "mean_distinct_per_key": 0.908103251102761
+      }
+    }
+  },
+  "tenure_origin": {
+    "column": "D1_origin",
+    "shipped": false,
+    "why_not": "ADR 0013 measured the D-column normalisation raising PSI on all 15 columns and lowering single-feature validation AUC on 12. This column is card_start_day without the floor, which stage 2 measured at the highest PSI in the frame",
+    "psi_against": {
+      "val": 1.4427585475949538,
+      "test": 1.8303672219402596
+    },
+    "psi_of_d1_raw": {
+      "val": 0.05870826314557697,
+      "test": 0.022581154040173225
+    },
+    "against_card_start_day": {
+      "relationship": "D1_origin = card_start_day + the fractional part of the transaction day",
+      "min_difference": 0.0,
+      "max_difference": 0.9999884259259275,
+      "n_compared": 589271
+    }
+  },
+  "not_built": [
+    "the published UID aggregation: groupby the entity over the C, M and normalised D columns, with each aggregate taken over every row of the group rather than over the rows before t. Not implemented, not behind a switch, not reachable from this module. ADR 0020 is the argument and stage 7 is where its offline gain is measured against its serving cost",
+    "merchant risk. There is no merchant identifier and no merchant category code among the 434 columns, so the feature a fraud platform would most want cannot be built here at all. ADR 0019 lists the proxies used instead and states that their strength is not comparable",
+    "any target-derived entity statistic. ADR 0015 excluded entity target encoding on a measured validation AUC of 0.9877 on seen entities against 0.4915 on unseen ones, and nothing here summarises an entity's labels. Behaviour only",
+    "a deviation of addr1 from the entity's modal addr1. addr1 is a component of the entity key, so an entity holds one addr1 value: measured at 164,702 train entities with a maximum of 1 distinct value each. The feature is identically zero and the geography family is keyed on card1 instead. ADR 0023"
+  ],
+  "build_seconds": 6.301775333999103,
+  "seconds": 30.20339454200075
+}
