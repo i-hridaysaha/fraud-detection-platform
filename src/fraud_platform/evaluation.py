@@ -49,6 +49,20 @@ def roc_auc(y: npt.NDArray[np.int_], score: npt.NDArray[np.float64]) -> float:
     return float(roc_auc_score(y, score))
 
 
+def mean_score(y: npt.NDArray[np.int_], score: npt.NDArray[np.float64]) -> float:
+    """The fraud rate a model implies: its mean score over the rows. The label is not read;
+    the signature matches the metrics so one bootstrap serves all three."""
+    return float(np.mean(score))
+
+
+# What the bootstrap can resample. PR-AUC is the primary metric; the others are beside it.
+BOOTSTRAP_METRICS: dict[str, Any] = {
+    "pr_auc": pr_auc,
+    "roc_auc": roc_auc,
+    "mean_score": mean_score,
+}
+
+
 def span_days(ts: npt.NDArray[np.int64]) -> float:
     """Days a split covers, from its first timestamp to its last. Never below one day."""
     if ts.size == 0:
@@ -166,33 +180,37 @@ def _interval(draws: npt.NDArray[np.float64], point: float, alpha: float) -> dic
     }
 
 
-def paired_bootstrap(
+def bootstrap_draws(
     y: npt.NDArray[np.int_],
     scores: Mapping[str, npt.NDArray[np.float64]],
     n_boot: int,
     seed: int,
     groups: npt.NDArray[Any] | None = None,
-    alpha: float = 0.05,
+    metric: str = "pr_auc",
 ) -> dict[str, Any]:
-    """PR-AUC intervals for several fixed models on the same resamples of one split.
+    """One metric of every model on each of `n_boot` resamples of one split, the resamples shared.
 
-    Every model is scored on the identical resample, so the differences between them are paired
-    and their intervals are narrower than two independent intervals would suggest. With `groups`
-    the resample is of groups rather than rows: whole cards are drawn with replacement, which is
-    the resample that respects card-level labels. `sign_agreement` is the share of resamples on
-    which a difference has the same sign as its point estimate.
+    The matrix of draws is what `paired_bootstrap` summarises. It is exposed on its own so a
+    caller with two models scored on different splits can difference two independent sets of
+    draws, which no paired summary of either split can give it. A resample with no positive or
+    no negative rows is dropped, and `n_valid` says how many survived.
     """
+    if metric not in BOOTSTRAP_METRICS:
+        raise ValueError(f"unknown metric {metric!r}, expected one of {list(BOOTSTRAP_METRICS)}")
+    compute = BOOTSTRAP_METRICS[metric]
     y = np.asarray(y, dtype="int64")
     names = list(scores)
     stacked = np.stack([np.asarray(scores[name], dtype="float64") for name in names])
     rng = np.random.default_rng(seed)
     n = y.size
 
+    n_groups = None
     if groups is not None:
         codes, uniques = pd.factorize(np.asarray(groups), sort=False)
         order = np.argsort(codes, kind="stable")
         starts = np.searchsorted(codes[order], np.arange(uniques.size))
         ends = np.append(starts[1:], n)
+        n_groups = int(uniques.size)
 
     draws = np.empty((n_boot, len(names)), dtype="float64")
     n_positive = np.empty(n_boot, dtype="int64")
@@ -208,11 +226,51 @@ def paired_bootstrap(
             draws[b] = np.nan
             continue
         for j in range(len(names)):
-            draws[b, j] = average_precision_score(y_b, stacked[j, index])
+            draws[b, j] = compute(y_b, stacked[j, index])
 
     valid = ~np.isnan(draws).any(axis=1)
-    draws = draws[valid]
-    points = {name: pr_auc(y, stacked[j]) for j, name in enumerate(names)}
+    return {
+        "metric": metric,
+        "n_boot": int(n_boot),
+        "seed": int(seed),
+        "resample": "rows" if groups is None else "groups",
+        "names": names,
+        "draws": draws[valid],
+        "n_positive": n_positive[valid],
+        "n_valid": int(valid.sum()),
+        "n_rows": int(n),
+        "n_groups": n_groups,
+        "points": {name: float(compute(y, stacked[j])) for j, name in enumerate(names)},
+    }
+
+
+def paired_bootstrap(
+    y: npt.NDArray[np.int_],
+    scores: Mapping[str, npt.NDArray[np.float64]],
+    n_boot: int,
+    seed: int,
+    groups: npt.NDArray[Any] | None = None,
+    alpha: float = 0.05,
+    metric: str = "pr_auc",
+) -> dict[str, Any]:
+    """Intervals on one metric for several fixed models on the same resamples of one split.
+
+    Every model is scored on the identical resample, so the differences between them are paired
+    and their intervals are narrower than two independent intervals would suggest. With `groups`
+    the resample is of groups rather than rows: whole cards are drawn with replacement, which is
+    the resample that respects card-level labels. `sign_agreement` is the share of resamples on
+    which a difference has the same sign as its point estimate.
+    """
+    return paired_summary(bootstrap_draws(y, scores, n_boot, seed, groups, metric), alpha)
+
+
+def paired_summary(drawn: Mapping[str, Any], alpha: float = 0.05) -> dict[str, Any]:
+    """The `paired_bootstrap` report from a `bootstrap_draws` result: an interval per model,
+    an interval and a sign agreement per pair, and the widest paired half-width."""
+    names: list[str] = list(drawn["names"])
+    draws: npt.NDArray[np.float64] = drawn["draws"]
+    n_positive: npt.NDArray[np.int64] = drawn["n_positive"]
+    points: dict[str, float] = dict(drawn["points"])
     per_model = {name: _interval(draws[:, j], points[name], alpha) for j, name in enumerate(names)}
     pairs: list[dict[str, Any]] = []
     for (i, first), (k, second) in itertools.combinations(enumerate(names), 2):
@@ -233,18 +291,18 @@ def paired_bootstrap(
         )
     widest = max(pairs, key=lambda p: p["difference"]["half_width"]) if pairs else None
     return {
-        "metric": "pr_auc",
-        "n_boot": int(n_boot),
-        "n_valid": int(valid.sum()),
-        "seed": int(seed),
+        "metric": drawn["metric"],
+        "n_boot": int(drawn["n_boot"]),
+        "n_valid": drawn["n_valid"],
+        "seed": int(drawn["seed"]),
         "alpha": alpha,
-        "resample": "rows" if groups is None else "groups",
-        "n_rows": int(n),
-        "n_groups": int(uniques.size) if groups is not None else None,
+        "resample": drawn["resample"],
+        "n_rows": drawn["n_rows"],
+        "n_groups": drawn["n_groups"],
         "positives_per_resample": {
-            "min": int(n_positive[valid].min()),
-            "median": float(np.median(n_positive[valid])),
-            "max": int(n_positive[valid].max()),
+            "min": int(n_positive.min()),
+            "median": float(np.median(n_positive)),
+            "max": int(n_positive.max()),
         },
         "per_model": per_model,
         "pairs": pairs,
@@ -255,6 +313,40 @@ def paired_bootstrap(
             }
             if widest
             else None
+        ),
+    }
+
+
+def independent_difference(
+    first: Mapping[str, Any],
+    first_name: str,
+    second: Mapping[str, Any],
+    second_name: str,
+    alpha: float = 0.05,
+) -> dict[str, Any]:
+    """Interval on the difference between two models scored on different splits.
+
+    `first` and `second` are `bootstrap_draws` results, each on its own split with its own
+    resamples, so a draw from one differenced with a draw from the other is a draw of the
+    difference under independence. The interval is wider than a paired one, which is the width
+    there is when the two models were never scored on the same rows.
+    """
+    i = list(first["names"]).index(first_name)
+    k = list(second["names"]).index(second_name)
+    n = min(int(first["n_valid"]), int(second["n_valid"]))
+    diff = first["draws"][:n, i] - second["draws"][:n, k]
+    point = float(first["points"][first_name]) - float(second["points"][second_name])
+    sign = np.sign(point)
+    return {
+        "metric": first["metric"],
+        "first": first_name,
+        "second": second_name,
+        "resample": "independent",
+        "n_draws": int(n),
+        "difference": _interval(diff, point, alpha),
+        "sign_agreement": float(np.mean(np.sign(diff) == sign)) if sign != 0 else None,
+        "excludes_zero": bool(
+            np.quantile(diff, alpha / 2) > 0 or np.quantile(diff, 1 - alpha / 2) < 0
         ),
     }
 
