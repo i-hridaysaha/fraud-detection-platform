@@ -1,0 +1,1010 @@
+{
+  "section": "comparison",
+  "stage": 6,
+  "generated_at_utc": "2026-09-11T17:31:19+00:00",
+  "regenerate_with": "make train  # or: .venv/bin/python scripts/train.py --sections comparison",
+  "command": ".venv/bin/python scripts/train.py --sections comparison",
+  "split": {
+    "train_end_dt": 10437998,
+    "val_end_dt": 13151845,
+    "rule": "dt < boundary, ADR 0002"
+  },
+  "n_train_rows": 413378,
+  "git_commit": "8bef8e9ca4d758e6a29c3a140bb0749e027e3f42",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "xgboost": "3.4.1",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "stack": {
+    "name": "prepared+causal|native=count,timedelta,match,vesta",
+    "causal": true,
+    "graph": false,
+    "native_groups": [
+      "count",
+      "timedelta",
+      "match",
+      "vesta"
+    ]
+  },
+  "n_columns": 237,
+  "hyperparameters": {
+    "status": "fixed defaults, chosen before any number was read; the search section moves the shipped family's values and records both",
+    "logistic_regression": {
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 5000,
+      "tol": 0.0001
+    },
+    "random_forest": {
+      "n_estimators": 200,
+      "min_samples_leaf": 5,
+      "max_features": "sqrt",
+      "n_jobs": -1
+    },
+    "xgboost": {
+      "n_estimators": 600,
+      "learning_rate": 0.05,
+      "max_depth": 8,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 1.0,
+      "tree_method": "hist",
+      "n_jobs": -1
+    }
+  },
+  "paths": {
+    "logistic_regression": "complete_data",
+    "random_forest": "tree",
+    "xgboost": "tree"
+  },
+  "imbalance": {
+    "strategies": [
+      "none",
+      "class_weight",
+      "smote"
+    ],
+    "class_weight": "balanced: negatives per positive on the fit rows, as scale_pos_weight for xgboost",
+    "smote": "synthetic minority rows on the segment between a positive row and one of its 5 nearest positive neighbours, neighbours found in the complete-data standardised numeric space, enough rows to balance the classes 1:1, fitted on the train split only and applied to no other split",
+    "none": "the fit rows as they are"
+  },
+  "n_days": {
+    "train": 119.81013888888889,
+    "val": 31.410150462962964,
+    "test": 30.778368055555557
+  },
+  "models": [
+    {
+      "name": "logistic_regression__none",
+      "family": "logistic_regression",
+      "imbalance": "none",
+      "path": "complete_data",
+      "seed": 42,
+      "n_columns": 606,
+      "n_fit_rows": 413378,
+      "n_synthetic_rows": 0,
+      "fit_seconds": 11.827606457998627,
+      "convergence": {
+        "n_iter": 333,
+        "max_iter": 5000,
+        "converged": true,
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "val": {
+        "pr_auc": 0.4093719240126169,
+        "roc_auc": 0.8483850548226043,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.5011808559911299,
+          "roc_auc": 0.8782365738996194,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.36553761082580494,
+        "roc_auc": 0.8463608172369478,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.472564104202041,
+          "roc_auc": 0.8793676954212399,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.23400527238845825,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.23400527238845825,
+          "tp": 1088,
+          "fp": 1115,
+          "fn": 1954,
+          "tn": 84424,
+          "precision": 0.4938719927371766,
+          "recall": 0.3576594345825115,
+          "f1": 0.41487130600571975,
+          "alerts": 2203,
+          "alert_rate": 0.0248698930921981,
+          "false_positive_rate": 0.013034989887653585,
+          "alerts_per_day": 70.13656310235287,
+          "false_alarms_per_catch": 1.0248161764705883
+        },
+        "test": {
+          "threshold": 0.23400527238845825,
+          "tp": 1060,
+          "fp": 1352,
+          "fn": 2023,
+          "tn": 84146,
+          "precision": 0.439469320066335,
+          "recall": 0.3438209536166072,
+          "f1": 0.38580527752502275,
+          "alerts": 2412,
+          "alert_rate": 0.02722931554170759,
+          "false_positive_rate": 0.015813235397319235,
+          "alerts_per_day": 78.36672807493538,
+          "false_alarms_per_catch": 1.2754716981132075
+        }
+      }
+    },
+    {
+      "name": "logistic_regression__class_weight",
+      "family": "logistic_regression",
+      "imbalance": "class_weight",
+      "path": "complete_data",
+      "seed": 42,
+      "n_columns": 606,
+      "n_fit_rows": 413378,
+      "n_synthetic_rows": 0,
+      "fit_seconds": 32.26859316699847,
+      "convergence": {
+        "n_iter": 840,
+        "max_iter": 5000,
+        "converged": true,
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "val": {
+        "pr_auc": 0.3861895391301612,
+        "roc_auc": 0.8520063311413546,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.4718930227033357,
+          "roc_auc": 0.8778028333126764,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.3414058563153801,
+        "roc_auc": 0.8506497074357818,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.44667359112529037,
+          "roc_auc": 0.8833710395918944,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.840892493724823,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.840892493724823,
+          "tp": 1286,
+          "fp": 2147,
+          "fn": 1756,
+          "tn": 83392,
+          "precision": 0.3745994756772502,
+          "recall": 0.4227481919789612,
+          "f1": 0.39722007722007724,
+          "alerts": 3433,
+          "alert_rate": 0.03875548932615346,
+          "false_positive_rate": 0.02509966214241457,
+          "alerts_per_day": 109.29587886081588,
+          "false_alarms_per_catch": 1.6695178849144634
+        },
+        "test": {
+          "threshold": 0.840892493724823,
+          "tp": 1238,
+          "fp": 2437,
+          "fn": 1845,
+          "tn": 83061,
+          "precision": 0.33687074829931973,
+          "recall": 0.40155692507298085,
+          "f1": 0.3663805859721811,
+          "alerts": 3675,
+          "alert_rate": 0.04148745216242761,
+          "false_positive_rate": 0.028503590727268473,
+          "alerts_per_day": 119.40204215397493,
+          "false_alarms_per_catch": 1.9684975767366721
+        }
+      }
+    },
+    {
+      "name": "logistic_regression__smote",
+      "family": "logistic_regression",
+      "imbalance": "smote",
+      "path": "complete_data",
+      "seed": 42,
+      "n_columns": 606,
+      "n_fit_rows": 797680,
+      "n_synthetic_rows": 384302,
+      "fit_seconds": 71.78317412500473,
+      "convergence": {
+        "n_iter": 971,
+        "max_iter": 5000,
+        "converged": true,
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "val": {
+        "pr_auc": 0.3892218536119067,
+        "roc_auc": 0.8491647357812319,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.471480527551274,
+          "roc_auc": 0.8750090660333324,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.3479821018901923,
+        "roc_auc": 0.8476233787085683,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.44780340070081814,
+          "roc_auc": 0.8787024285348569,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.8249715566635132,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.8249715566635132,
+          "tp": 1375,
+          "fp": 2454,
+          "fn": 1667,
+          "tn": 83085,
+          "precision": 0.3591015931052494,
+          "recall": 0.4520052596975674,
+          "f1": 0.4002328627565129,
+          "alerts": 3829,
+          "alert_rate": 0.043225973967329336,
+          "false_positive_rate": 0.02868866832672816,
+          "alerts_per_day": 121.90326832451618,
+          "false_alarms_per_catch": 1.7847272727272727
+        },
+        "test": {
+          "threshold": 0.8249715566635132,
+          "tp": 1290,
+          "fp": 2732,
+          "fn": 1793,
+          "tn": 82766,
+          "precision": 0.32073595226255597,
+          "recall": 0.4184236133636069,
+          "f1": 0.36312456016889516,
+          "alerts": 4022,
+          "alert_rate": 0.04540477077477111,
+          "false_positive_rate": 0.03195396383541135,
+          "alerts_per_day": 130.67619416143867,
+          "false_alarms_per_catch": 2.117829457364341
+        }
+      }
+    },
+    {
+      "name": "random_forest__none",
+      "family": "random_forest",
+      "imbalance": "none",
+      "path": "tree",
+      "seed": 42,
+      "n_columns": 237,
+      "n_fit_rows": 413378,
+      "n_synthetic_rows": 0,
+      "fit_seconds": 51.39795524999499,
+      "convergence": null,
+      "val": {
+        "pr_auc": 0.5530277883757507,
+        "roc_auc": 0.9120018490629468,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.6202108065000275,
+          "roc_auc": 0.9239849259899328,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.4743882545191377,
+        "roc_auc": 0.8907305701885108,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.6277208347945173,
+          "roc_auc": 0.9221459461413875,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.24123815155432804,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.24123815155432804,
+          "tp": 1507,
+          "fp": 1035,
+          "fn": 1535,
+          "tn": 84504,
+          "precision": 0.5928402832415421,
+          "recall": 0.49539776462853385,
+          "f1": 0.539756446991404,
+          "alerts": 2542,
+          "alert_rate": 0.02869689888350775,
+          "false_positive_rate": 0.012099743976431803,
+          "alerts_per_day": 80.92925256749024,
+          "false_alarms_per_catch": 0.6867949568679496
+        },
+        "test": {
+          "threshold": 0.24123815155432804,
+          "tp": 1500,
+          "fp": 2837,
+          "fn": 1583,
+          "tn": 82661,
+          "precision": 0.34586119437399127,
+          "recall": 0.4865390853065196,
+          "f1": 0.40431266846361186,
+          "alerts": 4337,
+          "alert_rate": 0.048960838102979194,
+          "false_positive_rate": 0.03318206273830967,
+          "alerts_per_day": 140.91065491749367,
+          "false_alarms_per_catch": 1.8913333333333333
+        }
+      }
+    },
+    {
+      "name": "random_forest__class_weight",
+      "family": "random_forest",
+      "imbalance": "class_weight",
+      "path": "tree",
+      "seed": 42,
+      "n_columns": 237,
+      "n_fit_rows": 413378,
+      "n_synthetic_rows": 0,
+      "fit_seconds": 26.32039466599963,
+      "convergence": null,
+      "val": {
+        "pr_auc": 0.5466099456626416,
+        "roc_auc": 0.9198158716934228,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.6181060420120702,
+          "roc_auc": 0.9300126277896832,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.5123251067325452,
+        "roc_auc": 0.9026547460575699,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.6271523099340175,
+          "roc_auc": 0.92874475929816,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.4489992129582461,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.4489992129582461,
+          "tp": 1563,
+          "fp": 1353,
+          "fn": 1479,
+          "tn": 84186,
+          "precision": 0.5360082304526749,
+          "recall": 0.5138067061143984,
+          "f1": 0.5246727089627392,
+          "alerts": 2916,
+          "alert_rate": 0.03291902326684052,
+          "false_positive_rate": 0.015817346473538385,
+          "alerts_per_day": 92.8362315054294,
+          "false_alarms_per_catch": 0.8656429942418427
+        },
+        "test": {
+          "threshold": 0.4489992129582461,
+          "tp": 1520,
+          "fp": 1542,
+          "fn": 1563,
+          "tn": 83956,
+          "precision": 0.496407576747224,
+          "recall": 0.49302627311060654,
+          "f1": 0.4947111472742067,
+          "alerts": 3062,
+          "alert_rate": 0.03456723225070839,
+          "false_positive_rate": 0.018035509602563803,
+          "alerts_per_day": 99.48545661917585,
+          "false_alarms_per_catch": 1.0144736842105264
+        }
+      }
+    },
+    {
+      "name": "random_forest__smote",
+      "family": "random_forest",
+      "imbalance": "smote",
+      "path": "tree",
+      "seed": 42,
+      "n_columns": 237,
+      "n_fit_rows": 797680,
+      "n_synthetic_rows": 384302,
+      "fit_seconds": 107.56814570799907,
+      "convergence": null,
+      "val": {
+        "pr_auc": 0.5134085591303401,
+        "roc_auc": 0.8968190909208367,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.5888473690810732,
+          "roc_auc": 0.912354509296612,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.4804358409083331,
+        "roc_auc": 0.8777704193052847,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.5921791117828967,
+          "roc_auc": 0.9113439989101342,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.4617217149680383,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.4617217149680383,
+          "tp": 1385,
+          "fp": 1052,
+          "fn": 1657,
+          "tn": 84487,
+          "precision": 0.5683217070168239,
+          "recall": 0.45529257067718604,
+          "f1": 0.5055667092535134,
+          "alerts": 2437,
+          "alert_rate": 0.02751154310743839,
+          "false_positive_rate": 0.012298483732566432,
+          "alerts_per_day": 77.58638414908485,
+          "false_alarms_per_catch": 0.7595667870036101
+        },
+        "test": {
+          "threshold": 0.4617217149680383,
+          "tp": 1405,
+          "fp": 1252,
+          "fn": 1678,
+          "tn": 84246,
+          "precision": 0.5287918705306737,
+          "recall": 0.4557249432371067,
+          "f1": 0.4895470383275261,
+          "alerts": 2657,
+          "alert_rate": 0.02999514568586943,
+          "false_positive_rate": 0.014643617394558937,
+          "alerts_per_day": 86.32686421853371,
+          "false_alarms_per_catch": 0.8911032028469751
+        }
+      }
+    },
+    {
+      "name": "xgboost__none",
+      "family": "xgboost",
+      "imbalance": "none",
+      "path": "tree",
+      "seed": 42,
+      "n_columns": 237,
+      "n_fit_rows": 413378,
+      "n_synthetic_rows": 0,
+      "fit_seconds": 16.794808541999373,
+      "convergence": null,
+      "val": {
+        "pr_auc": 0.619802437376952,
+        "roc_auc": 0.9308383285172551,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.664436264869433,
+          "roc_auc": 0.9389910149909243,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.5489913554208273,
+        "roc_auc": 0.9110581953282096,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.6515148079986036,
+          "roc_auc": 0.9366122766800026,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.23404915630817413,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.23404915630817413,
+          "tp": 1620,
+          "fp": 807,
+          "fn": 1422,
+          "tn": 84732,
+          "precision": 0.6674907292954264,
+          "recall": 0.5325443786982249,
+          "f1": 0.5924300603400987,
+          "alerts": 2427,
+          "alert_rate": 0.027398652081146068,
+          "false_positive_rate": 0.009434293129449725,
+          "alerts_per_day": 77.26801572828434,
+          "false_alarms_per_catch": 0.4981481481481482
+        },
+        "test": {
+          "threshold": 0.23404915630817413,
+          "tp": 1514,
+          "fp": 1084,
+          "fn": 1569,
+          "tn": 84414,
+          "precision": 0.5827559661277906,
+          "recall": 0.49108011676938046,
+          "f1": 0.5330047526843865,
+          "alerts": 2598,
+          "alert_rate": 0.02932908863074474,
+          "false_positive_rate": 0.012678659149921636,
+          "alerts_per_day": 84.40993347374881,
+          "false_alarms_per_catch": 0.7159841479524438
+        }
+      }
+    },
+    {
+      "name": "xgboost__class_weight",
+      "family": "xgboost",
+      "imbalance": "class_weight",
+      "path": "tree",
+      "seed": 42,
+      "n_columns": 237,
+      "n_fit_rows": 413378,
+      "n_synthetic_rows": 0,
+      "fit_seconds": 18.62330741599726,
+      "convergence": null,
+      "val": {
+        "pr_auc": 0.5744665174436323,
+        "roc_auc": 0.922513102685305,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.6363551360525151,
+          "roc_auc": 0.9331153195691634,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.5221306336632511,
+        "roc_auc": 0.8974916773693228,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.625147438738387,
+          "roc_auc": 0.9289832965794163,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.7166327238082886,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.7166327238082886,
+          "tp": 1389,
+          "fp": 629,
+          "fn": 1653,
+          "tn": 84910,
+          "precision": 0.6883052527254707,
+          "recall": 0.45660749506903353,
+          "f1": 0.5490118577075099,
+          "alerts": 2018,
+          "alert_rate": 0.02278140910579018,
+          "false_positive_rate": 0.00735337097698126,
+          "alerts_per_day": 64.24674731754338,
+          "false_alarms_per_catch": 0.4528437724982001
+        },
+        "test": {
+          "threshold": 0.7166327238082886,
+          "tp": 1298,
+          "fp": 694,
+          "fn": 1785,
+          "tn": 84804,
+          "precision": 0.6516064257028112,
+          "recall": 0.42101848848524165,
+          "f1": 0.5115270935960591,
+          "alerts": 1992,
+          "alert_rate": 0.02248789243743015,
+          "false_positive_rate": 0.00811714893915647,
+          "alerts_per_day": 64.7207804001954,
+          "false_alarms_per_catch": 0.5346687211093991
+        }
+      }
+    },
+    {
+      "name": "xgboost__smote",
+      "family": "xgboost",
+      "imbalance": "smote",
+      "path": "tree",
+      "seed": 42,
+      "n_columns": 237,
+      "n_fit_rows": 797680,
+      "n_synthetic_rows": 384302,
+      "fit_seconds": 35.30923370899836,
+      "convergence": null,
+      "val": {
+        "pr_auc": 0.537307553104953,
+        "roc_auc": 0.8922967641959519,
+        "n_rows": 88581,
+        "n_positive": 3042,
+        "card_level": {
+          "pr_auc": 0.5922922692654817,
+          "roc_auc": 0.9077040480643137,
+          "n_cards": 46884,
+          "n_positive_cards": 1408,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "test": {
+        "pr_auc": 0.499818203643198,
+        "roc_auc": 0.8747965336999042,
+        "n_rows": 88581,
+        "n_positive": 3083,
+        "card_level": {
+          "pr_auc": 0.5842306461651136,
+          "roc_auc": 0.9081398304961634,
+          "n_cards": 45348,
+          "n_positive_cards": 1410,
+          "key": "entity_id",
+          "aggregation": "maximum score per key, any fraud per key"
+        }
+      },
+      "tuned_threshold": {
+        "rule": "largest F1 on the validation split",
+        "fitted_on": "val",
+        "threshold": 0.5584366917610168,
+        "val": {
+          "rule": "largest F1 on the validation split",
+          "threshold": 0.5584366917610168,
+          "tp": 1334,
+          "fp": 642,
+          "fn": 1708,
+          "tn": 84897,
+          "precision": 0.6751012145748988,
+          "recall": 0.43852728468113084,
+          "f1": 0.5316859306496612,
+          "alerts": 1976,
+          "alert_rate": 0.02230726679536244,
+          "false_positive_rate": 0.0075053484375548,
+          "alerts_per_day": 62.90959995018124,
+          "false_alarms_per_catch": 0.48125937031484256
+        },
+        "test": {
+          "threshold": 0.5584366917610168,
+          "tp": 1316,
+          "fp": 811,
+          "fn": 1767,
+          "tn": 84687,
+          "precision": 0.6187118006582041,
+          "recall": 0.4268569575089199,
+          "f1": 0.5051823416506718,
+          "alerts": 2127,
+          "alert_rate": 0.02401192129237647,
+          "false_positive_rate": 0.009485602002386021,
+          "alerts_per_day": 69.1069778670761,
+          "false_alarms_per_catch": 0.6162613981762918
+        }
+      }
+    }
+  ],
+  "selection": {
+    "rule": "the family and strategy with the largest validation PR-AUC; test is not consulted",
+    "shipped_family": "xgboost",
+    "shipped_imbalance": "none",
+    "shipped_name": "xgboost__none",
+    "ranking_by_val_pr_auc": [
+      {
+        "name": "xgboost__none",
+        "val_pr_auc": 0.619802437376952,
+        "test_pr_auc": 0.5489913554208273
+      },
+      {
+        "name": "xgboost__class_weight",
+        "val_pr_auc": 0.5744665174436323,
+        "test_pr_auc": 0.5221306336632511
+      },
+      {
+        "name": "random_forest__none",
+        "val_pr_auc": 0.5530277883757507,
+        "test_pr_auc": 0.4743882545191377
+      },
+      {
+        "name": "random_forest__class_weight",
+        "val_pr_auc": 0.5466099456626416,
+        "test_pr_auc": 0.5123251067325452
+      },
+      {
+        "name": "xgboost__smote",
+        "val_pr_auc": 0.537307553104953,
+        "test_pr_auc": 0.499818203643198
+      },
+      {
+        "name": "random_forest__smote",
+        "val_pr_auc": 0.5134085591303401,
+        "test_pr_auc": 0.4804358409083331
+      },
+      {
+        "name": "logistic_regression__none",
+        "val_pr_auc": 0.4093719240126169,
+        "test_pr_auc": 0.36553761082580494
+      },
+      {
+        "name": "logistic_regression__smote",
+        "val_pr_auc": 0.3892218536119067,
+        "test_pr_auc": 0.3479821018901923
+      },
+      {
+        "name": "logistic_regression__class_weight",
+        "val_pr_auc": 0.3861895391301612,
+        "test_pr_auc": 0.3414058563153801
+      }
+    ],
+    "by_family": {
+      "logistic_regression": {
+        "best_imbalance": "none",
+        "val_pr_auc_by_imbalance": {
+          "none": 0.4093719240126169,
+          "class_weight": 0.3861895391301612,
+          "smote": 0.3892218536119067
+        },
+        "test_pr_auc_by_imbalance": {
+          "none": 0.36553761082580494,
+          "class_weight": 0.3414058563153801,
+          "smote": 0.3479821018901923
+        }
+      },
+      "random_forest": {
+        "best_imbalance": "none",
+        "val_pr_auc_by_imbalance": {
+          "none": 0.5530277883757507,
+          "class_weight": 0.5466099456626416,
+          "smote": 0.5134085591303401
+        },
+        "test_pr_auc_by_imbalance": {
+          "none": 0.4743882545191377,
+          "class_weight": 0.5123251067325452,
+          "smote": 0.4804358409083331
+        }
+      },
+      "xgboost": {
+        "best_imbalance": "none",
+        "val_pr_auc_by_imbalance": {
+          "none": 0.619802437376952,
+          "class_weight": 0.5744665174436323,
+          "smote": 0.537307553104953
+        },
+        "test_pr_auc_by_imbalance": {
+          "none": 0.5489913554208273,
+          "class_weight": 0.5221306336632511,
+          "smote": 0.499818203643198
+        }
+      }
+    }
+  },
+  "logistic_regression_convergence": [
+    {
+      "name": "logistic_regression__none",
+      "n_iter": 333,
+      "max_iter": 5000,
+      "converged": true,
+      "solver": "lbfgs",
+      "tol": 0.0001
+    },
+    {
+      "name": "logistic_regression__class_weight",
+      "n_iter": 840,
+      "max_iter": 5000,
+      "converged": true,
+      "solver": "lbfgs",
+      "tol": 0.0001
+    },
+    {
+      "name": "logistic_regression__smote",
+      "n_iter": 971,
+      "max_iter": 5000,
+      "converged": true,
+      "solver": "lbfgs",
+      "tol": 0.0001
+    }
+  ],
+  "metric_agreement": {
+    "on": "val",
+    "rank_by_roc_auc": [
+      "xgboost__none",
+      "xgboost__class_weight",
+      "random_forest__class_weight",
+      "random_forest__none",
+      "random_forest__smote",
+      "xgboost__smote",
+      "logistic_regression__class_weight",
+      "logistic_regression__smote",
+      "logistic_regression__none"
+    ],
+    "rank_by_pr_auc": [
+      "xgboost__none",
+      "xgboost__class_weight",
+      "random_forest__none",
+      "random_forest__class_weight",
+      "xgboost__smote",
+      "random_forest__smote",
+      "logistic_regression__none",
+      "logistic_regression__smote",
+      "logistic_regression__class_weight"
+    ],
+    "n_pairs": 36,
+    "n_discordant_pairs": 5,
+    "discordant_pairs": [
+      {
+        "first": "logistic_regression__none",
+        "second": "logistic_regression__class_weight",
+        "val_roc_auc": [
+          0.8483850548226043,
+          0.8520063311413546
+        ],
+        "val_pr_auc": [
+          0.4093719240126169,
+          0.3861895391301612
+        ]
+      },
+      {
+        "first": "logistic_regression__none",
+        "second": "logistic_regression__smote",
+        "val_roc_auc": [
+          0.8483850548226043,
+          0.8491647357812319
+        ],
+        "val_pr_auc": [
+          0.4093719240126169,
+          0.3892218536119067
+        ]
+      },
+      {
+        "first": "logistic_regression__class_weight",
+        "second": "logistic_regression__smote",
+        "val_roc_auc": [
+          0.8520063311413546,
+          0.8491647357812319
+        ],
+        "val_pr_auc": [
+          0.3861895391301612,
+          0.3892218536119067
+        ]
+      },
+      {
+        "first": "random_forest__none",
+        "second": "random_forest__class_weight",
+        "val_roc_auc": [
+          0.9120018490629468,
+          0.9198158716934228
+        ],
+        "val_pr_auc": [
+          0.5530277883757507,
+          0.5466099456626416
+        ]
+      },
+      {
+        "first": "random_forest__smote",
+        "second": "xgboost__smote",
+        "val_roc_auc": [
+          0.8968190909208367,
+          0.8922967641959519
+        ],
+        "val_pr_auc": [
+          0.5134085591303401,
+          0.537307553104953
+        ]
+      }
+    ],
+    "spread": {
+      "roc_auc": 0.08245327369465083,
+      "pr_auc": 0.23361289824679077
+    },
+    "false_positive_rate_at_tuned_threshold_test": {
+      "logistic_regression__none": 0.015813235397319235,
+      "logistic_regression__class_weight": 0.028503590727268473,
+      "logistic_regression__smote": 0.03195396383541135,
+      "random_forest__none": 0.03318206273830967,
+      "random_forest__class_weight": 0.018035509602563803,
+      "random_forest__smote": 0.014643617394558937,
+      "xgboost__none": 0.012678659149921636,
+      "xgboost__class_weight": 0.00811714893915647,
+      "xgboost__smote": 0.009485602002386021
+    }
+  },
+  "seconds": 390.01834945799783
+}
