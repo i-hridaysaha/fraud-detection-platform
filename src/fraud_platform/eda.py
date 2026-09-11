@@ -19,7 +19,7 @@ They are choices, not measurements, and docs/eda.md labels them that way.
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 import numpy as np
@@ -1122,3 +1122,94 @@ def duplicate_groups(frame: pd.DataFrame, subset: Sequence[str], target: str) ->
         "interval_in_groups": wilson_interval(k_in, n_in),
         "interval_outside_groups": wilson_interval(k_out, n_out),
     }
+
+
+# --- a count feature against the label, per split ------------------------------------------------
+
+
+def zero_against_positive(
+    values: pd.Series, labels: npt.NDArray[np.int64], mask: npt.NDArray[np.bool_]
+) -> dict[str, Any]:
+    """Fraud rate on the rows where a count is positive against the rows where it is zero.
+
+    This exists because decile information value is the wrong instrument for a zero-inflated
+    count, and it reports a number that reads as "carries nothing" when the column carries
+    plenty. Stage 4 measured `dup_prior_count_1h` at zero on 0.9233 of train rows, so ten
+    equal-frequency bins collapse into one and the information value comes back at 0.0000 while
+    the positive rows run at nearly three times the base rate. Both numbers go into the artifacts,
+    with this one beside the binning diagnostics that explain the other.
+
+    Written in stage 4's driver and moved here in stage 5 because the graph features are counts
+    too and are judged by the same comparison.
+    """
+    array = values.to_numpy(dtype="float64")
+    positive = mask & (array > 0)
+    zero = mask & (array == 0)
+    n_positive, n_zero = int(positive.sum()), int(zero.sum())
+    rate_positive = float(labels[positive].mean()) if n_positive else None
+    rate_zero = float(labels[zero].mean()) if n_zero else None
+    return {
+        "n_positive": n_positive,
+        "n_zero": n_zero,
+        "share_positive": n_positive / int(mask.sum()) if mask.sum() else None,
+        "n_distinct_train": int(np.unique(array[mask]).size),
+        "fraud_rate_positive": rate_positive,
+        "fraud_rate_zero": rate_zero,
+        "interval_positive": wilson_interval(int(labels[positive].sum()), n_positive),
+        "interval_zero": wilson_interval(int(labels[zero].sum()), n_zero),
+        "lift": (
+            rate_positive / rate_zero
+            if rate_positive is not None and rate_zero not in (None, 0.0)
+            else None
+        ),
+    }
+
+
+def zero_against_positive_by_split(
+    values: pd.Series,
+    labels: npt.NDArray[np.int64],
+    masks: Mapping[str, pd.Series],
+) -> dict[str, Any]:
+    """`zero_against_positive` on each split, so a train-only separation cannot be reported alone.
+
+    This block exists because the first version of stage 4 reported the duplicate-content lift
+    from the train split and nothing else, and the train split is not where the question is
+    settled. ADR 0009 set the precedent: a relationship learned from one window is a candidate
+    until a later window has seen it. Every separation is therefore reported per split, whether
+    or not it holds, and the three flags at the end are the ship rule ADR 0022 wrote down.
+    """
+    out: dict[str, Any] = {}
+    for name, mask in masks.items():
+        block = zero_against_positive(values, labels, mask.to_numpy(dtype=bool))
+        out[name] = block
+    rates = [
+        (name, block["fraud_rate_positive"], block["fraud_rate_zero"])
+        for name, block in out.items()
+        if block["fraud_rate_positive"] is not None and block["fraud_rate_zero"] is not None
+    ]
+    out["definitions"] = {
+        "positive_is_riskier": (
+            "the positive side of the count carries the higher fraud rate on every split. False "
+            "for a column whose zero side is the risky one, which is an ordinary inverse "
+            "relationship and not a fault"
+        ),
+        "direction_stable": (
+            "the sign of (rate positive minus rate zero) is the same on all three splits. This is "
+            "the instability test. A column can be stably inverse and pass it; a column whose "
+            "marginal relationship flips between the training window and the later ones fails it, "
+            "and that is the case ADR 0009 said to treat as a candidate rather than a result"
+        ),
+        "disjoint_on_every_split": (
+            "the two Wilson intervals do not overlap on any split, so the separation is larger "
+            "than the split resolves wherever it is measured"
+        ),
+    }
+    out["positive_is_riskier"] = bool(rates) and all(positive > zero for _, positive, zero in rates)
+    signs = {1 if positive > zero else -1 for _, positive, zero in rates}
+    out["direction_stable"] = bool(rates) and len(signs) == 1
+    out["disjoint_on_every_split"] = bool(rates) and all(
+        out[name]["interval_positive"]["low"] > out[name]["interval_zero"]["high"]
+        or out[name]["interval_zero"]["low"] > out[name]["interval_positive"]["high"]
+        for name, _, _ in rates
+    )
+    return out
