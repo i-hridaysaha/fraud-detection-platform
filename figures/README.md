@@ -1,5 +1,6 @@
 Figures for the README and the case study. Each is drawn by `make eda-figures`,
-`make prep-figures`, `make features-figures`, `make graph-figures` or `make train-figures` from one artifact under
+`make prep-figures`, `make features-figures`, `make graph-figures`, `make train-figures` or
+`make experiment-figures` from one artifact under
 reports/ and from nothing else, at 200 DPI, so a figure and the prose beside it quote the same
 numbers.
 
@@ -23,3 +24,5 @@ numbers.
 | threshold_curve.png | reports/threshold_curve.json | precision, recall, F1 and alerts per day against the calibrated threshold on validation, band edges marked |
 | calibration.png | reports/operating_points.json | observed fraud rate against predicted probability on test, raw score and calibrated |
 | shap_global.png | reports/shap/shap_global.json | the twenty largest mean absolute SHAP values and the share per block |
+| leakage_delta.png | reports/leakage_delta.json | test PR-AUC per leakage variant with its interval, and each variant's difference against the causal baseline |
+| label_latency.png | reports/label_latency.json | test PR-AUC and the implied fraud rate against the simulated label latency, immature and excluded treatments |
