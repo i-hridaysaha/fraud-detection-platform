@@ -1,6 +1,7 @@
 Figures for the README and the case study. Each is drawn by `make eda-figures`,
-`make prep-figures` or `make features-figures` from one artifact under reports/ and from nothing
-else, at 200 DPI, so a figure and the prose beside it quote the same numbers.
+`make prep-figures`, `make features-figures` or `make graph-figures` from one artifact under
+reports/ and from nothing else, at 200 DPI, so a figure and the prose beside it quote the same
+numbers.
 
 | File | Source | Shows |
 | --- | --- | --- |
@@ -16,3 +17,4 @@ else, at 200 DPI, so a figure and the prose beside it quote the same numbers.
 | velocity_vs_native_c.png | reports/features/velocity_vs_c.json | this repo's point-in-time velocity against the native C columns |
 | feature_coverage.png | reports/feature_summary.json | what a point-in-time entity feature covers against what a train-fitted one does |
 | duplicate_content.png | reports/features/duplicate_content.json | fraud rate by time since the last identical purchase |
+| graph_components.png | reports/graph_summary.json | the hub sweep of the end-of-train graph, and fraud rate by decile of the point-in-time component size |
