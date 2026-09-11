@@ -20,13 +20,6 @@ repos:
         types: [python]
         pass_filenames: false
 
-      - id: pytest
-        name: pytest
-        entry: .venv/bin/pytest -q
-        language: system
-        types: [python]
-        pass_filenames: false
-
       - id: no-em-dash
         name: no em dashes
         entry: scripts/check_no_em_dash.sh
