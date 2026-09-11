@@ -260,6 +260,16 @@ def test_a_null_anchor_raises(feature_frame: pd.DataFrame) -> None:
         graph_features.build_graph_features(holed, cfg=graph_features.GraphConfig(enabled=True))
 
 
+def test_a_frame_without_the_id_or_the_timestamp_raises(feature_frame: pd.DataFrame) -> None:
+    cfg = graph_features.GraphConfig(enabled=True)
+    with pytest.raises(KeyError, match=config.ID_COLUMN):
+        graph_features.build_graph_features(feature_frame.drop(columns=[config.ID_COLUMN]), cfg=cfg)
+    with pytest.raises(KeyError, match=config.TIME_COLUMN):
+        graph_features.build_graph_features(
+            feature_frame.drop(columns=[config.TIME_COLUMN]), cfg=cfg
+        )
+
+
 def test_a_frame_without_the_entity_key_raises(feature_frame: pd.DataFrame) -> None:
     with pytest.raises(KeyError, match=config.ENTITY_ID_COLUMN):
         graph_features.build_graph_features(
