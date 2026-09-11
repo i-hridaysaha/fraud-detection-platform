@@ -132,3 +132,19 @@ EXACT_FLOAT_COLUMNS: tuple[str, ...] = (AMOUNT_COLUMN,)
 
 # Everything numeric that is not named above.
 DEFAULT_NUMERIC_DTYPE = "float32"
+
+# --- stage 6: the decision cost matrix --------------------------------------------------------
+# ASSUMPTION. The relative cost of each outcome a decision can produce, in units of one false
+# decline. Nothing in this repo measures these: the file carries no chargeback amount, no margin
+# and no review cost. They are inputs chosen so that the band edges can be derived from something
+# explicit, and ADR 0028 labels them as inputs. The derivation from them is not an assumption and
+# lives in fraud_platform.evaluation.cost_bands. Change a number here and the bands move; the
+# artifact records which numbers produced which edges.
+COST_FALSE_DECLINE = 1.0  # a legitimate transaction blocked
+COST_MISSED_FRAUD = 10.0  # a fraudulent transaction approved
+COST_REVIEW = 0.5  # one analyst look, paid whatever the transaction turns out to be
+
+# The segmentation key for per-segment thresholds. Stage 2 measured addr2 at a top-value share of
+# 0.9901 on train (reports/eda/univariate.json), so a per-market calibration has one market to
+# calibrate. ProductCD is the partition with five levels none of which is rare. ADR 0029.
+SEGMENT_COLUMN = "ProductCD"

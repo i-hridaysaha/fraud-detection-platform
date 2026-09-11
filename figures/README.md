@@ -1,5 +1,5 @@
 Figures for the README and the case study. Each is drawn by `make eda-figures`,
-`make prep-figures`, `make features-figures` or `make graph-figures` from one artifact under
+`make prep-figures`, `make features-figures`, `make graph-figures` or `make train-figures` from one artifact under
 reports/ and from nothing else, at 200 DPI, so a figure and the prose beside it quote the same
 numbers.
 
@@ -18,3 +18,8 @@ numbers.
 | feature_coverage.png | reports/feature_summary.json | what a point-in-time entity feature covers against what a train-fitted one does |
 | duplicate_content.png | reports/features/duplicate_content.json | fraud rate by time since the last identical purchase |
 | graph_components.png | reports/graph_summary.json | the hub sweep of the end-of-train graph, and fraud rate by decile of the point-in-time component size |
+| model_comparison.png | reports/metric_variance.json | test PR-AUC per model with its paired-bootstrap interval, and the shipped model's paired difference against each |
+| ablations.png | reports/ablations.json | validation and test PR-AUC per feature stack, three seeds each |
+| threshold_curve.png | reports/threshold_curve.json | precision, recall, F1 and alerts per day against the calibrated threshold on validation, band edges marked |
+| calibration.png | reports/operating_points.json | observed fraud rate against predicted probability on test, raw score and calibrated |
+| shap_global.png | reports/shap/shap_global.json | the twenty largest mean absolute SHAP values and the share per block |

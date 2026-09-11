@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train experiments serve test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments serve test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -52,13 +52,20 @@ graph:
 graph-figures:
 	$(PY) scripts/graph_figures.py --reports-dir reports --out-dir figures
 
+# The whole of stage 6: the cached matrices, the family comparison, the ablations, the search, the
+# bootstrap, the thresholds and bands, and the SHAP artifacts, then the figures. Every number the
+# stage quotes comes out of this one target.
 train:
-	@echo "train: not implemented until stage 6"
-	@exit 1
+	$(PY) scripts/train.py --transactions data/train_transaction.csv --identity data/train_identity.csv
+	$(MAKE) train-figures
 
+train-figures:
+	$(PY) scripts/train_figures.py --reports-dir reports --out-dir figures
+
+# The model-selection half of stage 6 on its own: which family, which strategy, which stack,
+# which hyperparameters. Reads the cached matrices, so run `make train` once first.
 experiments:
-	@echo "experiments: not implemented until stage 6"
-	@exit 1
+	$(PY) scripts/train.py --sections comparison ablations search
 
 serve:
 	@echo "serve: not implemented until stage 7"
@@ -75,9 +82,9 @@ lint:
 
 # The single entry point the README promises: raw data in, every committed artifact out.
 # Stages append their steps here as they land, so the chain is never retrofitted.
-reproduce: data audit split-summary memory-profile eda prep features graph
-	@echo "reproduce: stages 0 to 5 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph)"
-	@echo "later stages append train, experiments here"
+reproduce: data audit split-summary memory-profile eda prep features graph train
+	@echo "reproduce: stages 0 to 6 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train)"
+	@echo "later stages append serve here"
 
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov
