@@ -127,6 +127,47 @@ def test_group_bootstrap_draws_whole_groups() -> None:
     assert report["positives_per_resample"]["min"] > 0
 
 
+def test_bootstrap_metric_switch_and_the_summary_is_the_report() -> None:
+    rng = np.random.default_rng(config.SEED)
+    n = 400
+    score = rng.random(n)
+    y = (rng.random(n) < score).astype("int64")
+    for metric, compute in (
+        ("pr_auc", evaluation.pr_auc),
+        ("roc_auc", evaluation.roc_auc),
+        ("mean_score", evaluation.mean_score),
+    ):
+        drawn = evaluation.bootstrap_draws(y, {"a": score}, n_boot=30, seed=4, metric=metric)
+        assert drawn["metric"] == metric and drawn["draws"].shape == (30, 1)
+        assert drawn["points"]["a"] == pytest.approx(compute(y, score))
+        summary = evaluation.paired_summary(drawn)
+        report = evaluation.paired_bootstrap(y, {"a": score}, n_boot=30, seed=4, metric=metric)
+        assert summary == report
+        assert report["metric"] == metric
+    assert evaluation.mean_score(y, score) == pytest.approx(float(score.mean()))
+    with pytest.raises(ValueError, match="unknown metric"):
+        evaluation.bootstrap_draws(y, {"a": score}, n_boot=5, seed=4, metric="f1")
+
+
+def test_independent_difference_is_wider_than_the_paired_one() -> None:
+    rng = np.random.default_rng(config.SEED)
+    n = 400
+    score = rng.random(n)
+    y = (rng.random(n) < score).astype("int64")
+    better = np.clip(score + 0.3 * (y - 0.5), 0, 1)
+    paired = evaluation.paired_bootstrap(y, {"a": score, "b": better}, n_boot=200, seed=5)
+    first = evaluation.bootstrap_draws(y, {"b": better}, n_boot=200, seed=6)
+    second = evaluation.bootstrap_draws(y, {"a": score}, n_boot=200, seed=7)
+    independent = evaluation.independent_difference(first, "b", second, "a")
+    pair = paired["pairs"][0]
+    assert independent["resample"] == "independent" and independent["metric"] == "pr_auc"
+    assert independent["n_draws"] == 200
+    assert independent["difference"]["point"] == pytest.approx(-pair["difference"]["point"])
+    assert independent["difference"]["half_width"] > pair["difference"]["half_width"]
+    assert independent["difference"]["low"] <= independent["difference"]["point"]
+    assert independent["difference"]["point"] <= independent["difference"]["high"]
+
+
 # --- calibration ----------------------------------------------------------------------------------
 
 
