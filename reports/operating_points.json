@@ -1,0 +1,2063 @@
+{
+  "section": "thresholds",
+  "stage": 6,
+  "generated_at_utc": "2026-09-11T17:41:37+00:00",
+  "regenerate_with": "make train  # or: .venv/bin/python scripts/train.py --sections thresholds",
+  "command": ".venv/bin/python scripts/train.py --sections thresholds",
+  "split": {
+    "train_end_dt": 10437998,
+    "val_end_dt": 13151845,
+    "rule": "dt < boundary, ADR 0002"
+  },
+  "n_train_rows": 413378,
+  "git_commit": "8bef8e9ca4d758e6a29c3a140bb0749e027e3f42",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "xgboost": "3.4.1",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "model": {
+    "family": "xgboost",
+    "imbalance": "none",
+    "stack": {
+      "name": "prepared|native=count,timedelta,vesta",
+      "causal": false,
+      "graph": false,
+      "native_groups": [
+        "count",
+        "timedelta",
+        "vesta"
+      ]
+    },
+    "hyperparameters": {
+      "n_estimators": 600,
+      "learning_rate": 0.05,
+      "max_depth": 8,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 1.0,
+      "tree_method": "hist",
+      "n_jobs": -1
+    },
+    "model_file": "models/shipped_model.json"
+  },
+  "n_days": {
+    "train": 119.81013888888889,
+    "val": 31.410150462962964,
+    "test": 30.778368055555557
+  },
+  "band_edges": {
+    "low": 0.05,
+    "high": 0.5,
+    "on": "calibrated probability"
+  },
+  "calibration": {
+    "method": "isotonic regression from the model score to a probability, fitted on the validation split, monotone so it moves no ranking",
+    "fitted_on": "val",
+    "raw_score": {
+      "val": {
+        "n_bins": 10,
+        "bins": [
+          {
+            "bin": 0,
+            "n": 8859,
+            "mean_predicted": 0.0004715170736544779,
+            "observed_rate": 0.0012416751326334802,
+            "low_score": 4.115678166272119e-05,
+            "high_score": 0.0007795398705638945
+          },
+          {
+            "bin": 1,
+            "n": 8858,
+            "mean_predicted": 0.0011227253787371451,
+            "observed_rate": 0.001241815308195981,
+            "low_score": 0.000779557682108134,
+            "high_score": 0.0014944849535822868
+          },
+          {
+            "bin": 2,
+            "n": 8858,
+            "mean_predicted": 0.0019475355540313076,
+            "observed_rate": 0.0020320614134116052,
+            "low_score": 0.001494692056439817,
+            "high_score": 0.002439583418890834
+          },
+          {
+            "bin": 3,
+            "n": 8858,
+            "mean_predicted": 0.0030253045423346203,
+            "observed_rate": 0.003048092120117408,
+            "low_score": 0.002439669333398342,
+            "high_score": 0.0036783479154109955
+          },
+          {
+            "bin": 4,
+            "n": 8858,
+            "mean_predicted": 0.004492168760255819,
+            "observed_rate": 0.0048543689320388345,
+            "low_score": 0.003678418230265379,
+            "high_score": 0.005394710227847099
+          },
+          {
+            "bin": 5,
+            "n": 8858,
+            "mean_predicted": 0.006538247618004999,
+            "observed_rate": 0.006773538044705351,
+            "low_score": 0.005395675078034401,
+            "high_score": 0.007842687889933586
+          },
+          {
+            "bin": 6,
+            "n": 8858,
+            "mean_predicted": 0.009652433103359656,
+            "observed_rate": 0.010498983969293295,
+            "low_score": 0.007843411527574062,
+            "high_score": 0.011808917857706547
+          },
+          {
+            "bin": 7,
+            "n": 8858,
+            "mean_predicted": 0.015147097159066038,
+            "observed_rate": 0.013998645292391058,
+            "low_score": 0.01180907990783453,
+            "high_score": 0.01950671337544918
+          },
+          {
+            "bin": 8,
+            "n": 8858,
+            "mean_predicted": 0.02868481359507011,
+            "observed_rate": 0.03138405960713479,
+            "low_score": 0.019508861005306244,
+            "high_score": 0.04408640041947365
+          },
+          {
+            "bin": 9,
+            "n": 8858,
+            "mean_predicted": 0.23621503076059577,
+            "observed_rate": 0.268344998871077,
+            "low_score": 0.04409320279955864,
+            "high_score": 0.9993973970413208
+          }
+        ],
+        "brier": 0.019432068194750587,
+        "expected_calibration_error": 0.0038417922115392277,
+        "mean_predicted": 0.030729345766921323,
+        "observed_rate": 0.03434145019812375
+      },
+      "test": {
+        "n_bins": 10,
+        "bins": [
+          {
+            "bin": 0,
+            "n": 8859,
+            "mean_predicted": 0.0004807975054370476,
+            "observed_rate": 0.0029348684953154985,
+            "low_score": 1.0107497473654803e-05,
+            "high_score": 0.0008036818471737206
+          },
+          {
+            "bin": 1,
+            "n": 8858,
+            "mean_predicted": 0.0011756702839290914,
+            "observed_rate": 0.002370738315646873,
+            "low_score": 0.0008037128718569875,
+            "high_score": 0.0015779766254127026
+          },
+          {
+            "bin": 2,
+            "n": 8858,
+            "mean_predicted": 0.002073520158760697,
+            "observed_rate": 0.002596522917137051,
+            "low_score": 0.0015781237743794918,
+            "high_score": 0.002609520684927702
+          },
+          {
+            "bin": 3,
+            "n": 8858,
+            "mean_predicted": 0.003273965220356503,
+            "observed_rate": 0.004515692029803568,
+            "low_score": 0.002609607530757785,
+            "high_score": 0.0040042223408818245
+          },
+          {
+            "bin": 4,
+            "n": 8858,
+            "mean_predicted": 0.004926200712341071,
+            "observed_rate": 0.00553172273650937,
+            "low_score": 0.004004393704235554,
+            "high_score": 0.005962055176496506
+          },
+          {
+            "bin": 5,
+            "n": 8858,
+            "mean_predicted": 0.0073024608475759836,
+            "observed_rate": 0.009031384059607135,
+            "low_score": 0.0059623150154948235,
+            "high_score": 0.00887765921652317
+          },
+          {
+            "bin": 6,
+            "n": 8858,
+            "mean_predicted": 0.010976929737490069,
+            "observed_rate": 0.009370060961842402,
+            "low_score": 0.008877864107489586,
+            "high_score": 0.013507568277418613
+          },
+          {
+            "bin": 7,
+            "n": 8858,
+            "mean_predicted": 0.01771387180427439,
+            "observed_rate": 0.023481598554978552,
+            "low_score": 0.013507778756320477,
+            "high_score": 0.02330802194774151
+          },
+          {
+            "bin": 8,
+            "n": 8858,
+            "mean_predicted": 0.03545232441046688,
+            "observed_rate": 0.04346353578685934,
+            "low_score": 0.02330848202109337,
+            "high_score": 0.05573687329888344
+          },
+          {
+            "bin": 9,
+            "n": 8858,
+            "mean_predicted": 0.24323881336892195,
+            "observed_rate": 0.24475050801535336,
+            "low_score": 0.05574049800634384,
+            "high_score": 0.9997705817222595
+          }
+        ],
+        "brier": 0.021856365561290413,
+        "expected_calibration_error": 0.00246458141882483,
+        "mean_predicted": 0.03266109211420566,
+        "observed_rate": 0.03480430340592226
+      }
+    },
+    "calibrated": {
+      "val": {
+        "n_bins": 10,
+        "bins": [
+          {
+            "bin": 0,
+            "n": 8859,
+            "mean_predicted": 0.0009891172737394236,
+            "observed_rate": 0.0007901569025849419,
+            "low_score": 0.0,
+            "high_score": 0.0013080444735120995
+          },
+          {
+            "bin": 1,
+            "n": 8858,
+            "mean_predicted": 0.0013339802874537518,
+            "observed_rate": 0.0014675999096861595,
+            "low_score": 0.0013080444735120995,
+            "high_score": 0.0021684918139434025
+          },
+          {
+            "bin": 2,
+            "n": 8858,
+            "mean_predicted": 0.002168491813943403,
+            "observed_rate": 0.0020320614134116052,
+            "low_score": 0.0021684918139434025,
+            "high_score": 0.0021684918139434025
+          },
+          {
+            "bin": 3,
+            "n": 8858,
+            "mean_predicted": 0.002936498344956816,
+            "observed_rate": 0.003048092120117408,
+            "low_score": 0.0021684918139434025,
+            "high_score": 0.004327963452753066
+          },
+          {
+            "bin": 4,
+            "n": 8858,
+            "mean_predicted": 0.00472470625734528,
+            "observed_rate": 0.0048543689320388345,
+            "low_score": 0.004327963452753066,
+            "high_score": 0.004868549172346641
+          },
+          {
+            "bin": 5,
+            "n": 8858,
+            "mean_predicted": 0.006772345636692539,
+            "observed_rate": 0.006999322646195529,
+            "low_score": 0.004868549172346641,
+            "high_score": 0.0075888237323214905
+          },
+          {
+            "bin": 6,
+            "n": 8858,
+            "mean_predicted": 0.009656810119405109,
+            "observed_rate": 0.008692707157371866,
+            "low_score": 0.0075888237323214905,
+            "high_score": 0.010550786838340485
+          },
+          {
+            "bin": 7,
+            "n": 8858,
+            "mean_predicted": 0.014755238345988382,
+            "observed_rate": 0.015466245202077218,
+            "low_score": 0.010550786838340485,
+            "high_score": 0.020637898686679177
+          },
+          {
+            "bin": 8,
+            "n": 8858,
+            "mean_predicted": 0.031005402850391117,
+            "observed_rate": 0.030819598103409347,
+            "low_score": 0.020637898686679177,
+            "high_score": 0.05531914893617021
+          },
+          {
+            "bin": 9,
+            "n": 8858,
+            "mean_predicted": 0.2690756762729207,
+            "observed_rate": 0.2692481372770377,
+            "low_score": 0.05531914893617021,
+            "high_score": 1.0
+          }
+        ],
+        "brier": 0.01914352115055946,
+        "expected_calibration_error": 0.0002970608347709626,
+        "mean_predicted": 0.03434145019812375,
+        "observed_rate": 0.03434145019812375
+      },
+      "test": {
+        "n_bins": 10,
+        "bins": [
+          {
+            "bin": 0,
+            "n": 8859,
+            "mean_predicted": 0.0010020722647667243,
+            "observed_rate": 0.0025962298227790947,
+            "low_score": 0.0,
+            "high_score": 0.0013080444735120995
+          },
+          {
+            "bin": 1,
+            "n": 8858,
+            "mean_predicted": 0.0014135362111174724,
+            "observed_rate": 0.002596522917137051,
+            "low_score": 0.0013080444735120995,
+            "high_score": 0.0021684918139434025
+          },
+          {
+            "bin": 2,
+            "n": 8858,
+            "mean_predicted": 0.0022248731252862367,
+            "observed_rate": 0.0028223075186272297,
+            "low_score": 0.0021684918139434025,
+            "high_score": 0.0025673940949935813
+          },
+          {
+            "bin": 3,
+            "n": 8858,
+            "mean_predicted": 0.0032888245222403314,
+            "observed_rate": 0.0041770151275683,
+            "low_score": 0.0025673940949935813,
+            "high_score": 0.004327963452753066
+          },
+          {
+            "bin": 4,
+            "n": 8858,
+            "mean_predicted": 0.004923528057575147,
+            "observed_rate": 0.005870399638744638,
+            "low_score": 0.004327963452753066,
+            "high_score": 0.006038647342995169
+          },
+          {
+            "bin": 5,
+            "n": 8858,
+            "mean_predicted": 0.007807975793988444,
+            "observed_rate": 0.007902461052156242,
+            "low_score": 0.006038647342995169,
+            "high_score": 0.008983572895277207
+          },
+          {
+            "bin": 6,
+            "n": 8858,
+            "mean_predicted": 0.010206033137367915,
+            "observed_rate": 0.010386091668548205,
+            "low_score": 0.008983572895277207,
+            "high_score": 0.01299468399291199
+          },
+          {
+            "bin": 7,
+            "n": 8858,
+            "mean_predicted": 0.018299441276730728,
+            "observed_rate": 0.023481598554978552,
+            "low_score": 0.01299468399291199,
+            "high_score": 0.02285888448643706
+          },
+          {
+            "bin": 8,
+            "n": 8858,
+            "mean_predicted": 0.039829834212426446,
+            "observed_rate": 0.043576428087604424,
+            "low_score": 0.02285888448643706,
+            "high_score": 0.06735751295336787
+          },
+          {
+            "bin": 9,
+            "n": 8858,
+            "mean_predicted": 0.2810215168392246,
+            "observed_rate": 0.24463761571460826,
+            "low_score": 0.06735751295336787,
+            "high_score": 1.0
+          }
+        ],
+        "brier": 0.022001696476973767,
+        "expected_calibration_error": 0.00507964434266383,
+        "mean_predicted": 0.03700135713986293,
+        "observed_rate": 0.03480430340592226
+      }
+    }
+  },
+  "primary_metric": {
+    "val": {
+      "pr_auc": 0.6183597000523167,
+      "roc_auc": 0.928815004154458
+    },
+    "test": {
+      "pr_auc": 0.5451337917682987,
+      "roc_auc": 0.9049989139586582
+    }
+  },
+  "tuned_vertex": {
+    "on": "raw score",
+    "fitted_on": "val",
+    "val": {
+      "rule": "largest F1 on the validation split",
+      "threshold": 0.2518664002418518,
+      "tp": 1560,
+      "fp": 699,
+      "fn": 1482,
+      "tn": 84840,
+      "precision": 0.6905710491367862,
+      "recall": 0.5128205128205128,
+      "f1": 0.588568194680249,
+      "alerts": 2259,
+      "alert_rate": 0.025502082839435093,
+      "false_positive_rate": 0.008171711149300319,
+      "alerts_per_day": 71.91942625883574,
+      "false_alarms_per_catch": 0.4480769230769231
+    },
+    "test": {
+      "threshold": 0.2518664002418518,
+      "tp": 1453,
+      "fp": 955,
+      "fn": 1630,
+      "tn": 84543,
+      "precision": 0.603405315614618,
+      "recall": 0.47129419396691535,
+      "f1": 0.529229648515753,
+      "alerts": 2408,
+      "alert_rate": 0.027184159131190662,
+      "false_positive_rate": 0.01116985192636085,
+      "alerts_per_day": 78.23676666850929,
+      "false_alarms_per_catch": 0.6572608396421198
+    }
+  },
+  "bands": {
+    "costs": {
+      "missed_fraud": 10.0,
+      "false_decline": 1.0,
+      "review": 0.5,
+      "status": "assumption: chosen inputs, not measured anywhere in this repo",
+      "unit": "one false decline"
+    },
+    "assumption_about_review": "an analyst review resolves the transaction correctly",
+    "expected_cost_at_p": {
+      "approve": "p * missed_fraud",
+      "review": "review",
+      "block": "(1 - p) * false_decline"
+    },
+    "low": 0.05,
+    "high": 0.5,
+    "middle_band_exists": true,
+    "single_threshold_without_review": 0.09090909090909091,
+    "derivation": "review beats approve when review < p * missed_fraud, so low = review / missed_fraud; block beats review when (1 - p) * false_decline < review, so high = 1 - review / false_decline; with no review band, block beats approve when p > false_decline / (false_decline + missed_fraud)",
+    "on": "calibrated probability",
+    "val": {
+      "n_rows": 88581,
+      "n_days": 31.410150462962964,
+      "bands": {
+        "approve": {
+          "n": 78900,
+          "share": 0.890710197446405,
+          "per_day": 2511.926840116042,
+          "fraud": 613,
+          "fraud_rate": 0.007769328263624841,
+          "share_of_all_fraud": 0.20151216305062458
+        },
+        "review": {
+          "n": 8206,
+          "share": 0.09263837617547781,
+          "per_day": 261.2531261089004,
+          "fraud": 1184,
+          "fraud_rate": 0.14428466975383866,
+          "share_of_all_fraud": 0.3892176199868508
+        },
+        "block": {
+          "n": 1475,
+          "share": 0.016651426378117205,
+          "per_day": 46.95934206807557,
+          "fraud": 1245,
+          "fraud_rate": 0.8440677966101695,
+          "share_of_all_fraud": 0.40927021696252464
+        }
+      },
+      "realised_cost": 10463.0,
+      "realised_cost_per_row": 0.11811788080965444,
+      "approve_everything_cost": 30420.0,
+      "approve_everything_cost_per_row": 0.3434145019812375,
+      "single_threshold_at_cost_optimum": {
+        "threshold": 0.09090909090909091,
+        "cost": 12269.0,
+        "cost_per_row": 0.13850600015804743,
+        "tp": 2222,
+        "fp": 4069,
+        "fn": 820,
+        "tn": 81470,
+        "precision": 0.35320298839612146,
+        "recall": 0.7304404996712689,
+        "f1": 0.4761598628522447,
+        "alerts": 6291,
+        "alert_rate": 0.07101974464049852,
+        "false_positive_rate": 0.04756894515951788,
+        "alerts_per_day": 6291.0,
+        "false_alarms_per_catch": 1.8312331233123311
+      }
+    },
+    "test": {
+      "n_rows": 88581,
+      "n_days": 30.778368055555557,
+      "bands": {
+        "approve": {
+          "n": 76949,
+          "share": 0.8686851582167734,
+          "per_day": 2500.100065770399,
+          "fraud": 780,
+          "fraud_rate": 0.010136583971201705,
+          "share_of_all_fraud": 0.2530003243593902
+        },
+        "review": {
+          "n": 10188,
+          "share": 0.11501337758661564,
+          "per_day": 331.0117021672644,
+          "fraud": 1181,
+          "fraud_rate": 0.11592069100903023,
+          "share_of_all_fraud": 0.3830684398313331
+        },
+        "block": {
+          "n": 1444,
+          "share": 0.01630146419661101,
+          "per_day": 46.916067719820354,
+          "fraud": 1122,
+          "fraud_rate": 0.7770083102493075,
+          "share_of_all_fraud": 0.36393123580927667
+        }
+      },
+      "realised_cost": 13216.0,
+      "realised_cost_per_row": 0.14919678034793013,
+      "approve_everything_cost": 30830.0,
+      "approve_everything_cost_per_row": 0.34804303405922266,
+      "single_threshold_at_cost_optimum": {
+        "threshold": 0.09090909090909091,
+        "cost": 15318.0,
+        "cost_per_row": 0.17292647407457581,
+        "tp": 2091,
+        "fp": 5398,
+        "fn": 992,
+        "tn": 80100,
+        "precision": 0.2792095072773401,
+        "recall": 0.6782354849172884,
+        "f1": 0.3955732122587968,
+        "alerts": 7489,
+        "alert_rate": 0.08454408959031846,
+        "false_positive_rate": 0.06313597978900092,
+        "alerts_per_day": 7489.0,
+        "false_alarms_per_catch": 2.5815399330463893
+      }
+    },
+    "edges_as_raw_score": {
+      "low": 0.039616409689188004,
+      "high": 0.4772736132144928,
+      "note": "the smallest validation raw score the calibrator maps at or above each edge"
+    }
+  },
+  "edges_at_threshold": {
+    "low": {
+      "val": {
+        "threshold": 0.05,
+        "tp": 2429,
+        "fp": 7252,
+        "fn": 613,
+        "tn": 78287,
+        "precision": 0.25090383224873464,
+        "recall": 0.7984878369493754,
+        "f1": 0.3818281851764521,
+        "alerts": 9681,
+        "alert_rate": 0.10928980255359501,
+        "false_positive_rate": 0.08478004185225453,
+        "alerts_per_day": 308.21246817697596,
+        "false_alarms_per_catch": 2.9855907780979827
+      },
+      "test": {
+        "threshold": 0.05,
+        "tp": 2303,
+        "fp": 9329,
+        "fn": 780,
+        "tn": 76169,
+        "precision": 0.19798830811554333,
+        "recall": 0.7469996756406098,
+        "f1": 0.31301393136255523,
+        "alerts": 11632,
+        "alert_rate": 0.13131484178322664,
+        "false_positive_rate": 0.10911366347750824,
+        "alerts_per_day": 377.9277698870847,
+        "false_alarms_per_catch": 4.050803300043421
+      }
+    },
+    "high": {
+      "val": {
+        "threshold": 0.5,
+        "tp": 1245,
+        "fp": 230,
+        "fn": 1797,
+        "tn": 85309,
+        "precision": 0.8440677966101695,
+        "recall": 0.40927021696252464,
+        "f1": 0.5512508301970335,
+        "alerts": 1475,
+        "alert_rate": 0.016651426378117205,
+        "false_positive_rate": 0.002688831994762623,
+        "alerts_per_day": 46.95934206807557,
+        "false_alarms_per_catch": 0.18473895582329317
+      },
+      "test": {
+        "threshold": 0.5,
+        "tp": 1122,
+        "fp": 322,
+        "fn": 1961,
+        "tn": 85176,
+        "precision": 0.7770083102493075,
+        "recall": 0.36393123580927667,
+        "f1": 0.49569251159708416,
+        "alerts": 1444,
+        "alert_rate": 0.01630146419661101,
+        "false_positive_rate": 0.0037661699688881613,
+        "alerts_per_day": 46.916067719820354,
+        "false_alarms_per_catch": 0.28698752228163993
+      }
+    },
+    "single_threshold_without_review": {
+      "val": {
+        "threshold": 0.09090909090909091,
+        "tp": 2222,
+        "fp": 4069,
+        "fn": 820,
+        "tn": 81470,
+        "precision": 0.35320298839612146,
+        "recall": 0.7304404996712689,
+        "f1": 0.4761598628522447,
+        "alerts": 6291,
+        "alert_rate": 0.07101974464049852,
+        "false_positive_rate": 0.04756894515951788,
+        "alerts_per_day": 200.2855735256023,
+        "false_alarms_per_catch": 1.8312331233123311
+      },
+      "test": {
+        "threshold": 0.09090909090909091,
+        "tp": 2091,
+        "fp": 5398,
+        "fn": 992,
+        "tn": 80100,
+        "precision": 0.2792095072773401,
+        "recall": 0.6782354849172884,
+        "f1": 0.3955732122587968,
+        "alerts": 7489,
+        "alert_rate": 0.08454408959031846,
+        "false_positive_rate": 0.06313597978900092,
+        "alerts_per_day": 243.32024318125667,
+        "false_alarms_per_catch": 2.5815399330463893
+      }
+    }
+  },
+  "segments": {
+    "key": "ProductCD",
+    "why": "stage 2 measured addr2 at a top-value share of 0.9901 on train, so a per-market calibration has one market. ProductCD is the partition with five levels none of which stage 2 put in the rare tail; the same mechanic runs on it. ADR 0029",
+    "per_segment": [
+      {
+        "segment": "C",
+        "base_rate": {
+          "val": {
+            "point": 0.12602739726027398,
+            "low": 0.11937491510172794,
+            "high": 0.13299461822986688,
+            "n": 9125,
+            "successes": 1150,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "test": {
+            "point": 0.13527907967618236,
+            "low": 0.12850951841634842,
+            "high": 0.14234699784559843,
+            "n": 9388,
+            "successes": 1270,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        "tuned_vertex": {
+          "val": {
+            "rule": "largest F1 on the validation split",
+            "threshold": 0.21769729256629944,
+            "tp": 876,
+            "fp": 310,
+            "fn": 274,
+            "tn": 7665,
+            "precision": 0.7386172006745363,
+            "recall": 0.7617391304347826,
+            "f1": 0.75,
+            "alerts": 1186,
+            "alert_rate": 0.12997260273972602,
+            "false_positive_rate": 0.038871473354231974,
+            "alerts_per_day": 37.75849470694076,
+            "false_alarms_per_catch": 0.3538812785388128
+          },
+          "test": {
+            "threshold": 0.21769729256629944,
+            "tp": 920,
+            "fp": 398,
+            "fn": 350,
+            "tn": 7720,
+            "precision": 0.6980273141122914,
+            "recall": 0.7244094488188977,
+            "f1": 0.7109737248840804,
+            "alerts": 1318,
+            "alert_rate": 0.1403919897741798,
+            "false_positive_rate": 0.04902685390490268,
+            "alerts_per_day": 42.82228341739835,
+            "false_alarms_per_catch": 0.4326086956521739
+          }
+        },
+        "calibration": {
+          "fitted_on": "val",
+          "n_val_positive": 1150
+        },
+        "bands": {
+          "val": {
+            "n_rows": 9125,
+            "n_days": 31.410150462962964,
+            "bands": {
+              "approve": {
+                "n": 6348,
+                "share": 0.6956712328767123,
+                "per_day": 202.10027352416523,
+                "fraud": 100,
+                "fraud_rate": 0.01575299306868305,
+                "share_of_all_fraud": 0.08695652173913043
+              },
+              "review": {
+                "n": 1876,
+                "share": 0.2055890410958904,
+                "per_day": 59.72591574217611,
+                "fraud": 293,
+                "fraud_rate": 0.15618336886993603,
+                "share_of_all_fraud": 0.25478260869565217
+              },
+              "block": {
+                "n": 901,
+                "share": 0.09873972602739726,
+                "per_day": 28.684994714126162,
+                "fraud": 757,
+                "fraud_rate": 0.8401775804661488,
+                "share_of_all_fraud": 0.6582608695652173
+              }
+            },
+            "realised_cost": 2082.0,
+            "realised_cost_per_row": 0.22816438356164384,
+            "approve_everything_cost": 11500.0,
+            "approve_everything_cost_per_row": 1.2602739726027397,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 2514.0,
+              "cost_per_row": 0.27550684931506847,
+              "tp": 987,
+              "fp": 884,
+              "fn": 163,
+              "tn": 7091,
+              "precision": 0.5275253874933191,
+              "recall": 0.8582608695652174,
+              "f1": 0.6534260178748759,
+              "alerts": 1871,
+              "alert_rate": 0.20504109589041095,
+              "false_positive_rate": 0.11084639498432602,
+              "alerts_per_day": 1871.0,
+              "false_alarms_per_catch": 0.8956433637284701
+            }
+          },
+          "test": {
+            "n_rows": 9388,
+            "n_days": 30.778368055555557,
+            "bands": {
+              "approve": {
+                "n": 6192,
+                "share": 0.6595654026416702,
+                "per_day": 201.1802571475953,
+                "fraud": 116,
+                "fraud_rate": 0.018733850129198967,
+                "share_of_all_fraud": 0.09133858267716535
+              },
+              "review": {
+                "n": 2302,
+                "share": 0.2452066467831274,
+                "per_day": 74.79278939821776,
+                "fraud": 428,
+                "fraud_rate": 0.18592528236316247,
+                "share_of_all_fraud": 0.33700787401574805
+              },
+              "block": {
+                "n": 894,
+                "share": 0.09522795057520239,
+                "per_day": 29.04637433623227,
+                "fraud": 726,
+                "fraud_rate": 0.8120805369127517,
+                "share_of_all_fraud": 0.5716535433070866
+              }
+            },
+            "realised_cost": 2479.0,
+            "realised_cost_per_row": 0.26406050276949294,
+            "approve_everything_cost": 12700.0,
+            "approve_everything_cost_per_row": 1.3527907967618236,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 2977.0,
+              "cost_per_row": 0.31710694503621645,
+              "tp": 1078,
+              "fp": 1057,
+              "fn": 192,
+              "tn": 7061,
+              "precision": 0.5049180327868853,
+              "recall": 0.8488188976377953,
+              "f1": 0.6331864904552129,
+              "alerts": 2135,
+              "alert_rate": 0.22741798040051128,
+              "false_positive_rate": 0.13020448386302044,
+              "alerts_per_day": 2135.0,
+              "false_alarms_per_catch": 0.9805194805194806
+            }
+          }
+        },
+        "pr_auc": {
+          "val": 0.8018542037344848,
+          "test": 0.7664075986182626
+        }
+      },
+      {
+        "segment": "H",
+        "base_rate": {
+          "val": {
+            "point": 0.059574468085106386,
+            "low": 0.050704196955948425,
+            "high": 0.06988228424355535,
+            "n": 2350,
+            "successes": 140,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "test": {
+            "point": 0.06401249024199844,
+            "low": 0.05517166079315352,
+            "high": 0.07415880024523594,
+            "n": 2562,
+            "successes": 164,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        "tuned_vertex": {
+          "val": {
+            "rule": "largest F1 on the validation split",
+            "threshold": 0.433904767036438,
+            "tp": 90,
+            "fp": 20,
+            "fn": 50,
+            "tn": 2190,
+            "precision": 0.8181818181818182,
+            "recall": 0.6428571428571429,
+            "f1": 0.72,
+            "alerts": 110,
+            "alert_rate": 0.04680851063829787,
+            "false_positive_rate": 0.00904977375565611,
+            "alerts_per_day": 3.5020526288056355,
+            "false_alarms_per_catch": 0.2222222222222222
+          },
+          "test": {
+            "threshold": 0.433904767036438,
+            "tp": 71,
+            "fp": 52,
+            "fn": 93,
+            "tn": 2346,
+            "precision": 0.5772357723577236,
+            "recall": 0.4329268292682927,
+            "f1": 0.49477351916376305,
+            "alerts": 123,
+            "alert_rate": 0.04800936768149883,
+            "false_positive_rate": 0.021684737281067557,
+            "alerts_per_day": 3.9963132476024263,
+            "false_alarms_per_catch": 0.7323943661971831
+          }
+        },
+        "calibration": {
+          "fitted_on": "val",
+          "n_val_positive": 140
+        },
+        "bands": {
+          "val": {
+            "n_rows": 2350,
+            "n_days": 31.410150462962964,
+            "bands": {
+              "approve": {
+                "n": 2028,
+                "share": 0.8629787234042553,
+                "per_day": 64.5651157383439,
+                "fraud": 15,
+                "fraud_rate": 0.0073964497041420114,
+                "share_of_all_fraud": 0.10714285714285714
+              },
+              "review": {
+                "n": 221,
+                "share": 0.09404255319148937,
+                "per_day": 7.035942099691322,
+                "fraud": 39,
+                "fraud_rate": 0.17647058823529413,
+                "share_of_all_fraud": 0.2785714285714286
+              },
+              "block": {
+                "n": 101,
+                "share": 0.04297872340425532,
+                "per_day": 3.2155210500851745,
+                "fraud": 86,
+                "fraud_rate": 0.8514851485148515,
+                "share_of_all_fraud": 0.6142857142857143
+              }
+            },
+            "realised_cost": 275.5,
+            "realised_cost_per_row": 0.11723404255319149,
+            "approve_everything_cost": 1400.0,
+            "approve_everything_cost_per_row": 0.5957446808510638,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 331.0,
+              "cost_per_row": 0.14085106382978724,
+              "tp": 121,
+              "fp": 141,
+              "fn": 19,
+              "tn": 2069,
+              "precision": 0.4618320610687023,
+              "recall": 0.8642857142857143,
+              "f1": 0.6019900497512438,
+              "alerts": 262,
+              "alert_rate": 0.11148936170212766,
+              "false_positive_rate": 0.06380090497737556,
+              "alerts_per_day": 262.0,
+              "false_alarms_per_catch": 1.165289256198347
+            }
+          },
+          "test": {
+            "n_rows": 2562,
+            "n_days": 30.778368055555557,
+            "bands": {
+              "approve": {
+                "n": 2148,
+                "share": 0.8384074941451991,
+                "per_day": 69.7892752508131,
+                "fraud": 45,
+                "fraud_rate": 0.02094972067039106,
+                "share_of_all_fraud": 0.27439024390243905
+              },
+              "review": {
+                "n": 307,
+                "share": 0.11982825917252146,
+                "per_day": 9.974537943202805,
+                "fraud": 56,
+                "fraud_rate": 0.18241042345276873,
+                "share_of_all_fraud": 0.34146341463414637
+              },
+              "block": {
+                "n": 107,
+                "share": 0.04176424668227947,
+                "per_day": 3.4764676218980455,
+                "fraud": 63,
+                "fraud_rate": 0.5887850467289719,
+                "share_of_all_fraud": 0.38414634146341464
+              }
+            },
+            "realised_cost": 647.5,
+            "realised_cost_per_row": 0.2527322404371585,
+            "approve_everything_cost": 1640.0,
+            "approve_everything_cost_per_row": 0.6401249024199844,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 728.0,
+              "cost_per_row": 0.28415300546448086,
+              "tp": 114,
+              "fp": 228,
+              "fn": 50,
+              "tn": 2170,
+              "precision": 0.3333333333333333,
+              "recall": 0.6951219512195121,
+              "f1": 0.4505928853754941,
+              "alerts": 342,
+              "alert_rate": 0.13348946135831383,
+              "false_positive_rate": 0.0950792326939116,
+              "alerts_per_day": 342.0,
+              "false_alarms_per_catch": 2.0
+            }
+          }
+        },
+        "pr_auc": {
+          "val": 0.736980996722536,
+          "test": 0.49824315734285146
+        }
+      },
+      {
+        "segment": "R",
+        "base_rate": {
+          "val": {
+            "point": 0.0475482912332838,
+            "low": 0.040859563495280034,
+            "high": 0.055268871985936975,
+            "n": 3365,
+            "successes": 160,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "test": {
+            "point": 0.050596658711217185,
+            "low": 0.044362260218299844,
+            "high": 0.05765434270330962,
+            "n": 4190,
+            "successes": 212,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        "tuned_vertex": {
+          "val": {
+            "rule": "largest F1 on the validation split",
+            "threshold": 0.3833361566066742,
+            "tp": 112,
+            "fp": 15,
+            "fn": 48,
+            "tn": 3190,
+            "precision": 0.8818897637795275,
+            "recall": 0.7,
+            "f1": 0.7804878048780488,
+            "alerts": 127,
+            "alert_rate": 0.03774145616641902,
+            "false_positive_rate": 0.0046801872074883,
+            "alerts_per_day": 4.043278944166507,
+            "false_alarms_per_catch": 0.13392857142857142
+          },
+          "test": {
+            "threshold": 0.3833361566066742,
+            "tp": 150,
+            "fp": 40,
+            "fn": 62,
+            "tn": 3938,
+            "precision": 0.7894736842105263,
+            "recall": 0.7075471698113207,
+            "f1": 0.746268656716418,
+            "alerts": 190,
+            "alert_rate": 0.045346062052505964,
+            "false_positive_rate": 0.010055304172951232,
+            "alerts_per_day": 6.1731668052395205,
+            "false_alarms_per_catch": 0.26666666666666666
+          }
+        },
+        "calibration": {
+          "fitted_on": "val",
+          "n_val_positive": 160
+        },
+        "bands": {
+          "val": {
+            "n_rows": 3365,
+            "n_days": 31.410150462962964,
+            "bands": {
+              "approve": {
+                "n": 2924,
+                "share": 0.8689450222882615,
+                "per_day": 93.0909262420698,
+                "fraud": 8,
+                "fraud_rate": 0.0027359781121751026,
+                "share_of_all_fraud": 0.05
+              },
+              "review": {
+                "n": 332,
+                "share": 0.09866270430906389,
+                "per_day": 10.569831570577009,
+                "fraud": 48,
+                "fraud_rate": 0.14457831325301204,
+                "share_of_all_fraud": 0.3
+              },
+              "block": {
+                "n": 109,
+                "share": 0.032392273402674594,
+                "per_day": 3.4702157867255843,
+                "fraud": 104,
+                "fraud_rate": 0.9541284403669725,
+                "share_of_all_fraud": 0.65
+              }
+            },
+            "realised_cost": 251.0,
+            "realised_cost_per_row": 0.07459138187221397,
+            "approve_everything_cost": 1600.0,
+            "approve_everything_cost_per_row": 0.475482912332838,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 356.0,
+              "cost_per_row": 0.10579494799405646,
+              "tp": 142,
+              "fp": 176,
+              "fn": 18,
+              "tn": 3029,
+              "precision": 0.44654088050314467,
+              "recall": 0.8875,
+              "f1": 0.5941422594142259,
+              "alerts": 318,
+              "alert_rate": 0.09450222882615156,
+              "false_positive_rate": 0.054914196567862714,
+              "alerts_per_day": 318.0,
+              "false_alarms_per_catch": 1.2394366197183098
+            }
+          },
+          "test": {
+            "n_rows": 4190,
+            "n_days": 30.778368055555557,
+            "bands": {
+              "approve": {
+                "n": 3607,
+                "share": 0.8608591885441528,
+                "per_day": 117.19269824473132,
+                "fraud": 31,
+                "fraud_rate": 0.008594399778209038,
+                "share_of_all_fraud": 0.14622641509433962
+              },
+              "review": {
+                "n": 404,
+                "share": 0.0964200477326969,
+                "per_day": 13.12610204903561,
+                "fraud": 34,
+                "fraud_rate": 0.08415841584158416,
+                "share_of_all_fraud": 0.16037735849056603
+              },
+              "block": {
+                "n": 179,
+                "share": 0.04272076372315036,
+                "per_day": 5.8157729375677585,
+                "fraud": 147,
+                "fraud_rate": 0.8212290502793296,
+                "share_of_all_fraud": 0.6933962264150944
+              }
+            },
+            "realised_cost": 544.0,
+            "realised_cost_per_row": 0.12983293556085918,
+            "approve_everything_cost": 2120.0,
+            "approve_everything_cost_per_row": 0.5059665871121718,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 598.0,
+              "cost_per_row": 0.14272076372315035,
+              "tp": 175,
+              "fp": 228,
+              "fn": 37,
+              "tn": 3750,
+              "precision": 0.43424317617866004,
+              "recall": 0.8254716981132075,
+              "f1": 0.5691056910569106,
+              "alerts": 403,
+              "alert_rate": 0.09618138424821003,
+              "false_positive_rate": 0.05731523378582202,
+              "alerts_per_day": 403.0,
+              "false_alarms_per_catch": 1.302857142857143
+            }
+          }
+        },
+        "pr_auc": {
+          "val": 0.8486678007291817,
+          "test": 0.800863736801981
+        }
+      },
+      {
+        "segment": "S",
+        "base_rate": {
+          "val": {
+            "point": 0.07379310344827586,
+            "low": 0.061433637691278256,
+            "high": 0.08840488665332226,
+            "n": 1450,
+            "successes": 107,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "test": {
+            "point": 0.04843592330978809,
+            "low": 0.04128455261832941,
+            "high": 0.05675273383370424,
+            "n": 2973,
+            "successes": 144,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        "tuned_vertex": {
+          "val": {
+            "rule": "largest F1 on the validation split",
+            "threshold": 0.1749642789363861,
+            "tp": 81,
+            "fp": 41,
+            "fn": 26,
+            "tn": 1302,
+            "precision": 0.6639344262295082,
+            "recall": 0.7570093457943925,
+            "f1": 0.7074235807860262,
+            "alerts": 122,
+            "alert_rate": 0.08413793103448276,
+            "false_positive_rate": 0.03052866716306776,
+            "alerts_per_day": 3.8840947337662506,
+            "false_alarms_per_catch": 0.5061728395061729
+          },
+          "test": {
+            "threshold": 0.1749642789363861,
+            "tp": 73,
+            "fp": 61,
+            "fn": 71,
+            "tn": 2768,
+            "precision": 0.5447761194029851,
+            "recall": 0.5069444444444444,
+            "f1": 0.5251798561151079,
+            "alerts": 134,
+            "alert_rate": 0.04507231752438614,
+            "false_positive_rate": 0.02156238953693885,
+            "alerts_per_day": 4.3537071152741875,
+            "false_alarms_per_catch": 0.8356164383561644
+          }
+        },
+        "calibration": {
+          "fitted_on": "val",
+          "n_val_positive": 107
+        },
+        "bands": {
+          "val": {
+            "n_rows": 1450,
+            "n_days": 31.410150462962964,
+            "bands": {
+              "approve": {
+                "n": 1273,
+                "share": 0.8779310344827587,
+                "per_day": 40.52829996790522,
+                "fraud": 17,
+                "fraud_rate": 0.01335428122545169,
+                "share_of_all_fraud": 0.1588785046728972
+              },
+              "review": {
+                "n": 88,
+                "share": 0.060689655172413794,
+                "per_day": 2.8016421030445087,
+                "fraud": 25,
+                "fraud_rate": 0.2840909090909091,
+                "share_of_all_fraud": 0.2336448598130841
+              },
+              "block": {
+                "n": 89,
+                "share": 0.06137931034482759,
+                "per_day": 2.83347894512456,
+                "fraud": 65,
+                "fraud_rate": 0.7303370786516854,
+                "share_of_all_fraud": 0.6074766355140186
+              }
+            },
+            "realised_cost": 238.0,
+            "realised_cost_per_row": 0.16413793103448276,
+            "approve_everything_cost": 1070.0,
+            "approve_everything_cost_per_row": 0.7379310344827587,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 250.0,
+              "cost_per_row": 0.1724137931034483,
+              "tp": 89,
+              "fp": 70,
+              "fn": 18,
+              "tn": 1273,
+              "precision": 0.559748427672956,
+              "recall": 0.8317757009345794,
+              "f1": 0.6691729323308271,
+              "alerts": 159,
+              "alert_rate": 0.1096551724137931,
+              "false_positive_rate": 0.05212211466865227,
+              "alerts_per_day": 159.0,
+              "false_alarms_per_catch": 0.7865168539325843
+            }
+          },
+          "test": {
+            "n_rows": 2973,
+            "n_days": 30.778368055555557,
+            "bands": {
+              "approve": {
+                "n": 2665,
+                "share": 0.8964009418096199,
+                "per_day": 86.5867870313859,
+                "fraud": 64,
+                "fraud_rate": 0.02401500938086304,
+                "share_of_all_fraud": 0.4444444444444444
+              },
+              "review": {
+                "n": 207,
+                "share": 0.06962663975782038,
+                "per_day": 6.725502782550425,
+                "fraud": 14,
+                "fraud_rate": 0.06763285024154589,
+                "share_of_all_fraud": 0.09722222222222222
+              },
+              "block": {
+                "n": 101,
+                "share": 0.0339724184325597,
+                "per_day": 3.2815255122589027,
+                "fraud": 66,
+                "fraud_rate": 0.6534653465346535,
+                "share_of_all_fraud": 0.4583333333333333
+              }
+            },
+            "realised_cost": 778.5,
+            "realised_cost_per_row": 0.26185671039354186,
+            "approve_everything_cost": 1440.0,
+            "approve_everything_cost_per_row": 0.4843592330978809,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 790.0,
+              "cost_per_row": 0.26572485704675414,
+              "tp": 80,
+              "fp": 150,
+              "fn": 64,
+              "tn": 2679,
+              "precision": 0.34782608695652173,
+              "recall": 0.5555555555555556,
+              "f1": 0.42780748663101603,
+              "alerts": 230,
+              "alert_rate": 0.07736293306424487,
+              "false_positive_rate": 0.053022269353128315,
+              "alerts_per_day": 230.0,
+              "false_alarms_per_catch": 1.875
+            }
+          }
+        },
+        "pr_auc": {
+          "val": 0.7311635833317416,
+          "test": 0.5020608975762866
+        }
+      },
+      {
+        "segment": "W",
+        "base_rate": {
+          "val": {
+            "point": 0.02054197617960742,
+            "low": 0.01953316760153394,
+            "high": 0.021601737722445512,
+            "n": 72291,
+            "successes": 1485,
+            "method": "wilson",
+            "z": 1.959963984540054
+          },
+          "test": {
+            "point": 0.01861288650889618,
+            "low": 0.017634141667372955,
+            "high": 0.01964486813627271,
+            "n": 69468,
+            "successes": 1293,
+            "method": "wilson",
+            "z": 1.959963984540054
+          }
+        },
+        "tuned_vertex": {
+          "val": {
+            "rule": "largest F1 on the validation split",
+            "threshold": 0.13441739976406097,
+            "tp": 613,
+            "fp": 964,
+            "fn": 872,
+            "tn": 69842,
+            "precision": 0.388712745719721,
+            "recall": 0.41279461279461277,
+            "f1": 0.40039190071848463,
+            "alerts": 1577,
+            "alert_rate": 0.021814610394101618,
+            "false_positive_rate": 0.013614665423834138,
+            "alerts_per_day": 50.2066999602408,
+            "false_alarms_per_catch": 1.5725938009787928
+          },
+          "test": {
+            "threshold": 0.13441739976406097,
+            "tp": 420,
+            "fp": 1095,
+            "fn": 873,
+            "tn": 67080,
+            "precision": 0.27722772277227725,
+            "recall": 0.3248259860788863,
+            "f1": 0.29914529914529914,
+            "alerts": 1515,
+            "alert_rate": 0.021808602522024528,
+            "false_positive_rate": 0.01606160616061606,
+            "alerts_per_day": 49.22288268388354,
+            "false_alarms_per_catch": 2.607142857142857
+          }
+        },
+        "calibration": {
+          "fitted_on": "val",
+          "n_val_positive": 1485
+        },
+        "bands": {
+          "val": {
+            "n_rows": 72291,
+            "n_days": 31.410150462962964,
+            "bands": {
+              "approve": {
+                "n": 66365,
+                "share": 0.9180257570098629,
+                "per_day": 2112.8520246426,
+                "fraud": 459,
+                "fraud_rate": 0.006916296240488209,
+                "share_of_all_fraud": 0.3090909090909091
+              },
+              "review": {
+                "n": 5477,
+                "share": 0.07576323470418171,
+                "per_day": 174.3703840724406,
+                "fraud": 697,
+                "fraud_rate": 0.12725944860324995,
+                "share_of_all_fraud": 0.46936026936026937
+              },
+              "block": {
+                "n": 449,
+                "share": 0.0062110082859553745,
+                "per_day": 14.294742093943004,
+                "fraud": 329,
+                "fraud_rate": 0.732739420935412,
+                "share_of_all_fraud": 0.22154882154882155
+              }
+            },
+            "realised_cost": 7448.5,
+            "realised_cost_per_row": 0.10303495594195682,
+            "approve_everything_cost": 14850.0,
+            "approve_everything_cost_per_row": 0.2054197617960742,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 8687.0,
+              "cost_per_row": 0.12016710240555532,
+              "tp": 881,
+              "fp": 2647,
+              "fn": 604,
+              "tn": 68159,
+              "precision": 0.24971655328798187,
+              "recall": 0.5932659932659933,
+              "f1": 0.35148613604627965,
+              "alerts": 3528,
+              "alert_rate": 0.04880275552973399,
+              "false_positive_rate": 0.037383837527893114,
+              "alerts_per_day": 3528.0,
+              "false_alarms_per_catch": 3.004540295119183
+            }
+          },
+          "test": {
+            "n_rows": 69468,
+            "n_days": 30.778368055555557,
+            "bands": {
+              "approve": {
+                "n": 63307,
+                "share": 0.9113116830771002,
+                "per_day": 2056.8666891542016,
+                "fraud": 534,
+                "fraud_rate": 0.008435086167406448,
+                "share_of_all_fraud": 0.41299303944315546
+              },
+              "review": {
+                "n": 5829,
+                "share": 0.08390913802038348,
+                "per_day": 189.38625951442717,
+                "fraud": 589,
+                "fraud_rate": 0.10104649167953336,
+                "share_of_all_fraud": 0.45552977571539055
+              },
+              "block": {
+                "n": 332,
+                "share": 0.004779178902516267,
+                "per_day": 10.786796733365899,
+                "fraud": 170,
+                "fraud_rate": 0.5120481927710844,
+                "share_of_all_fraud": 0.131477184841454
+              }
+            },
+            "realised_cost": 8416.5,
+            "realised_cost_per_row": 0.12115650371394023,
+            "approve_everything_cost": 12930.0,
+            "approve_everything_cost_per_row": 0.18612886508896181,
+            "single_threshold_at_cost_optimum": {
+              "threshold": 0.09090909090909091,
+              "cost": 9561.0,
+              "cost_per_row": 0.13763171532216273,
+              "tp": 634,
+              "fp": 2971,
+              "fn": 659,
+              "tn": 65204,
+              "precision": 0.17586685159500692,
+              "recall": 0.4903325599381284,
+              "f1": 0.2588811759902001,
+              "alerts": 3605,
+              "alert_rate": 0.051894397420395005,
+              "false_positive_rate": 0.043579024569123576,
+              "alerts_per_day": 3605.0,
+              "false_alarms_per_catch": 4.686119873817034
+            }
+          }
+        },
+        "pr_auc": {
+          "val": 0.4026717241267212,
+          "test": 0.2503896824958095
+        }
+      }
+    ],
+    "global_bands_applied_per_segment": {
+      "C": {
+        "val": {
+          "n_rows": 9125,
+          "n_days": 31.410150462962964,
+          "bands": {
+            "approve": {
+              "n": 6686,
+              "share": 0.7327123287671233,
+              "per_day": 212.86112614722254,
+              "fraud": 120,
+              "fraud_rate": 0.017947950942267425,
+              "share_of_all_fraud": 0.10434782608695652
+            },
+            "review": {
+              "n": 1535,
+              "share": 0.16821917808219178,
+              "per_day": 48.86955259287864,
+              "fraud": 272,
+              "fraud_rate": 0.1771986970684039,
+              "share_of_all_fraud": 0.23652173913043478
+            },
+            "block": {
+              "n": 904,
+              "share": 0.09906849315068493,
+              "per_day": 28.780505240366313,
+              "fraud": 758,
+              "fraud_rate": 0.838495575221239,
+              "share_of_all_fraud": 0.6591304347826087
+            }
+          },
+          "realised_cost": 2113.5,
+          "realised_cost_per_row": 0.23161643835616438,
+          "approve_everything_cost": 11500.0,
+          "approve_everything_cost_per_row": 1.2602739726027397,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 2526.0,
+            "cost_per_row": 0.2768219178082192,
+            "tp": 989,
+            "fp": 916,
+            "fn": 161,
+            "tn": 7059,
+            "precision": 0.5191601049868766,
+            "recall": 0.86,
+            "f1": 0.6474631751227496,
+            "alerts": 1905,
+            "alert_rate": 0.20876712328767122,
+            "false_positive_rate": 0.114858934169279,
+            "alerts_per_day": 1905.0,
+            "false_alarms_per_catch": 0.9261880687563195
+          }
+        },
+        "test": {
+          "n_rows": 9388,
+          "n_days": 30.778368055555557,
+          "bands": {
+            "approve": {
+              "n": 6597,
+              "share": 0.7027055815935237,
+              "per_day": 214.33884954823745,
+              "fraud": 133,
+              "fraud_rate": 0.020160679096559043,
+              "share_of_all_fraud": 0.1047244094488189
+            },
+            "review": {
+              "n": 1895,
+              "share": 0.20185342991052407,
+              "per_day": 61.56921629436258,
+              "fraud": 411,
+              "fraud_rate": 0.21688654353562006,
+              "share_of_all_fraud": 0.3236220472440945
+            },
+            "block": {
+              "n": 896,
+              "share": 0.09544098849595228,
+              "per_day": 29.111355039445318,
+              "fraud": 726,
+              "fraud_rate": 0.8102678571428571,
+              "share_of_all_fraud": 0.5716535433070866
+            }
+          },
+          "realised_cost": 2447.5,
+          "realised_cost_per_row": 0.26070515551768214,
+          "approve_everything_cost": 12700.0,
+          "approve_everything_cost_per_row": 1.3527907967618236,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 2945.0,
+            "cost_per_row": 0.31369833830421817,
+            "tp": 1085,
+            "fp": 1095,
+            "fn": 185,
+            "tn": 7023,
+            "precision": 0.49770642201834864,
+            "recall": 0.8543307086614174,
+            "f1": 0.6289855072463768,
+            "alerts": 2180,
+            "alert_rate": 0.23221133361738389,
+            "false_positive_rate": 0.13488543976348855,
+            "alerts_per_day": 2180.0,
+            "false_alarms_per_catch": 1.0092165898617511
+          }
+        }
+      },
+      "H": {
+        "val": {
+          "n_rows": 2350,
+          "n_days": 31.410150462962964,
+          "bands": {
+            "approve": {
+              "n": 1854,
+              "share": 0.788936170212766,
+              "per_day": 59.025505216414984,
+              "fraud": 12,
+              "fraud_rate": 0.006472491909385114,
+              "share_of_all_fraud": 0.08571428571428572
+            },
+            "review": {
+              "n": 393,
+              "share": 0.1672340425531915,
+              "per_day": 12.511878937460134,
+              "fraud": 42,
+              "fraud_rate": 0.10687022900763359,
+              "share_of_all_fraud": 0.3
+            },
+            "block": {
+              "n": 103,
+              "share": 0.04382978723404255,
+              "per_day": 3.279194734245277,
+              "fraud": 86,
+              "fraud_rate": 0.8349514563106796,
+              "share_of_all_fraud": 0.6142857142857143
+            }
+          },
+          "realised_cost": 333.5,
+          "realised_cost_per_row": 0.14191489361702128,
+          "approve_everything_cost": 1400.0,
+          "approve_everything_cost_per_row": 0.5957446808510638,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 377.0,
+            "cost_per_row": 0.16042553191489362,
+            "tp": 125,
+            "fp": 227,
+            "fn": 15,
+            "tn": 1983,
+            "precision": 0.35511363636363635,
+            "recall": 0.8928571428571429,
+            "f1": 0.508130081300813,
+            "alerts": 352,
+            "alert_rate": 0.1497872340425532,
+            "false_positive_rate": 0.10271493212669683,
+            "alerts_per_day": 352.0,
+            "false_alarms_per_catch": 1.816
+          }
+        },
+        "test": {
+          "n_rows": 2562,
+          "n_days": 30.778368055555557,
+          "bands": {
+            "approve": {
+              "n": 1939,
+              "share": 0.7568306010928961,
+              "per_day": 62.99879176504963,
+              "fraud": 29,
+              "fraud_rate": 0.014956162970603403,
+              "share_of_all_fraud": 0.17682926829268292
+            },
+            "review": {
+              "n": 513,
+              "share": 0.20023419203747073,
+              "per_day": 16.667550374146703,
+              "fraud": 69,
+              "fraud_rate": 0.13450292397660818,
+              "share_of_all_fraud": 0.42073170731707316
+            },
+            "block": {
+              "n": 110,
+              "share": 0.0429352068696331,
+              "per_day": 3.573938676717617,
+              "fraud": 66,
+              "fraud_rate": 0.6,
+              "share_of_all_fraud": 0.4024390243902439
+            }
+          },
+          "realised_cost": 590.5,
+          "realised_cost_per_row": 0.2304839968774395,
+          "approve_everything_cost": 1640.0,
+          "approve_everything_cost_per_row": 0.6401249024199844,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 731.0,
+            "cost_per_row": 0.2853239656518345,
+            "tp": 125,
+            "fp": 341,
+            "fn": 39,
+            "tn": 2057,
+            "precision": 0.26824034334763946,
+            "recall": 0.7621951219512195,
+            "f1": 0.3968253968253968,
+            "alerts": 466,
+            "alert_rate": 0.18188914910226386,
+            "false_positive_rate": 0.14220183486238533,
+            "alerts_per_day": 466.0,
+            "false_alarms_per_catch": 2.728
+          }
+        }
+      },
+      "R": {
+        "val": {
+          "n_rows": 3365,
+          "n_days": 31.410150462962964,
+          "bands": {
+            "approve": {
+              "n": 2842,
+              "share": 0.8445765230312036,
+              "per_day": 90.48030519150561,
+              "fraud": 6,
+              "fraud_rate": 0.00211118930330753,
+              "share_of_all_fraud": 0.0375
+            },
+            "review": {
+              "n": 414,
+              "share": 0.12303120356612184,
+              "per_day": 13.18045262114121,
+              "fraud": 50,
+              "fraud_rate": 0.12077294685990338,
+              "share_of_all_fraud": 0.3125
+            },
+            "block": {
+              "n": 109,
+              "share": 0.032392273402674594,
+              "per_day": 3.4702157867255843,
+              "fraud": 104,
+              "fraud_rate": 0.9541284403669725,
+              "share_of_all_fraud": 0.65
+            }
+          },
+          "realised_cost": 272.0,
+          "realised_cost_per_row": 0.08083209509658247,
+          "approve_everything_cost": 1600.0,
+          "approve_everything_cost_per_row": 0.475482912332838,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 370.0,
+            "cost_per_row": 0.1099554234769688,
+            "tp": 146,
+            "fp": 230,
+            "fn": 14,
+            "tn": 2975,
+            "precision": 0.3882978723404255,
+            "recall": 0.9125,
+            "f1": 0.5447761194029851,
+            "alerts": 376,
+            "alert_rate": 0.11173848439821694,
+            "false_positive_rate": 0.0717628705148206,
+            "alerts_per_day": 376.0,
+            "false_alarms_per_catch": 1.5753424657534247
+          }
+        },
+        "test": {
+          "n_rows": 4190,
+          "n_days": 30.778368055555557,
+          "bands": {
+            "approve": {
+              "n": 3491,
+              "share": 0.8331742243436754,
+              "per_day": 113.42381745837456,
+              "fraud": 30,
+              "fraud_rate": 0.00859352621025494,
+              "share_of_all_fraud": 0.14150943396226415
+            },
+            "review": {
+              "n": 520,
+              "share": 0.12410501193317422,
+              "per_day": 16.89498283539237,
+              "fraud": 35,
+              "fraud_rate": 0.0673076923076923,
+              "share_of_all_fraud": 0.1650943396226415
+            },
+            "block": {
+              "n": 179,
+              "share": 0.04272076372315036,
+              "per_day": 5.8157729375677585,
+              "fraud": 147,
+              "fraud_rate": 0.8212290502793296,
+              "share_of_all_fraud": 0.6933962264150944
+            }
+          },
+          "realised_cost": 592.0,
+          "realised_cost_per_row": 0.1412887828162291,
+          "approve_everything_cost": 2120.0,
+          "approve_everything_cost_per_row": 0.5059665871121718,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 647.0,
+            "cost_per_row": 0.15441527446300715,
+            "tp": 177,
+            "fp": 297,
+            "fn": 35,
+            "tn": 3681,
+            "precision": 0.37341772151898733,
+            "recall": 0.8349056603773585,
+            "f1": 0.5160349854227405,
+            "alerts": 474,
+            "alert_rate": 0.11312649164677804,
+            "false_positive_rate": 0.0746606334841629,
+            "alerts_per_day": 474.0,
+            "false_alarms_per_catch": 1.6779661016949152
+          }
+        }
+      },
+      "S": {
+        "val": {
+          "n_rows": 1450,
+          "n_days": 31.410150462962964,
+          "bands": {
+            "approve": {
+              "n": 1154,
+              "share": 0.7958620689655173,
+              "per_day": 36.73971576037912,
+              "fraud": 16,
+              "fraud_rate": 0.01386481802426343,
+              "share_of_all_fraud": 0.14953271028037382
+            },
+            "review": {
+              "n": 250,
+              "share": 0.1724137931034483,
+              "per_day": 7.9592105200128085,
+              "fraud": 49,
+              "fraud_rate": 0.196,
+              "share_of_all_fraud": 0.45794392523364486
+            },
+            "block": {
+              "n": 46,
+              "share": 0.031724137931034485,
+              "per_day": 1.4644947356823568,
+              "fraud": 42,
+              "fraud_rate": 0.9130434782608695,
+              "share_of_all_fraud": 0.3925233644859813
+            }
+          },
+          "realised_cost": 289.0,
+          "realised_cost_per_row": 0.1993103448275862,
+          "approve_everything_cost": 1070.0,
+          "approve_everything_cost_per_row": 0.7379310344827587,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 303.0,
+            "cost_per_row": 0.20896551724137932,
+            "tp": 91,
+            "fp": 143,
+            "fn": 16,
+            "tn": 1200,
+            "precision": 0.3888888888888889,
+            "recall": 0.8504672897196262,
+            "f1": 0.533724340175953,
+            "alerts": 234,
+            "alert_rate": 0.16137931034482758,
+            "false_positive_rate": 0.10647803425167536,
+            "alerts_per_day": 234.0,
+            "false_alarms_per_catch": 1.5714285714285714
+          }
+        },
+        "test": {
+          "n_rows": 2973,
+          "n_days": 30.778368055555557,
+          "bands": {
+            "approve": {
+              "n": 1616,
+              "share": 0.5435586949209552,
+              "per_day": 52.50440819614244,
+              "fraud": 54,
+              "fraud_rate": 0.03341584158415842,
+              "share_of_all_fraud": 0.375
+            },
+            "review": {
+              "n": 1297,
+              "share": 0.43625967036663305,
+              "per_day": 42.13998603366136,
+              "fraud": 41,
+              "fraud_rate": 0.03161141094834233,
+              "share_of_all_fraud": 0.2847222222222222
+            },
+            "block": {
+              "n": 60,
+              "share": 0.020181634712411706,
+              "per_day": 1.9494210963914274,
+              "fraud": 49,
+              "fraud_rate": 0.8166666666666667,
+              "share_of_all_fraud": 0.3402777777777778
+            }
+          },
+          "realised_cost": 1199.5,
+          "realised_cost_per_row": 0.403464513958964,
+          "approve_everything_cost": 1440.0,
+          "approve_everything_cost_per_row": 0.4843592330978809,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 1419.0,
+            "cost_per_row": 0.4772956609485368,
+            "tp": 82,
+            "fp": 799,
+            "fn": 62,
+            "tn": 2030,
+            "precision": 0.09307604994324631,
+            "recall": 0.5694444444444444,
+            "f1": 0.16,
+            "alerts": 881,
+            "alert_rate": 0.2963336696939119,
+            "false_positive_rate": 0.28243195475433014,
+            "alerts_per_day": 881.0,
+            "false_alarms_per_catch": 9.74390243902439
+          }
+        }
+      },
+      "W": {
+        "val": {
+          "n_rows": 72291,
+          "n_days": 31.410150462962964,
+          "bands": {
+            "approve": {
+              "n": 66364,
+              "share": 0.9180119240292706,
+              "per_day": 2112.82018780052,
+              "fraud": 459,
+              "fraud_rate": 0.0069164004580796815,
+              "share_of_all_fraud": 0.3090909090909091
+            },
+            "review": {
+              "n": 5614,
+              "share": 0.07765835304533068,
+              "per_day": 178.7320314374076,
+              "fraud": 771,
+              "fraud_rate": 0.13733523334520842,
+              "share_of_all_fraud": 0.5191919191919192
+            },
+            "block": {
+              "n": 313,
+              "share": 0.004329722925398735,
+              "per_day": 9.964931571056036,
+              "fraud": 255,
+              "fraud_rate": 0.8146964856230032,
+              "share_of_all_fraud": 0.1717171717171717
+            }
+          },
+          "realised_cost": 7455.0,
+          "realised_cost_per_row": 0.10312487031580694,
+          "approve_everything_cost": 14850.0,
+          "approve_everything_cost_per_row": 0.2054197617960742,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 8693.0,
+            "cost_per_row": 0.12025010028910929,
+            "tp": 871,
+            "fp": 2553,
+            "fn": 614,
+            "tn": 68253,
+            "precision": 0.25438084112149534,
+            "recall": 0.5865319865319866,
+            "f1": 0.35485842330413525,
+            "alerts": 3424,
+            "alert_rate": 0.04736412554813186,
+            "false_positive_rate": 0.03605626641810016,
+            "alerts_per_day": 3424.0,
+            "false_alarms_per_catch": 2.931113662456946
+          }
+        },
+        "test": {
+          "n_rows": 69468,
+          "n_days": 30.778368055555557,
+          "bands": {
+            "approve": {
+              "n": 63306,
+              "share": 0.911297287959924,
+              "per_day": 2056.834198802595,
+              "fraud": 534,
+              "fraud_rate": 0.008435219410482418,
+              "share_of_all_fraud": 0.41299303944315546
+            },
+            "review": {
+              "n": 5963,
+              "share": 0.0858380837220015,
+              "per_day": 193.73996662970137,
+              "fraud": 625,
+              "fraud_rate": 0.10481301358376656,
+              "share_of_all_fraud": 0.4833720030935808
+            },
+            "block": {
+              "n": 199,
+              "share": 0.002864628318074509,
+              "per_day": 6.465579969698235,
+              "fraud": 134,
+              "fraud_rate": 0.6733668341708543,
+              "share_of_all_fraud": 0.10363495746326373
+            }
+          },
+          "realised_cost": 8386.5,
+          "realised_cost_per_row": 0.12072465019865261,
+          "approve_everything_cost": 12930.0,
+          "approve_everything_cost_per_row": 0.18612886508896181,
+          "single_threshold_at_cost_optimum": {
+            "threshold": 0.09090909090909091,
+            "cost": 9576.0,
+            "cost_per_row": 0.13784764207980654,
+            "tp": 622,
+            "fp": 2866,
+            "fn": 671,
+            "tn": 65309,
+            "precision": 0.1783256880733945,
+            "recall": 0.48105181747873166,
+            "f1": 0.260196611587534,
+            "alerts": 3488,
+            "alert_rate": 0.05021016871077331,
+            "false_positive_rate": 0.04203887055372204,
+            "alerts_per_day": 3488.0,
+            "false_alarms_per_catch": 4.607717041800643
+          }
+        }
+      }
+    }
+  },
+  "seconds": 0.23896429099841043
+}
