@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features train experiments serve test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures train experiments serve test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -39,8 +39,11 @@ prep-figures:
 	$(PY) scripts/prep_figures.py --reports-dir reports --out-dir figures
 
 features:
-	@echo "features: not implemented until stage 4"
-	@exit 1
+	$(PY) scripts/features.py --transactions data/train_transaction.csv --identity data/train_identity.csv
+	$(MAKE) features-figures
+
+features-figures:
+	$(PY) scripts/feature_figures.py --reports-dir reports --out-dir figures
 
 train:
 	@echo "train: not implemented until stage 5"
@@ -65,9 +68,9 @@ lint:
 
 # The single entry point the README promises: raw data in, every committed artifact out.
 # Stages append their steps here as they land, so the chain is never retrofitted.
-reproduce: data audit split-summary memory-profile eda prep
-	@echo "reproduce: stages 0 to 3 complete (data, audit, split-summary, memory-profile, eda, prep)"
-	@echo "later stages append features, train, experiments here"
+reproduce: data audit split-summary memory-profile eda prep features
+	@echo "reproduce: stages 0 to 4 complete (data, audit, split-summary, memory-profile, eda, prep, features)"
+	@echo "later stages append train, experiments here"
 
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov
