@@ -1,6 +1,6 @@
-Figures for the README and the case study. Each is drawn by `make eda-figures` or
-`make prep-figures` from one artifact under reports/ and from nothing else, at 200 DPI, so a
-figure and the prose beside it quote the same numbers.
+Figures for the README and the case study. Each is drawn by `make eda-figures`,
+`make prep-figures` or `make features-figures` from one artifact under reports/ and from nothing
+else, at 200 DPI, so a figure and the prose beside it quote the same numbers.
 
 | File | Source | Shows |
 | --- | --- | --- |
@@ -13,3 +13,6 @@ figure and the prose beside it quote the same numbers.
 | d_column_psi.png | reports/prep/transforms.json | D column PSI and validation AUC, raw against normalised |
 | target_encoding_lag.png | reports/encoding_spec.json | what the label lag costs and what it removes |
 | v_reduction.png | reports/prep/v_reduction.json | column count against validation AUC for four strategies |
+| velocity_vs_native_c.png | reports/features/velocity_vs_c.json | this repo's point-in-time velocity against the native C columns |
+| feature_coverage.png | reports/feature_summary.json | what a point-in-time entity feature covers against what a train-fitted one does |
+| duplicate_content.png | reports/features/duplicate_content.json | fraud rate by time since the last identical purchase |
