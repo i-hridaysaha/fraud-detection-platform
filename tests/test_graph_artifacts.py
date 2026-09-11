@@ -346,8 +346,16 @@ def test_the_transductive_block_quantifies_the_leak(summary: dict[str, Any]) -> 
         assert six["component_size"]["auc_by_split"][split]["transductive"]["auc"] == pytest.approx(
             0.5, abs=1e-3
         )
+    final = six["final_graph_over_every_row"]
+    assert final["n_transactions"] == 590_540
+    assert final["giant_component"]["share_of_transactions"] == pytest.approx(
+        final["giant_component"]["n_transactions"] / final["n_transactions"]
+    )
+    assert final["giant_component"]["share_of_transactions"] > 0.99
     fragmented = graphs["hub_excluded_graph"]
     assert fragmented["hub_share"] == summary["hub_sweep"]["points"][-1]["hub_share"]
+    assert fragmented["final_graph_over_every_row"]["n_transactions"] == 590_540
+    assert fragmented["final_graph_over_every_row"]["n_components"] > final["n_components"]
     for split in ("val", "test"):
         auc = fragmented["component_fraud_rate"]["auc_by_split"][split]
         assert auc["transductive_leave_one_out"]["auc"] > auc["causal"]["auc"], split

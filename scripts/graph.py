@@ -464,7 +464,7 @@ def build_hub_excluded_rates(
 
 def _transductive(
     frame: pd.DataFrame, cfg: GraphConfig, hubs: Mapping[str, Any] | None
-) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.float64]]:
+) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.float64], dict[str, Any]]:
     """Component size and leave-one-out component fraud rate over the WHOLE frame, every split.
 
     This is the construction the module refuses: one graph over every row, val and test included,
@@ -488,7 +488,20 @@ def _transductive(
     size[stream.order] = size_sorted.astype("int64")
     loo = np.empty(n, dtype="float64")
     loo[stream.order] = loo_sorted
-    return size, loo
+    summary = graph_features.component_summary(graph)
+    return (
+        size,
+        loo,
+        {
+            key: summary[key]
+            for key in (
+                "n_transactions",
+                "n_components",
+                "giant_component",
+                "n_transactions_in_a_component_of_size_1",
+            )
+        },
+    )
 
 
 def build_transductive_leak(
@@ -519,7 +532,7 @@ def build_transductive_leak(
             causal = graph_features.build_graph_features(
                 frame, labels, cfg.with_features(*graph_features.ALL_FEATURES), hubs
             )
-        size_t, loo_t = _transductive(frame, cfg, hubs)
+        size_t, loo_t, final_graph = _transductive(frame, cfg, hubs)
         size_c = causal[graph_features.COMPONENT_SIZE].to_numpy(dtype="int64")
         rate_c = causal[graph_features.COMPONENT_FRAUD_RATE].to_numpy(dtype="float64")
         entry: dict[str, Any] = {
@@ -530,6 +543,7 @@ def build_transductive_leak(
             }
             if hubs is not None
             else {},
+            "final_graph_over_every_row": final_graph,
             "component_size": {
                 "share_rows_where_transductive_exceeds_causal": float((size_t > size_c).mean()),
                 "median_transductive_over_causal_plus_one": float(np.median(size_t / (size_c + 1))),
