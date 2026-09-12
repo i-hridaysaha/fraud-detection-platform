@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -99,6 +99,27 @@ serve:
 loadtest:
 	$(PY) loadtest/run_loadtest.py
 
+# Stage 9. Two monitoring jobs on two schedules: `monitor-drift` runs when a batch closes and
+# reads no labels; `monitor-decay` runs when a batch's labels have matured and reads only those.
+# Each writes its own artifact under reports/monitoring/. `adversarial` fits train against test
+# on the shipped stack. `lifecycle-demo` replays the val and test windows with an injected
+# drift through the whole loop and needs the raw files; its registry lives under
+# mlruns/lifecycle_demo/ and is rebuilt every run.
+monitor-drift:
+	$(PY) scripts/monitor_drift.py
+
+monitor-decay:
+	$(PY) scripts/monitor_decay.py
+
+adversarial:
+	$(PY) scripts/adversarial_validation.py
+
+lifecycle-demo:
+	$(PY) scripts/lifecycle_demo.py --transactions data/train_transaction.csv --identity data/train_identity.csv
+
+monitoring-figures:
+	$(PY) scripts/monitoring_figures.py --reports-dir reports --out-dir figures
+
 test:
 	.venv/bin/pytest
 
@@ -110,8 +131,8 @@ lint:
 
 # The single entry point the README promises: raw data in, every committed artifact out.
 # Stages append their steps here as they land, so the chain is never retrofitted.
-reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures register parity serving-latency
-	@echo "reproduce: stages 0 to 8 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures, register, parity, serving-latency)"
+reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures register parity serving-latency monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures
+	@echo "reproduce: stages 0 to 9 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures, register, parity, serving-latency, monitor-drift, monitor-decay, adversarial, lifecycle-demo, monitoring-figures)"
 	@echo "the load test needs a Redis server and is run on its own: make loadtest"
 
 clean:
