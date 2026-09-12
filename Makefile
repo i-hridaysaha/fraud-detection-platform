@@ -103,8 +103,8 @@ test:
 	.venv/bin/pytest
 
 lint:
-	.venv/bin/ruff check src tests scripts
-	.venv/bin/ruff format --check src tests scripts
+	.venv/bin/ruff check src tests scripts loadtest
+	.venv/bin/ruff format --check src tests scripts loadtest
 	.venv/bin/mypy
 	bash scripts/check_no_em_dash.sh
 
