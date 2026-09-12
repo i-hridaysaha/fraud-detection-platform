@@ -145,7 +145,7 @@ def fit_block_pca(
 
 def apply_block_pca(frame: pd.DataFrame, fitted: Mapping[str, Any]) -> pd.DataFrame:
     """Project each block onto its components. Rows where the block is missing stay missing."""
-    out = pd.DataFrame(index=frame.index)
+    out: dict[str, Any] = {}
     for name, block in fitted["blocks"].items():
         columns = list(block["columns"])
         available = [c for c in columns if c in frame.columns]
@@ -161,9 +161,8 @@ def apply_block_pca(frame: pd.DataFrame, fitted: Mapping[str, Any]) -> pd.DataFr
         projected = scaled @ components.T
         for index in range(block["n_components"]):
             column = f"{PCA_PREFIX}{name}_{index}"
-            values = np.where(present, projected[:, index], np.nan)
-            out[column] = values
-    return out
+            out[column] = np.where(present, projected[:, index], np.nan)
+    return pd.DataFrame(out, index=frame.index)
 
 
 @train_only
@@ -189,7 +188,7 @@ def fit_block_mean(frame: pd.DataFrame, blocks: Sequence[Mapping[str, Any]]) -> 
 
 def apply_block_mean(frame: pd.DataFrame, fitted: Mapping[str, Any]) -> pd.DataFrame:
     """One column per block: the mean of that block's standardised columns."""
-    out = pd.DataFrame(index=frame.index)
+    out: dict[str, Any] = {}
     for name, block in fitted["blocks"].items():
         columns = [c for c in block["columns"] if c in frame.columns]
         if len(columns) != len(block["columns"]):
@@ -205,7 +204,7 @@ def apply_block_mean(frame: pd.DataFrame, fitted: Mapping[str, Any]) -> pd.DataF
                 "ignore", message="Mean of empty slice", category=RuntimeWarning
             )
             out[f"{BLOCK_MEAN_PREFIX}{name}"] = np.nanmean(scaled, axis=1)
-    return out
+    return pd.DataFrame(out, index=frame.index)
 
 
 def probe(

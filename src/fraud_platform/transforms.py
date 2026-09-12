@@ -29,7 +29,7 @@ a frame that reaches past the training boundary raises instead of quietly workin
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 import numpy as np
@@ -82,6 +82,24 @@ CLOCK_COLUMNS: tuple[str, ...] = (
 CLOCK_FEATURE_COLUMNS: tuple[str, ...] = (HOUR_POSITION_COLUMN,)
 
 
+def attach(frame: pd.DataFrame, columns: Mapping[str, Any]) -> pd.DataFrame:
+    """The frame with `columns` attached, in one insertion for all of them.
+
+    `out[name] = values` in a loop inserts into the block manager once per column, and on a
+    one-row frame that insertion is the whole cost of the pipeline: stage 8 measured the serving
+    path at 65 ms per transaction with 155 such inserts and 0.3 ms of model. One concat does the
+    same work once. A column that already exists is replaced, so a step built on this stays
+    idempotent; it moves to the end, which nothing downstream reads because the prepared frame is
+    sorted by name at the end of the pipeline.
+    """
+    if not columns:
+        return frame.copy()
+    new = pd.DataFrame(dict(columns), index=frame.index)
+    replaced = [column for column in frame.columns if column in new.columns]
+    base = frame.drop(columns=replaced) if replaced else frame
+    return pd.concat([base, new], axis=1)
+
+
 def day_index(frame: pd.DataFrame) -> pd.Series:
     """Day number since the TransactionDT origin, as an integer. Relative, not a date."""
     days = np.floor(frame[config.TIME_COLUMN].to_numpy(dtype="float64") / config.SECONDS_PER_DAY)
@@ -94,15 +112,18 @@ def add_clock_columns(frame: pd.DataFrame) -> pd.DataFrame:
     Idempotent: the four columns are a function of TransactionDT alone, so applying this twice
     writes the same values twice. A test asserts that rather than trusting it.
     """
-    out = frame.copy()
     day = day_index(frame)
-    out[DAY_INDEX_COLUMN] = day
-    out[WEEK_INDEX_COLUMN] = (day // 7).astype("int32")
-    out[HOUR_POSITION_COLUMN] = (
-        (frame[config.TIME_COLUMN] % config.SECONDS_PER_DAY) // 3600
-    ).astype("int8")
-    out[DOW_POSITION_COLUMN] = (day % 7).astype("int8")
-    return out
+    return attach(
+        frame,
+        {
+            DAY_INDEX_COLUMN: day,
+            WEEK_INDEX_COLUMN: (day // 7).astype("int32"),
+            HOUR_POSITION_COLUMN: (
+                (frame[config.TIME_COLUMN] % config.SECONDS_PER_DAY) // 3600
+            ).astype("int8"),
+            DOW_POSITION_COLUMN: (day % 7).astype("int8"),
+        },
+    )
 
 
 # --- D columns ------------------------------------------------------------------------------
@@ -122,13 +143,15 @@ def to_d_origin(frame: pd.DataFrame, columns: Sequence[str]) -> pd.DataFrame:
     The transformation is invertible given TransactionDT, and a test checks the round trip
     rather than taking the arithmetic on trust.
     """
-    out = frame.copy()
     days = frame[config.TIME_COLUMN] / config.SECONDS_PER_DAY
-    for column in columns:
-        if column not in frame.columns:
-            continue
-        out[d_origin_name(column)] = (days - frame[column]).astype("float64")
-    return out
+    return attach(
+        frame,
+        {
+            d_origin_name(column): (days - frame[column]).astype("float64")
+            for column in columns
+            if column in frame.columns
+        },
+    )
 
 
 def from_d_origin(frame: pd.DataFrame, column: str) -> pd.Series:
@@ -195,13 +218,16 @@ def add_amount_features(frame: pd.DataFrame) -> pd.DataFrame:
     The cents definition is stage 2's, `round(amount * 100) mod 100`, so the distribution this
     produces is the one univariate.json already reports: 0.5255 of rows at 0, 0.2712 at 95.
     """
-    out = frame.copy()
     amount = frame[config.AMOUNT_COLUMN].astype("float64")
-    out[AMOUNT_LOG_COLUMN] = np.log1p(amount)
     cents = (amount * 100).round().astype("int64") % 100
-    out[AMOUNT_CENTS_COLUMN] = cents.astype("int16")
-    out[AMOUNT_IS_ROUND_COLUMN] = (cents == 0).astype("int8")
-    return out
+    return attach(
+        frame,
+        {
+            AMOUNT_LOG_COLUMN: np.log1p(amount),
+            AMOUNT_CENTS_COLUMN: cents.astype("int16"),
+            AMOUNT_IS_ROUND_COLUMN: (cents == 0).astype("int8"),
+        },
+    )
 
 
 def invert_amount_log(values: pd.Series) -> pd.Series:
