@@ -198,6 +198,15 @@ class Challenger:
         return modelling.score(self.model, x)
 
 
+def _without(declared: Mapping[str, Any], dropped: Sequence[str]) -> dict[str, Any]:
+    """The stage 3 contract less the columns this fit did not produce, so the served row is
+    validated against what the bundle's pipeline makes rather than what the champion's did."""
+    out = dict(declared)
+    out["columns"] = [spec for spec in declared["columns"] if spec["column"] not in set(dropped)]
+    out["n_columns"] = len(out["columns"])
+    return out
+
+
 def raw_columns(frame: pd.DataFrame) -> list[str]:
     """The columns a payload may carry: the joined file's, less the two derived at load."""
     derived = (config.ENTITY_ID_COLUMN, config.CARD_START_DAY_COLUMN)
@@ -264,6 +273,14 @@ def fit_challenger(
         )
         buckets = features.fit_dist_buckets(encoders.add_normalised_free_text(fit_rows))
     prepared = prepare.apply_preparation(fit_rows, fitted, plan)
+    # The pipeline's rules can leave a column out on a different window: the frequency encoder
+    # skips a column under its cardinality floor, and addr2 has 67 levels over the training
+    # split and about 29 over sixty days of it. The stack is the champion's less what the
+    # window's fit did not produce, and the record says which.
+    dropped = [c for c in columns if c not in prepared.columns]
+    columns = [c for c in columns if c in prepared.columns]
+    if not columns:
+        raise LifecycleError("the challenger's pipeline produced none of the stack's columns")
     x = modelling.tree_matrix(prepared, columns).to_numpy(dtype="float32")
     y = fit_rows[config.TARGET].to_numpy(dtype="int64")
     model = modelling.make_model(FAMILY, IMBALANCE, y, seed, hyperparameters)
@@ -290,7 +307,11 @@ def fit_challenger(
         "model_name": serving.MODEL_NAME,
         "alias": CHALLENGER_ALIAS,
         "family": FAMILY,
-        "stack": {"name": "challenger, the shipped stack", "columns_from": "champion"},
+        "stack": {
+            "name": "challenger, the champion's stack less what the window did not produce",
+            "columns_from": "champion",
+            "columns_dropped": dropped,
+        },
         "hyperparameters": dict(hyperparameters),
         "columns": list(columns),
         "n_columns": len(columns),
@@ -311,12 +332,14 @@ def fit_challenger(
             "rule": "largest F1 on the calibration window",
             "source": "lifecycle.fit_challenger, calibration window",
         },
-        "schema": schema_report["schema"],
+        "schema": _without(schema_report["schema"], dropped),
         "inference_threads": serving.INFERENCE_THREADS,
         "windows": dict(bounds),
         "train_only_boundary_dt": int(bounds["fit_end_dt"]),
     }
     challenger.fit = {
+        "n_columns": len(columns),
+        "columns_dropped": dropped,
         "n_fit_rows": int(y.size),
         "n_fit_fraud": int(y.sum()),
         "fit_fraud_rate": float(y.mean()),
