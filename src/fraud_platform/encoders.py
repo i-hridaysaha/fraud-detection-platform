@@ -196,12 +196,14 @@ def normalised_name(column: str) -> str:
 
 def add_normalised_free_text(frame: pd.DataFrame) -> pd.DataFrame:
     """Attach `<column>_norm` for every free-text column present. Idempotent."""
-    out = frame.copy()
-    for column, normalise in FREE_TEXT_NORMALISERS.items():
-        if column not in frame.columns:
-            continue
-        out[normalised_name(column)] = frame[column].astype("object").map(normalise)
-    return out
+    return transforms.attach(
+        frame,
+        {
+            normalised_name(column): frame[column].astype("object").map(normalise)
+            for column, normalise in FREE_TEXT_NORMALISERS.items()
+            if column in frame.columns
+        },
+    )
 
 
 def normalisation_coverage(
@@ -326,7 +328,7 @@ def apply_category_vocabulary(frame: pd.DataFrame, fitted: Mapping[str, Any]) ->
     code for a level does not depend on which rows happen to be in the frame. That matters for
     the tree-native categorical path, where the code is what the model splits on.
     """
-    out = frame.copy()
+    new: dict[str, Any] = {}
     for column, spec in fitted["columns"].items():
         if column not in frame.columns:
             continue
@@ -351,8 +353,8 @@ def apply_category_vocabulary(frame: pd.DataFrame, fitted: Mapping[str, Any]) ->
             # as a level it never saw at all, and the two tokens keep them apart.
             return str(fitted["rare_token"] if text in collapsed else fitted["unseen_token"])
 
-        out[vocabulary_name(column)] = pd.Categorical(values.map(resolve), categories=categories)
-    return out
+        new[vocabulary_name(column)] = pd.Categorical(values.map(resolve), categories=categories)
+    return transforms.attach(frame, new)
 
 
 def vocabulary_application_report(
@@ -442,14 +444,14 @@ def fit_frequency_encoding(
 
 def apply_frequency_encoding(frame: pd.DataFrame, fitted: Mapping[str, Any]) -> pd.DataFrame:
     """Attach `<column>_freq`. A null stays null; an unseen level becomes 0."""
-    out = frame.copy()
+    new: dict[str, Any] = {}
     for column, table in fitted["tables"].items():
         if column not in frame.columns:
             continue
         values = frame[column].astype("object")
         encoded = values.map(lambda v, table=table: table.get(str(v), 0))
-        out[frequency_name(column)] = encoded.where(values.notna()).astype("float32")
-    return out
+        new[frequency_name(column)] = encoded.where(values.notna()).astype("float32")
+    return transforms.attach(frame, new)
 
 
 # --- target encoding with a label lag -------------------------------------------------------
@@ -680,7 +682,7 @@ def apply_target_encoding(
     """
     lag = int(fitted["lag_days"] if lag_days is None else lag_days)
     m = float(fitted["smoothing"] if smoothing is None else smoothing)
-    out = frame.copy()
+    new: dict[str, Any] = {}
     boundary = transforms.day_index(frame).to_numpy(dtype="int64") - lag
     prior = prior_at(fitted, boundary)
     for column, table in fitted["_tables"].items():
@@ -689,8 +691,8 @@ def apply_target_encoding(
         codes = level_codes(table, frame[column])
         missing = frame[column].isna().to_numpy()
         encoded = encode_column(table, codes, boundary, prior, m, missing)
-        out[target_name(column)] = pd.Series(encoded, index=frame.index, dtype="float64")
-    return out
+        new[target_name(column)] = pd.Series(encoded, index=frame.index, dtype="float64")
+    return transforms.attach(frame, new)
 
 
 # --- sweeps -----------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures serve test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -78,24 +78,41 @@ latency:
 experiment-figures:
 	$(PY) scripts/experiment_figures.py --reports-dir reports --out-dir figures
 
+# Stage 8. `register` refits the stage 3 pipeline on train and logs the shipped booster with it
+# as one model version under mlruns/ (gitignored), alias production; the service loads that alias
+# and nothing else. `parity` and `serving-latency` write the two artifacts the stage quotes.
+# `loadtest` starts one uvicorn worker on the Redis store and drives the concurrency sweep.
+register:
+	$(PY) scripts/register_model.py --transactions data/train_transaction.csv --identity data/train_identity.csv
+
+parity:
+	$(PY) scripts/parity.py --days 30
+
+serving-latency:
+	$(PY) scripts/serving_latency.py
+
+# One worker. FRAUD_REDIS_URL selects the Redis store (redis://localhost:6379/0); unset, the
+# store is in-process. The registry location comes from MLFLOW_TRACKING_URI or mlruns/.
 serve:
-	@echo "serve: not implemented until stage 8"
-	@exit 1
+	.venv/bin/uvicorn fraud_platform.service:app --host 127.0.0.1 --port 8000 --workers 1
+
+loadtest:
+	$(PY) loadtest/run_loadtest.py
 
 test:
 	.venv/bin/pytest
 
 lint:
-	.venv/bin/ruff check src tests scripts
-	.venv/bin/ruff format --check src tests scripts
+	.venv/bin/ruff check src tests scripts loadtest
+	.venv/bin/ruff format --check src tests scripts loadtest
 	.venv/bin/mypy
 	bash scripts/check_no_em_dash.sh
 
 # The single entry point the README promises: raw data in, every committed artifact out.
 # Stages append their steps here as they land, so the chain is never retrofitted.
-reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures
-	@echo "reproduce: stages 0 to 7 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures)"
-	@echo "later stages append serve here"
+reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures register parity serving-latency
+	@echo "reproduce: stages 0 to 8 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures, register, parity, serving-latency)"
+	@echo "the load test needs a Redis server and is run on its own: make loadtest"
 
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov

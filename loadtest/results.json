@@ -1,0 +1,441 @@
+{
+  "section": "loadtest",
+  "stage": 8,
+  "generated_at_utc": "2026-09-12T11:28:38+00:00",
+  "regenerate_with": "make loadtest  # or: .venv/bin/python loadtest/run_loadtest.py",
+  "command": "loadtest/run_loadtest.py",
+  "git_commit": "fbaf942bdf7e07fc70b2d41ca108538589288030",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10
+  },
+  "rows": {
+    "n": 2000,
+    "split": "test",
+    "order": "chronological, from the split's first row"
+  },
+  "sweeps": [
+    {
+      "workers": 1,
+      "server": {
+        "status": "ok",
+        "model": {
+          "name": "fraud-detector",
+          "alias": "production",
+          "version": 1,
+          "run_id": "153ee92df07c47aead40285696986dea",
+          "uri": "models:/fraud-detector@production"
+        },
+        "store": "redis (redis://localhost:6379/0)",
+        "inference_threads": 1,
+        "requests": 0,
+        "workers": 1,
+        "redis_url": "redis://localhost:6379/0"
+      },
+      "levels": [
+        {
+          "concurrency": 1,
+          "effective_concurrency": 0.9984147106090877,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 79.48680012499972,
+          "throughput_rps": 25.161410408455627,
+          "client_latency_ms": {
+            "p50": 38.08568749809638,
+            "p95": 40.37084554765897,
+            "p99": 84.20717625391262,
+            "mean": 39.680395272022,
+            "max": 88.94216600310756
+          },
+          "server_latency_ms": {
+            "p50": 37.42037500342121,
+            "p95": 39.702805603155866,
+            "p99": 83.49110017072235
+          },
+          "dispatch_stalls": 0,
+          "dispatch_stall_seconds": 0.0
+        },
+        {
+          "concurrency": 2,
+          "effective_concurrency": 1.9844849849320256,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 88.31449483300094,
+          "throughput_rps": 22.64633912906276,
+          "client_latency_ms": {
+            "p50": 83.94612499978393,
+            "p95": 129.94273960284772,
+            "p99": 133.53909709127038,
+            "mean": 87.62939447397366,
+            "max": 161.34441699978197
+          },
+          "server_latency_ms": {
+            "p50": 82.5417500018375,
+            "p95": 128.38195175099827,
+            "p99": 131.44048383248446
+          },
+          "dispatch_stalls": 43,
+          "dispatch_stall_seconds": 1.250428954976087
+        },
+        {
+          "concurrency": 4,
+          "effective_concurrency": 3.8359011238024325,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 92.67490183400514,
+          "throughput_rps": 21.580815953625766,
+          "client_latency_ms": {
+            "p50": 174.73143700044602,
+            "p95": 232.55055000445282,
+            "p99": 261.6653830855648,
+            "mean": 177.7458800466702,
+            "max": 294.59270799998194
+          },
+          "server_latency_ms": {
+            "p50": 170.09635399881518,
+            "p95": 224.21647289957036,
+            "p99": 253.63544448613538
+          },
+          "dispatch_stalls": 233,
+          "dispatch_stall_seconds": 14.92522233701311
+        },
+        {
+          "concurrency": 8,
+          "effective_concurrency": 6.88956522270559,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 98.71999050000159,
+          "throughput_rps": 20.259321236461908,
+          "client_latency_ms": {
+            "p50": 365.4123745000106,
+            "p95": 457.3771068997303,
+            "p99": 526.4039639855037,
+            "mean": 340.0689066673186,
+            "max": 614.90533399774
+          },
+          "server_latency_ms": {
+            "p50": 359.1100205012481,
+            "p95": 447.19937709742226,
+            "p99": 509.65102491536527
+          },
+          "dispatch_stalls": 755,
+          "dispatch_stall_seconds": 108.82274055195012
+        },
+        {
+          "concurrency": 16,
+          "effective_concurrency": 10.115616272505601,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 99.19257474999904,
+          "throughput_rps": 20.162799534549023,
+          "client_latency_ms": {
+            "p50": 495.17868750263005,
+            "p95": 846.6616226058248,
+            "p99": 924.4115022528422,
+            "mean": 501.6970116264093,
+            "max": 1209.2219999976805
+          },
+          "server_latency_ms": {
+            "p50": 485.52120849853964,
+            "p95": 838.5562896044576,
+            "p99": 910.7143883425306
+          },
+          "dispatch_stalls": 1439,
+          "dispatch_stall_seconds": 579.0822654560907
+        },
+        {
+          "concurrency": 32,
+          "effective_concurrency": 11.06530964296433,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 99.34545624999737,
+          "throughput_rps": 20.131771250484874,
+          "client_latency_ms": {
+            "p50": 508.5014999967825,
+            "p95": 1108.13575210268,
+            "p99": 1322.864419923062,
+            "mean": 549.6441175138934,
+            "max": 1548.6621250020107
+          },
+          "server_latency_ms": {
+            "p50": 500.29299999732757,
+            "p95": 1099.9525139508478,
+            "p99": 1313.4503679245245
+          },
+          "dispatch_stalls": 1636,
+          "dispatch_stall_seconds": 2047.4621548238574
+        }
+      ],
+      "saturation": {
+        "rule": "the first level whose throughput is under 1.10 times the previous level's",
+        "gains": [
+          {
+            "from": 1,
+            "to": 2,
+            "gain": -0.09995748404261406
+          },
+          {
+            "from": 2,
+            "to": 4,
+            "gain": -0.047050570485786536
+          },
+          {
+            "from": 4,
+            "to": 8,
+            "gain": -0.06123469659365843
+          },
+          {
+            "from": 8,
+            "to": 16,
+            "gain": -0.0047643107479419244
+          },
+          {
+            "from": 16,
+            "to": 32,
+            "gain": -0.001538887693198654
+          }
+        ],
+        "saturated_at_concurrency": 2,
+        "peak_throughput_rps": 25.161410408455627,
+        "peak_at_concurrency": 1,
+        "workers": 1
+      }
+    },
+    {
+      "workers": 4,
+      "server": {
+        "status": "ok",
+        "model": {
+          "name": "fraud-detector",
+          "alias": "production",
+          "version": 1,
+          "run_id": "153ee92df07c47aead40285696986dea",
+          "uri": "models:/fraud-detector@production"
+        },
+        "store": "redis (redis://localhost:6379/0)",
+        "inference_threads": 1,
+        "requests": 0,
+        "workers": 4,
+        "redis_url": "redis://localhost:6379/0"
+      },
+      "levels": [
+        {
+          "concurrency": 1,
+          "effective_concurrency": 0.9982502965509417,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 80.49674641599995,
+          "throughput_rps": 24.845724691333235,
+          "client_latency_ms": {
+            "p50": 38.42243750113994,
+            "p95": 40.98294964751403,
+            "p99": 85.61052316057612,
+            "mean": 40.17795049057895,
+            "max": 121.16208400402684
+          },
+          "server_latency_ms": {
+            "p50": 37.73837499829824,
+            "p95": 40.275151447349344,
+            "p99": 84.92835424753139
+          },
+          "dispatch_stalls": 0,
+          "dispatch_stall_seconds": 0.0
+        },
+        {
+          "concurrency": 2,
+          "effective_concurrency": 1.956717782123387,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 42.9154411250056,
+          "throughput_rps": 46.60327256509679,
+          "client_latency_ms": {
+            "p50": 40.030166499491315,
+            "p95": 43.14211459895886,
+            "p99": 89.76599166540836,
+            "mean": 41.986703388483875,
+            "max": 130.06949999544304
+          },
+          "server_latency_ms": {
+            "p50": 39.2981664990657,
+            "p95": 42.433834802068304,
+            "p99": 89.05490190954879
+          },
+          "dispatch_stalls": 47,
+          "dispatch_stall_seconds": 1.701701954989403
+        },
+        {
+          "concurrency": 4,
+          "effective_concurrency": 3.6553828513294477,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 33.50442104099784,
+          "throughput_rps": 59.69361468901942,
+          "client_latency_ms": {
+            "p50": 44.69406250063912,
+            "p95": 99.85723160389169,
+            "p99": 143.9755367509497,
+            "mean": 61.23574305849252,
+            "max": 180.18762500287266
+          },
+          "server_latency_ms": {
+            "p50": 43.853333500010194,
+            "p95": 97.29796184656152,
+            "p99": 141.03426500136266
+          },
+          "dispatch_stalls": 271,
+          "dispatch_stall_seconds": 11.369116030968144
+        },
+        {
+          "concurrency": 8,
+          "effective_concurrency": 6.047919086120275,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 32.2169097090009,
+          "throughput_rps": 62.07920058332694,
+          "client_latency_ms": {
+            "p50": 97.50095850176876,
+            "p95": 173.17936040162746,
+            "p99": 217.60440508733154,
+            "mean": 97.42263156244007,
+            "max": 275.9229589937604
+          },
+          "server_latency_ms": {
+            "p50": 95.18027100057225,
+            "p95": 163.0949437534582,
+            "p99": 213.20666449806595
+          },
+          "dispatch_stalls": 789,
+          "dispatch_stall_seconds": 62.20344725291943
+        },
+        {
+          "concurrency": 16,
+          "effective_concurrency": 8.588027760751535,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 38.420225458998175,
+          "throughput_rps": 52.05591524012235,
+          "client_latency_ms": {
+            "p50": 151.68393700150773,
+            "p95": 333.5052569000254,
+            "p99": 393.44936365676404,
+            "mean": 164.97698140810462,
+            "max": 533.1728329983889
+          },
+          "server_latency_ms": {
+            "p50": 148.32112500516814,
+            "p95": 325.44575654865184,
+            "p99": 379.8370121700282
+          },
+          "dispatch_stalls": 1442,
+          "dispatch_stall_seconds": 281.7100310360256
+        },
+        {
+          "concurrency": 32,
+          "effective_concurrency": 9.671790811179767,
+          "n_requests": 2000,
+          "n_ok": 2000,
+          "n_errors": 0,
+          "status_counts": {
+            "200": 2000
+          },
+          "wall_seconds": 38.60791708299803,
+          "throughput_rps": 51.80284643951306,
+          "client_latency_ms": {
+            "p50": 154.83158299684874,
+            "p95": 394.2645541483216,
+            "p99": 573.981848578187,
+            "mean": 186.70384884106534,
+            "max": 617.271625000285
+          },
+          "server_latency_ms": {
+            "p50": 151.1188750009751,
+            "p95": 386.49722949812707,
+            "p99": 557.2612987528554
+          },
+          "dispatch_stalls": 1638,
+          "dispatch_stall_seconds": 848.0923889031546
+        }
+      ],
+      "saturation": {
+        "rule": "the first level whose throughput is under 1.10 times the previous level's",
+        "gains": [
+          {
+            "from": 1,
+            "to": 2,
+            "gain": 0.8757059069141617
+          },
+          {
+            "from": 2,
+            "to": 4,
+            "gain": 0.28088890336269134
+          },
+          {
+            "from": 4,
+            "to": 8,
+            "gain": 0.03996383711617213
+          },
+          {
+            "from": 8,
+            "to": 16,
+            "gain": -0.16145963944478714
+          },
+          {
+            "from": 16,
+            "to": 32,
+            "gain": -0.00486148018802357
+          }
+        ],
+        "saturated_at_concurrency": 8,
+        "peak_throughput_rps": 62.07920058332694,
+        "peak_at_concurrency": 8,
+        "workers": 4
+      }
+    }
+  ],
+  "seconds": 840.8573367089994
+}

@@ -33,3 +33,6 @@ mlruns/
 # the shipped model binary is rebuilt by `make train`; the bundle beside it is committed
 models/*.ubj
 models/*.pkl
+
+# the load test server log is rewritten by every run
+loadtest/server.log

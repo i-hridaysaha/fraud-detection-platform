@@ -1,0 +1,113 @@
+{
+  "section": "serving_bundle",
+  "stage": 8,
+  "generated_at_utc": "2026-09-12T10:47:40+00:00",
+  "regenerate_with": "make register  # or: .venv/bin/python scripts/register_model.py",
+  "command": "scripts/register_model.py",
+  "n_train_rows": 413378,
+  "git_commit": "20a251bf724ce5102f98c68399fbc04fd570ac80",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "xgboost": "3.4.1",
+    "mlflow": "3.16.0",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "registry": {
+    "tracking_uri": "sqlite:////Users/hridaysaha/Projects/Fraud Detection Project/mlruns/mlflow.db",
+    "experiment": "serving",
+    "run_id": "153ee92df07c47aead40285696986dea",
+    "model_name": "fraud-detector",
+    "version": 1,
+    "alias": "production",
+    "uri": "models:/fraud-detector@production",
+    "model_uri": "models:/m-f2b9d701b5bc4467bd5370c40e8502ca",
+    "python_model": "serving_model.py",
+    "artifacts": [
+      "booster",
+      "preparation",
+      "serving"
+    ],
+    "bundle_dir_at_registration": "/var/folders/_6/r39zyd112px1mqv1y3h_7pjr0000gn/T/serving-bundle-tvvuzqzo",
+    "loaded_back": {
+      "name": "fraud-detector",
+      "alias": "production",
+      "version": 1,
+      "run_id": "153ee92df07c47aead40285696986dea",
+      "uri": "models:/fraud-detector@production"
+    }
+  },
+  "bundle": {
+    "files": {
+      "booster": "model.ubj",
+      "preparation": "preparation.pkl",
+      "serving": "serving.json"
+    },
+    "bytes": {
+      "booster": 3706753,
+      "preparation": 85583758,
+      "serving": 78129
+    },
+    "columns": 186,
+    "raw_columns": 434,
+    "schema_columns_declared": 247,
+    "schema_columns_serving": 246,
+    "stack": {
+      "name": "prepared|native=count,timedelta,vesta",
+      "causal": false,
+      "graph": false,
+      "native_groups": [
+        "count",
+        "timedelta",
+        "vesta"
+      ]
+    },
+    "fit_seconds": 10.009561291000864
+  },
+  "calibrator": {
+    "n_breakpoints": 138,
+    "fitted_on": "val",
+    "method": "sklearn IsotonicRegression(y_min=0, y_max=1, out_of_bounds='clip'), stored as its breakpoints and applied with np.interp",
+    "max_abs_difference_interp_vs_sklearn_on_val": 0.0
+  },
+  "band_edges": {
+    "on_probability": {
+      "low": 0.05,
+      "high": 0.5
+    },
+    "as_raw_score_this_fit": {
+      "low": 0.039616409689188004,
+      "high": 0.4772736132144928
+    },
+    "as_raw_score_stage_6": {
+      "low": 0.039616409689188004,
+      "high": 0.4772736132144928,
+      "note": "the smallest validation raw score the calibrator maps at or above each edge"
+    },
+    "max_abs_difference": 0.0
+  },
+  "smoke": {
+    "n_rows": 500,
+    "max_abs_score_difference_vs_this_scripts_batch": 0.0,
+    "seconds_per_row_median": 0.03514772899507079,
+    "max_abs_score_difference_batch_vs_stage_6_cache": 0.0,
+    "stage_6_cache": "reports/cache/scores_shipped.parquet"
+  },
+  "shap": {
+    "transaction_id": 3556851,
+    "found": true,
+    "score_serving": 0.9966000914573669,
+    "score_stage_6": 0.9966000914573669,
+    "base_value_serving": -3.3691365718841553,
+    "expected_value_stage_6": -3.3691365718841553,
+    "n_factors_compared": 20,
+    "n_factors_in_artifact": 20,
+    "max_abs_contribution_difference": 0.0,
+    "top_factor_serving": "C14",
+    "top_factor_stage_6": "C14"
+  },
+  "seconds": 35.72176408400264
+}
