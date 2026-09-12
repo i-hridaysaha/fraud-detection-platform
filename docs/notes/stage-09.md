@@ -255,8 +255,8 @@ unbuilt rather than derive the constant from nothing at eleven at night.
   A gate window has to start after the champion's fit ended, and the demo records the cycles
   where that was not yet possible.
 - I wrote the expectations for the adversarial validation with `card1_te` and `addr1_te` at
-  the top and the narrow columns' encodings not in mind at all. The encodings I expected are
-  ranks 9 and 14 in the full fit; the ones I did not expect carry 0.98 of the gain.
+  the top and the narrow columns' encodings not in mind at all. In the full fit `addr1_te` is
+  rank 14 and `card1_te` rank 29; the five I did not name carry 0.98 of the gain between them.
 
 ## Smaller things
 
