@@ -256,7 +256,7 @@ unbuilt rather than derive the constant from nothing at eleven at night.
   where that was not yet possible.
 - I wrote the expectations for the adversarial validation with `card1_te` and `addr1_te` at
   the top and the narrow columns' encodings not in mind at all. In the full fit `addr1_te` is
-  rank 14 and `card1_te` rank 29; the five I did not name carry 0.98 of the gain between them.
+  rank 14 and `card1_te` rank 29; the five I did not name carry 0.97 of the gain between them.
 
 ## Smaller things
 
