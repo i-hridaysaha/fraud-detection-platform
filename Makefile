@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures demo-page test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -120,6 +120,11 @@ lifecycle-demo:
 monitoring-figures:
 	$(PY) scripts/monitoring_figures.py --reports-dir reports --out-dir figures
 
+# The demo page: one self-contained HTML file under docs/demo/ built from the committed stage 9
+# artifacts, for a static host. It reads no data; a test compares it with a fresh build.
+demo-page:
+	$(PY) scripts/demo_page.py --reports-dir reports --out docs/demo/index.html
+
 test:
 	.venv/bin/pytest
 
@@ -131,8 +136,8 @@ lint:
 
 # The single entry point the README promises: raw data in, every committed artifact out.
 # Stages append their steps here as they land, so the chain is never retrofitted.
-reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures register parity serving-latency monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures
-	@echo "reproduce: stages 0 to 9 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures, register, parity, serving-latency, monitor-drift, monitor-decay, adversarial, lifecycle-demo, monitoring-figures)"
+reproduce: data audit split-summary memory-profile eda prep features graph train leakage latency experiment-figures register parity serving-latency monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures demo-page
+	@echo "reproduce: stages 0 to 9 complete (data, audit, split-summary, memory-profile, eda, prep, features, graph, train, leakage, latency, experiment-figures, register, parity, serving-latency, monitor-drift, monitor-decay, adversarial, lifecycle-demo, monitoring-figures, demo-page)"
 	@echo "the load test needs a Redis server and is run on its own: make loadtest"
 
 clean:

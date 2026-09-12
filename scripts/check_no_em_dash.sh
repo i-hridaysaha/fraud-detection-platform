@@ -7,7 +7,7 @@ set -euo pipefail
 if [ "$#" -gt 0 ]; then
     files="$*"
 else
-    files=$(git ls-files -- '*.md' '*.py' '*.toml' '*.yaml' '*.yml' '*.sh' '*.txt' 'Makefile')
+    files=$(git ls-files -- '*.md' '*.py' '*.toml' '*.yaml' '*.yml' '*.sh' '*.txt' '*.html' 'Makefile')
 fi
 
 hits=0
