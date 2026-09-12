@@ -35,7 +35,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from fraud_platform import config
+from fraud_platform import config, transforms
 from fraud_platform.data_loader import train_only
 
 # --- choices ------------------------------------------------------------------------------
@@ -331,16 +331,16 @@ def missing_indicator_spec(
 
 def add_missing_indicators(frame: pd.DataFrame, spec: Mapping[str, Any]) -> pd.DataFrame:
     """Attach the block indicators and the identity-join indicator. Idempotent."""
-    out = frame.copy()
+    new: dict[str, Any] = {}
     for entry in spec["indicators"]:
         representative = entry["representative"]
         if representative not in frame.columns:
             continue
-        out[entry["indicator"]] = frame[representative].isna().astype("int8")
+        new[entry["indicator"]] = frame[representative].isna().astype("int8")
     witness = spec["identity_indicator"]["witness_column"]
     if witness in frame.columns:
-        out[spec["identity_indicator"]["name"]] = frame[witness].notna().astype("int8")
-    return out
+        new[spec["identity_indicator"]["name"]] = frame[witness].notna().astype("int8")
+    return transforms.attach(frame, new)
 
 
 # --- imputation for the models that need it -------------------------------------------------

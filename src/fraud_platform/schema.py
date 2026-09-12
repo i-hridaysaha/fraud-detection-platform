@@ -274,7 +274,10 @@ def validate(frame: pd.DataFrame, schema: Schema) -> None:
                 }
             )
             continue
-        n_null = int(series.isna().sum())
+        # One array per column and numpy from here: the pandas per-column overhead was most of
+        # the serving path's time on a one-row frame (stage 8), and the checks are the same.
+        array = series.to_numpy()
+        n_null = int(np.isnan(array).sum()) if spec.family == "float" else int(pd.isna(array).sum())
         if not spec.nullable and n_null:
             violations.append(
                 {"column": spec.name, "problem": f"{n_null} null value(s) in a non-nullable column"}
@@ -287,8 +290,8 @@ def validate(frame: pd.DataFrame, schema: Schema) -> None:
                 }
             )
         if spec.family in ("integer", "float"):
-            values = series.astype("float64")
-            if spec.family == "float" and np.isinf(values.to_numpy()).any():
+            values = array.astype("float64")
+            if spec.family == "float" and np.isinf(values).any():
                 violations.append({"column": spec.name, "problem": "non-finite value"})
             if spec.minimum is not None:
                 below = int((values < spec.minimum).sum())
@@ -298,7 +301,7 @@ def validate(frame: pd.DataFrame, schema: Schema) -> None:
                             "column": spec.name,
                             "problem": (
                                 f"{below} value(s) below the declared minimum {spec.minimum}, "
-                                f"lowest {float(values.min())}"
+                                f"lowest {float(np.nanmin(values))}"
                             ),
                         }
                     )
@@ -310,7 +313,7 @@ def validate(frame: pd.DataFrame, schema: Schema) -> None:
                             "column": spec.name,
                             "problem": (
                                 f"{above} value(s) above the declared maximum {spec.maximum}, "
-                                f"highest {float(values.max())}"
+                                f"highest {float(np.nanmax(values))}"
                             ),
                         }
                     )
