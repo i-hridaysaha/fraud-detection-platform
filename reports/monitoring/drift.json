@@ -1,0 +1,1348 @@
+{
+  "section": "drift",
+  "stage": 9,
+  "generated_at_utc": "2026-09-12T17:10:02+00:00",
+  "regenerate_with": "make monitor-drift  # or: .venv/bin/python scripts/monitor_drift.py",
+  "command": ".venv/bin/python scripts/monitor_drift.py",
+  "reads_labels": false,
+  "split": {
+    "train_end_dt": 10437998,
+    "val_end_dt": 13151845,
+    "rule": "dt < boundary, ADR 0002"
+  },
+  "git_commit": "739c903a458c7a74c2ddebdd46e29ecbd5c18a05",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "xgboost": "3.4.1",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "reference": "reports/monitoring/drift_reference.json",
+  "n_train_rows": 413378,
+  "scores_against_stage_6_cache": {
+    "cache": "reports/cache/scores_shipped.parquet",
+    "max_abs_difference_val": 0.0,
+    "max_abs_difference_test": 0.0
+  },
+  "against_stage_2": {
+    "artifact": "reports/eda/temporal.json",
+    "n_shared_columns": 59,
+    "n_exact_to_1e_9": 59,
+    "max_abs_difference_test": 0.0,
+    "not_exact": [],
+    "stage_2_summary": {
+      "n_psi_test_above_0_10": 30,
+      "n_psi_test_above_0_25": 22,
+      "n_psi_val_above_0_10": 35,
+      "n_psi_val_above_0_25": 9,
+      "note": "0.10 and 0.25 are the conventional PSI bands. They are a convention this repo has adopted, not a measurement, and stage 9 sets the monitoring thresholds against this baseline rather than against them."
+    }
+  },
+  "calibration": {
+    "n_columns": 186,
+    "n_batches": 10,
+    "batch_days": 7,
+    "n_alertable_columns": 170,
+    "not_alertable": [
+      "DeviceInfo_norm_te",
+      "DeviceType_te",
+      "P_emaildomain_te",
+      "ProductCD_te",
+      "R_emaildomain_te",
+      "addr1_te",
+      "addr2_te",
+      "card1_te",
+      "card2_te",
+      "card3_te",
+      "card4_te",
+      "card5_te",
+      "card6_te",
+      "id_30_te",
+      "id_31_norm_te",
+      "id_33_te"
+    ],
+    "n_edges_raised_above_textbook": 20,
+    "n_alertable_edges_raised": 4,
+    "edges_raised": {
+      "card6_te": 11.258590634307092,
+      "card4_te": 10.279820517763953,
+      "ProductCD_te": 10.274225712692223,
+      "card3_te": 10.202233009149541,
+      "addr2_te": 9.89266873120829,
+      "card5_te": 5.603777906927698,
+      "P_emaildomain_te": 2.5112802000398986,
+      "DeviceType_te": 2.105623783308434,
+      "card1_te": 1.7182934944787738,
+      "id_31_norm_te": 1.4562380388148148,
+      "id_13": 1.1039067279998616,
+      "R_emaildomain_te": 1.0927039598599242,
+      "DeviceInfo_norm_te": 0.9144601799342468,
+      "addr1_te": 0.7054478377951563,
+      "card2_te": 0.6902977042138424,
+      "D11": 0.4270256278416421,
+      "vblockmean_V1": 0.39297527927493203,
+      "id_30_te": 0.3826869889317042,
+      "id_30_cat": 0.2649569952863059,
+      "id_33_te": 0.20654912479580625
+    },
+    "feature_count_edge": 1,
+    "leave_one_out_counts": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      1
+    ],
+    "score_alert_edge": 0.2,
+    "worst_batch_score_psi": 0.06278531851492533,
+    "whole_window_score_psi": {
+      "val": 0.010216029225096823,
+      "test": 0.030815686010774043
+    },
+    "median_worst_batch_psi": 0.031014984434574396,
+    "n_columns_worst_batch_above_0_10": 32,
+    "n_columns_worst_batch_above_0_20": 20,
+    "n_columns_whole_test_above_0_10": 20,
+    "n_columns_whole_test_above_0_20": 18,
+    "n_columns_whole_test_above_0_25": 18,
+    "median_whole_test_psi": 0.007878679843373485
+  },
+  "in_control": {
+    "textbook_alert_band_per_batch": [
+      18,
+      16,
+      16,
+      18,
+      19,
+      19,
+      19,
+      20,
+      19,
+      20
+    ],
+    "calibrated_alerts_per_batch": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "feature_alert_per_batch": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "score_alert_per_batch": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "score_psi_per_batch": [
+      0.005942909184366581,
+      0.01780667122813373,
+      0.011282491847114069,
+      0.0107057231052488,
+      0.015737747807830313,
+      0.008936374063440397,
+      0.03970484794811666,
+      0.06278531851492533,
+      0.03284561472759728,
+      0.03229791147561039
+    ],
+    "drift_alert_per_batch": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "longest_run_of_drift_alerts": 0,
+    "leave_one_out": {
+      "n_batches": 10,
+      "counts": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "rate_any_column_past_its_edge": 0.4,
+      "rate_feature_alert": 0.0,
+      "rate_score_alert": 0.0,
+      "rate_any_alert": 0.0,
+      "mean_textbook_alert_band": 18.4,
+      "min_textbook_alert_band": 16
+    },
+    "leave_one_out_longest_run": 0,
+    "leave_one_out_batches": [
+      {
+        "window": "val",
+        "batch": 0,
+        "n_feature_alerts": 1,
+        "feature_alerts": [
+          "vblockmean_V1"
+        ],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 18
+      },
+      {
+        "window": "val",
+        "batch": 1,
+        "n_feature_alerts": 0,
+        "feature_alerts": [],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 16
+      },
+      {
+        "window": "val",
+        "batch": 2,
+        "n_feature_alerts": 0,
+        "feature_alerts": [],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 16
+      },
+      {
+        "window": "val",
+        "batch": 3,
+        "n_feature_alerts": 0,
+        "feature_alerts": [],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 18
+      },
+      {
+        "window": "val",
+        "batch": 4,
+        "n_feature_alerts": 0,
+        "feature_alerts": [],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 19
+      },
+      {
+        "window": "test",
+        "batch": 0,
+        "n_feature_alerts": 1,
+        "feature_alerts": [
+          "D11"
+        ],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 19
+      },
+      {
+        "window": "test",
+        "batch": 1,
+        "n_feature_alerts": 1,
+        "feature_alerts": [
+          "id_13"
+        ],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 19
+      },
+      {
+        "window": "test",
+        "batch": 2,
+        "n_feature_alerts": 0,
+        "feature_alerts": [],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 20
+      },
+      {
+        "window": "test",
+        "batch": 3,
+        "n_feature_alerts": 0,
+        "feature_alerts": [],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 19
+      },
+      {
+        "window": "test",
+        "batch": 4,
+        "n_feature_alerts": 1,
+        "feature_alerts": [
+          "id_30_cat"
+        ],
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "score_alert": false,
+        "any_alert": false,
+        "n_textbook_alert_band": 20
+      }
+    ]
+  },
+  "batches": [
+    {
+      "window": "val",
+      "batch": 0,
+      "start_dt": 10368000,
+      "end_dt": 10972800,
+      "n_rows": 20798,
+      "partial": 0,
+      "score": {
+        "psi": 0.005942909184366581,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.01279965587984245,
+        "mean_psi": 0.37617519202206867,
+        "max_psi": 10.922505945327512,
+        "n_stable": 160,
+        "n_watch": 8,
+        "n_alert_band": 18,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 10.922505945327512,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.279820517763953,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.260554898299487,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 8.95125783127778,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 8.551576253241864,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 4.761701328085062,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.447005145390512,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.892815693586046,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6746741151696956,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.2501070828007732,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "val",
+      "batch": 1,
+      "start_dt": 10972800,
+      "end_dt": 11577600,
+      "n_rows": 19258,
+      "partial": 0,
+      "score": {
+        "psi": 0.01780667122813373,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.008077899908297527,
+        "mean_psi": 0.3481905491457886,
+        "max_psi": 10.573041891644257,
+        "n_stable": 165,
+        "n_watch": 5,
+        "n_alert_band": 16,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 10.573041891644257,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.226582085760105,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 9.477849717311178,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 8.729879972902932,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 8.409700385430865,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 3.1609238664301063,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.9143653726504255,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6727319901846052,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.4318735771844253,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 1.4118148350318158,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "val",
+      "batch": 2,
+      "start_dt": 11577600,
+      "end_dt": 12182400,
+      "n_rows": 18572,
+      "partial": 0,
+      "score": {
+        "psi": 0.011282491847114069,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.008791278396938954,
+        "mean_psi": 0.3866005610629467,
+        "max_psi": 11.210525397614214,
+        "n_stable": 165,
+        "n_watch": 5,
+        "n_alert_band": 16,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 11.210525397614214,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.20485957250957,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.182428235809809,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 10.121266895281483,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.340691027387896,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 5.474039939252444,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.4565472710199923,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.9272271710622941,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6781887372309503,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.4131238420351824,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "val",
+      "batch": 3,
+      "start_dt": 12182400,
+      "end_dt": 12787200,
+      "n_rows": 18549,
+      "partial": 0,
+      "score": {
+        "psi": 0.0107057231052488,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.010485767475524526,
+        "mean_psi": 0.3824616477847677,
+        "max_psi": 11.203895698163725,
+        "n_stable": 165,
+        "n_watch": 3,
+        "n_alert_band": 18,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 11.203895698163725,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.24496190957551,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.1488316894843,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 9.516184390731027,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.30148130165177,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 4.966241528343066,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.5112802000398986,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.902508803538024,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.667936225528594,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.3329950264273596,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "val",
+      "batch": 4,
+      "start_dt": 12787200,
+      "end_dt": 13392000,
+      "n_rows": 11404,
+      "partial": 1,
+      "score": {
+        "psi": 0.015737747807830313,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.00976146203045406,
+        "mean_psi": 0.38498169002392313,
+        "max_psi": 11.22264965965934,
+        "n_stable": 164,
+        "n_watch": 3,
+        "n_alert_band": 19,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 11.22264965965934,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.232025863664877,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 10.202233009149541,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.186519563988195,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.502134575334756,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 4.638995874894304,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.469033911934304,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.9207366393570144,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6715585827207473,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.3930766397510808,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "test",
+      "batch": 0,
+      "start_dt": 13132800,
+      "end_dt": 13737600,
+      "n_rows": 21273,
+      "partial": 0,
+      "score": {
+        "psi": 0.008936374063440397,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.01795084744027408,
+        "mean_psi": 0.39142183616168075,
+        "max_psi": 11.258590634307092,
+        "n_stable": 161,
+        "n_watch": 6,
+        "n_alert_band": 19,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 11.258590634307092,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.274225712692223,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.160623603883156,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.89266873120829,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 9.859917772059974,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 4.784586386643237,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.4242276915316014,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.8866956494222378,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6896643561749207,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.1870788087179325,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "test",
+      "batch": 1,
+      "start_dt": 13737600,
+      "end_dt": 14342400,
+      "n_rows": 20716,
+      "partial": 0,
+      "score": {
+        "psi": 0.03970484794811666,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.003337634385008297,
+        "mean_psi": 0.34312800170784297,
+        "max_psi": 10.005746803770434,
+        "n_stable": 165,
+        "n_watch": 2,
+        "n_alert_band": 19,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "ProductCD_te",
+          "psi": 10.005746803770434,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card6_te",
+          "psi": 9.562738737604336,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.405262861518707,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 8.539468255390407,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 7.650060696910974,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 3.8138426699542882,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.4304751930743134,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 2.105623783308434,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.7095400620544534,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.4562380388148148,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "test",
+      "batch": 2,
+      "start_dt": 14342400,
+      "end_dt": 14947200,
+      "n_rows": 20454,
+      "partial": 0,
+      "score": {
+        "psi": 0.06278531851492533,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.011671943256555673,
+        "mean_psi": 0.3704141026551761,
+        "max_psi": 10.614538793828583,
+        "n_stable": 158,
+        "n_watch": 8,
+        "n_alert_band": 20,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 10.614538793828583,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.072149480610303,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 9.618024802589845,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 9.099199684152124,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 8.811661167361478,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 4.593916077817206,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.3453286542324268,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 2.056545374239805,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.7182934944787738,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.2803514969399605,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "test",
+      "batch": 3,
+      "start_dt": 14947200,
+      "end_dt": 15552000,
+      "n_rows": 18027,
+      "partial": 0,
+      "score": {
+        "psi": 0.03284561472759728,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.007533392635000255,
+        "mean_psi": 0.38157635417767466,
+        "max_psi": 11.194867265839688,
+        "n_stable": 164,
+        "n_watch": 3,
+        "n_alert_band": 19,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 11.194867265839688,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.206981973822664,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.181201981431848,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 10.082256484917016,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.046491038067764,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 5.101766350481343,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.3959933838537015,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.9336057578485295,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6875325835708577,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.244008780159653,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    },
+    {
+      "window": "test",
+      "batch": 4,
+      "start_dt": 15552000,
+      "end_dt": 16156800,
+      "n_rows": 8111,
+      "partial": 1,
+      "score": {
+        "psi": 0.03229791147561039,
+        "band": "stable",
+        "alert_edge": 0.2,
+        "alert": false
+      },
+      "aggregate": {
+        "n_features": 186,
+        "median_psi": 0.012070212626862042,
+        "mean_psi": 0.38804104947081725,
+        "max_psi": 11.168701751870682,
+        "n_stable": 163,
+        "n_watch": 3,
+        "n_alert_band": 20,
+        "n_alertable": 170,
+        "n_alert": 0,
+        "feature_count_edge": 1,
+        "feature_alert": false,
+        "alert_columns": []
+      },
+      "drift_alert": false,
+      "top_psi": [
+        {
+          "column": "card6_te",
+          "psi": 11.168701751870682,
+          "band": "alert",
+          "alert_edge": 11.258590634307092,
+          "alert": false
+        },
+        {
+          "column": "ProductCD_te",
+          "psi": 10.231333863359568,
+          "band": "alert",
+          "alert_edge": 10.274225712692223,
+          "alert": false
+        },
+        {
+          "column": "card4_te",
+          "psi": 10.169006049590182,
+          "band": "alert",
+          "alert_edge": 10.279820517763953,
+          "alert": false
+        },
+        {
+          "column": "card3_te",
+          "psi": 9.759613917160463,
+          "band": "alert",
+          "alert_edge": 10.202233009149541,
+          "alert": false
+        },
+        {
+          "column": "addr2_te",
+          "psi": 9.40188185246634,
+          "band": "alert",
+          "alert_edge": 9.89266873120829,
+          "alert": false
+        },
+        {
+          "column": "card5_te",
+          "psi": 5.603777906927698,
+          "band": "alert",
+          "alert_edge": 5.603777906927698,
+          "alert": false
+        },
+        {
+          "column": "P_emaildomain_te",
+          "psi": 2.431431133338012,
+          "band": "alert",
+          "alert_edge": 2.5112802000398986,
+          "alert": false
+        },
+        {
+          "column": "DeviceType_te",
+          "psi": 1.9193269849372299,
+          "band": "alert",
+          "alert_edge": 2.105623783308434,
+          "alert": false
+        },
+        {
+          "column": "card1_te",
+          "psi": 1.6818161492809085,
+          "band": "alert",
+          "alert_edge": 1.7182934944787738,
+          "alert": false
+        },
+        {
+          "column": "id_31_norm_te",
+          "psi": 1.3404631500432018,
+          "band": "alert",
+          "alert_edge": 1.4562380388148148,
+          "alert": false
+        }
+      ]
+    }
+  ],
+  "seconds": 32.51333162499941
+}
