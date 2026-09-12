@@ -284,3 +284,104 @@ def test_promote_keeps_the_previous_and_rollback_restores_it(
     }
     with pytest.raises(lifecycle.LifecycleError, match="nothing to roll back"):
         registry.rollback()
+
+
+# --- the challenger through the pipeline -------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def later_stream() -> Any:
+    """The service tests' synthetic file, moved past the stage 0 training boundary, so that a
+    fit on it is refused by the guard at the stage 0 boundary and allowed only by moving it."""
+    import pandas as pd
+
+    from test_service import synthetic_stream
+
+    stream = synthetic_stream(1_500)
+    offset = config.TRAIN_END_DT + 10 * DAY
+    stream[config.TIME_COLUMN] = (stream[config.TIME_COLUMN] + offset).astype("int32")
+    stream = stream.drop(columns=[config.ENTITY_ID_COLUMN, config.CARD_START_DAY_COLUMN])
+    return data_loader.add_entity_key(pd.DataFrame(stream))
+
+
+def test_the_challenger_goes_through_the_pipeline_under_the_moved_boundary(
+    later_stream: Any, tmp_path: Path
+) -> None:
+    from fraud_platform import cleaning, modelling, prepare, schema
+
+    plan = prepare.read_column_plan()
+    facts = cleaning.EdaFacts.load()
+    decisions = prepare.read_decisions()
+    ts = later_stream[config.TIME_COLUMN].to_numpy(dtype="int64")
+    windows = lifecycle.ChallengerWindows(fit_days=20, calibration_days=6, gate_days=6)
+    bounds = lifecycle.challenger_bounds(int(ts.min()) + 38 * DAY, windows)
+    assert bounds["fit_start_dt"] >= config.TRAIN_END_DT
+
+    # The champion's stack: what the stage 3 pipeline makes of this stream, fitted the same way.
+    with data_loader.training_boundary(bounds["fit_end_dt"]):
+        fitted = prepare.fit_preparation(
+            later_stream.loc[ts < bounds["fit_end_dt"]],
+            plan,
+            facts,
+            d_origin_columns=decisions["d_origin_columns"],
+            v_strategy=decisions["v_strategy"],
+            lag_days=decisions["lag_days"],
+            smoothing=decisions["smoothing"],
+        )
+    prepared = prepare.apply_preparation(later_stream, fitted, plan)
+    columns = [*modelling.prepared_feature_columns(prepared), "a_column_no_window_makes"]
+    declared = schema.declare(prepared, facts.negative_value_columns, facts.all_columns())
+    schema_report = {"schema": {**declared.to_dict(), "columns": declared.to_dict()["columns"]}}
+    hyperparameters = {"n_estimators": 10, "max_depth": 3, "learning_rate": 0.3, "n_jobs": 1}
+
+    with pytest.raises(data_loader.TrainOnlyError):
+        prepare.fit_preparation(
+            later_stream,
+            plan,
+            facts,
+            d_origin_columns=decisions["d_origin_columns"],
+            v_strategy=decisions["v_strategy"],
+            lag_days=decisions["lag_days"],
+            smoothing=decisions["smoothing"],
+        )
+    before = config.TRAIN_END_DT
+    challenger = lifecycle.fit_challenger(
+        later_stream, bounds, columns, hyperparameters, schema_report, plan, facts, decisions
+    )
+    assert before == config.TRAIN_END_DT
+
+    assert challenger.fit["columns_dropped"] == ["a_column_no_window_makes"]
+    assert challenger.fit["n_columns"] == len(columns) - 1
+    assert challenger.serving["columns"] == columns[:-1]
+    assert challenger.serving["train_only_boundary_dt"] == bounds["fit_end_dt"]
+    assert challenger.serving["windows"] == bounds
+    assert 0.0 < challenger.fit["tuned_threshold"] < 1.0
+    breakpoints = challenger.serving["calibrator"]
+    assert breakpoints["x"] == sorted(breakpoints["x"])
+    assert breakpoints["y"] == sorted(breakpoints["y"])
+    assert challenger.fit["n_fit_rows"] > 0 and challenger.fit["n_calibration_rows"] > 0
+    assert challenger.fit["n_fit_rows"] == int(
+        ((ts >= bounds["fit_start_dt"]) & (ts < bounds["fit_end_dt"])).sum()
+    )
+
+    gate = later_stream.loc[(ts >= bounds["gate_start_dt"]) & (ts < bounds["gate_end_dt"])]
+    scores = challenger.scores(gate)
+    assert scores.shape == (len(gate),) and np.all((scores >= 0) & (scores <= 1))
+
+    # The bundle round-trips through the stage 8 layout and the served path reproduces the batch
+    # path on the challenger's own pipeline.
+    from test_service import payload_of
+
+    paths = serving.write_bundle(
+        tmp_path / "bundle",
+        challenger.model,
+        challenger.fitted,
+        challenger.plan,
+        challenger.serving,
+    )
+    loaded = serving.load_bundle(paths)
+    assert loaded.columns == columns[:-1]
+    assert "a_column_no_window_makes" not in {spec.name for spec in loaded.schema.columns}
+    for position in (0, len(gate) // 2, len(gate) - 1):
+        out = serving.score_transaction(loaded, payload_of(gate, position), None)
+        assert out["score"] == pytest.approx(float(scores[position]), abs=1e-9)
