@@ -1,0 +1,431 @@
+{
+  "section": "decay",
+  "stage": 9,
+  "generated_at_utc": "2026-09-12T17:12:25+00:00",
+  "regenerate_with": "make monitor-decay  # or: .venv/bin/python scripts/monitor_decay.py",
+  "command": ".venv/bin/python scripts/monitor_decay.py",
+  "reads_labels": true,
+  "split": {
+    "train_end_dt": 10437998,
+    "val_end_dt": 13151845,
+    "rule": "dt < boundary, ADR 0002"
+  },
+  "git_commit": "739c903a458c7a74c2ddebdd46e29ecbd5c18a05",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "xgboost": "3.4.1",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "as_of_dt": 18748800,
+  "as_of_day": 217.0,
+  "maturity_days": 30,
+  "maturity_source": "lifecycle.MATURITY_DAYS, an assumed input; ADR 0032 established no delay",
+  "batch_days": 7,
+  "reference": {
+    "window": "test",
+    "what": "the shipped model on the window it was accepted at, stage 6",
+    "n_rows": 88581,
+    "n_fraud": 3083,
+    "pr_auc": {
+      "point": 0.5451337917682987,
+      "low": 0.5273713915472219,
+      "high": 0.5614351846039313
+    },
+    "stage_6_recorded": {
+      "point": 0.5451337917682987,
+      "low": 0.5273713915472219,
+      "high": 0.5614351846039313,
+      "half_width": 0.017031896528354684
+    },
+    "max_abs_difference_vs_stage_6": 0.0,
+    "n_boot": 1000,
+    "seed": 42,
+    "threshold": 0.2518664002418518,
+    "threshold_source": "reports/operating_points.json, tuned_vertex.val"
+  },
+  "in_control": {
+    "n_batches": 10,
+    "n_evaluated": 10,
+    "n_refused": 0,
+    "pr_auc_per_batch": [
+      0.7458343084005943,
+      0.6347962737559784,
+      0.590405646057857,
+      0.4984285803681241,
+      0.5581785549007123,
+      0.5793895684639315,
+      0.5378313322280706,
+      0.4941620508379413,
+      0.5863278971214582,
+      0.5274959250804926
+    ],
+    "pr_auc_min": 0.4941620508379413,
+    "pr_auc_max": 0.7458343084005943,
+    "drop_per_batch": [
+      -0.2007005166322956,
+      -0.08966248198767968,
+      -0.045271854289558267,
+      0.046705211400174584,
+      -0.01304476313241365,
+      -0.034255776695632845,
+      0.007302459540228123,
+      0.05097174093035739,
+      -0.04119410535315948,
+      0.017637866687806092
+    ],
+    "largest_drop": 0.05097174093035739,
+    "largest_drop_batch": {
+      "window": "test",
+      "batch": 2
+    },
+    "n_drops_excluding_zero": 4,
+    "n_decay": 0,
+    "decay_tolerance": 0.06,
+    "headroom": 0.009028259069642608,
+    "precision_range": [
+      0.5738831615120275,
+      0.7627677100494233
+    ],
+    "recall_range": [
+      0.39436619718309857,
+      0.6484593837535014
+    ]
+  },
+  "batches": [
+    {
+      "window": "val",
+      "position": "before the reference window",
+      "batch": 0,
+      "start_dt": 10368000,
+      "end_dt": 10972800,
+      "n_rows": 20798,
+      "partial": 0,
+      "matures_at_day": 157.0,
+      "status": "evaluated",
+      "n_fraud": 714,
+      "fraud_rate": 0.03433022406000577,
+      "precision": 0.7627677100494233,
+      "recall": 0.6484593837535014,
+      "alerts_per_day": 86.71428571428571,
+      "pr_auc": {
+        "point": 0.7458343084005943,
+        "low": 0.7172892145164375,
+        "high": 0.7758105602646133,
+        "half_width": 0.0292606728740879,
+        "bootstrap_mean": 0.7459288723249722
+      },
+      "roc_auc": 0.9526285818051579,
+      "drop": {
+        "point": -0.2007005166322956,
+        "low": -0.2374553095937382,
+        "high": -0.1670383727951795,
+        "half_width": 0.03520846839927935,
+        "excludes_zero": true,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "val",
+      "position": "before the reference window",
+      "batch": 1,
+      "start_dt": 10972800,
+      "end_dt": 11577600,
+      "n_rows": 19258,
+      "partial": 0,
+      "matures_at_day": 164.0,
+      "status": "evaluated",
+      "n_fraud": 727,
+      "fraud_rate": 0.03775054522795721,
+      "precision": 0.7319391634980988,
+      "recall": 0.5295735900962861,
+      "alerts_per_day": 75.14285714285714,
+      "pr_auc": {
+        "point": 0.6347962737559784,
+        "low": 0.5970753982489161,
+        "high": 0.6709466227694585,
+        "half_width": 0.0369356122602712,
+        "bootstrap_mean": 0.6363779053595099
+      },
+      "roc_auc": 0.9320479152484513,
+      "drop": {
+        "point": -0.08966248198767968,
+        "low": -0.1325074310446561,
+        "high": -0.04738801556858084,
+        "half_width": 0.042559707738037626,
+        "excludes_zero": true,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "val",
+      "position": "before the reference window",
+      "batch": 2,
+      "start_dt": 11577600,
+      "end_dt": 12182400,
+      "n_rows": 18572,
+      "partial": 0,
+      "matures_at_day": 171.0,
+      "status": "evaluated",
+      "n_fraud": 611,
+      "fraud_rate": 0.03289898772345466,
+      "precision": 0.7181372549019608,
+      "recall": 0.4795417348608838,
+      "alerts_per_day": 58.285714285714285,
+      "pr_auc": {
+        "point": 0.590405646057857,
+        "low": 0.5479787705560735,
+        "high": 0.6300446719755675,
+        "half_width": 0.041032950709746996,
+        "bootstrap_mean": 0.5896876551311664
+      },
+      "roc_auc": 0.9259066584619468,
+      "drop": {
+        "point": -0.045271854289558267,
+        "low": -0.09026544271251893,
+        "high": 0.0020210410861697414,
+        "half_width": 0.04614324189934434,
+        "excludes_zero": false,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "val",
+      "position": "before the reference window",
+      "batch": 3,
+      "start_dt": 12182400,
+      "end_dt": 12787200,
+      "n_rows": 18549,
+      "partial": 0,
+      "matures_at_day": 178.0,
+      "status": "evaluated",
+      "n_fraud": 639,
+      "fraud_rate": 0.03444929645803008,
+      "precision": 0.5901639344262295,
+      "recall": 0.39436619718309857,
+      "alerts_per_day": 61.0,
+      "pr_auc": {
+        "point": 0.4984285803681241,
+        "low": 0.45844212260462747,
+        "high": 0.5391180346109095,
+        "half_width": 0.040337956003140996,
+        "bootstrap_mean": 0.49871342470648733
+      },
+      "roc_auc": 0.9072919806824069,
+      "drop": {
+        "point": 0.046705211400174584,
+        "low": -0.0009147726138813064,
+        "high": 0.09050979511151303,
+        "half_width": 0.04571228386269716,
+        "excludes_zero": false,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "val",
+      "position": "before the reference window",
+      "batch": 4,
+      "start_dt": 12787200,
+      "end_dt": 13392000,
+      "n_rows": 11404,
+      "partial": 1,
+      "matures_at_day": 185.0,
+      "status": "evaluated",
+      "n_fraud": 351,
+      "fraud_rate": 0.030778674149421256,
+      "precision": 0.5738831615120275,
+      "recall": 0.4757834757834758,
+      "alerts_per_day": 41.57142857142857,
+      "pr_auc": {
+        "point": 0.5581785549007123,
+        "low": 0.5053718447000614,
+        "high": 0.6076973109216521,
+        "half_width": 0.05116273311079539,
+        "bootstrap_mean": 0.5575470984315011
+      },
+      "roc_auc": 0.9159439767419502,
+      "drop": {
+        "point": -0.01304476313241365,
+        "low": -0.06337921408610868,
+        "high": 0.041282713770004704,
+        "half_width": 0.052330963928056695,
+        "excludes_zero": false,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "test",
+      "position": "inside the reference window",
+      "batch": 0,
+      "start_dt": 13132800,
+      "end_dt": 13737600,
+      "n_rows": 21273,
+      "partial": 0,
+      "matures_at_day": 189.0,
+      "status": "evaluated",
+      "n_fraud": 632,
+      "fraud_rate": 0.029709020824519344,
+      "precision": 0.6545842217484008,
+      "recall": 0.48575949367088606,
+      "alerts_per_day": 67.0,
+      "pr_auc": {
+        "point": 0.5793895684639315,
+        "low": 0.5418541480237309,
+        "high": 0.615692531137158,
+        "half_width": 0.03691919155671358,
+        "bootstrap_mean": 0.5803910092349909
+      },
+      "roc_auc": 0.9049646334964391,
+      "drop": {
+        "point": -0.034255776695632845,
+        "low": -0.07644845819989855,
+        "high": 0.007644211884546546,
+        "half_width": 0.04204633504222255,
+        "excludes_zero": false,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "test",
+      "position": "inside the reference window",
+      "batch": 1,
+      "start_dt": 13737600,
+      "end_dt": 14342400,
+      "n_rows": 20716,
+      "partial": 0,
+      "matures_at_day": 196.0,
+      "status": "evaluated",
+      "n_fraud": 642,
+      "fraud_rate": 0.03099053871403746,
+      "precision": 0.5740072202166066,
+      "recall": 0.4953271028037383,
+      "alerts_per_day": 79.14285714285714,
+      "pr_auc": {
+        "point": 0.5378313322280706,
+        "low": 0.49816297335870563,
+        "high": 0.5761859697422472,
+        "half_width": 0.0390114981917708,
+        "bootstrap_mean": 0.5389734913997639
+      },
+      "roc_auc": 0.9019766660862597,
+      "drop": {
+        "point": 0.007302459540228123,
+        "low": -0.038497603816877515,
+        "high": 0.04931821978212904,
+        "half_width": 0.04390791179950328,
+        "excludes_zero": false,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "test",
+      "position": "inside the reference window",
+      "batch": 2,
+      "start_dt": 14342400,
+      "end_dt": 14947200,
+      "n_rows": 20454,
+      "partial": 0,
+      "matures_at_day": 203.0,
+      "status": "evaluated",
+      "n_fraud": 725,
+      "fraud_rate": 0.03544538965483524,
+      "precision": 0.6160337552742616,
+      "recall": 0.4027586206896552,
+      "alerts_per_day": 67.71428571428571,
+      "pr_auc": {
+        "point": 0.4941620508379413,
+        "low": 0.45797864705047725,
+        "high": 0.5341538477898827,
+        "half_width": 0.03808760036970274,
+        "bootstrap_mean": 0.4945247019535059
+      },
+      "roc_auc": 0.8871497760167512,
+      "drop": {
+        "point": 0.05097174093035739,
+        "low": 0.009113027998777393,
+        "high": 0.09037933245286234,
+        "half_width": 0.040633152227042474,
+        "excludes_zero": true,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "test",
+      "position": "inside the reference window",
+      "batch": 3,
+      "start_dt": 14947200,
+      "end_dt": 15552000,
+      "n_rows": 18027,
+      "partial": 0,
+      "matures_at_day": 210.0,
+      "status": "evaluated",
+      "n_fraud": 745,
+      "fraud_rate": 0.041326898541077274,
+      "precision": 0.5901898734177216,
+      "recall": 0.5006711409395973,
+      "alerts_per_day": 90.28571428571429,
+      "pr_auc": {
+        "point": 0.5863278971214582,
+        "low": 0.5488616571067417,
+        "high": 0.6248195140811011,
+        "half_width": 0.03797892848717971,
+        "bootstrap_mean": 0.5873419280931449
+      },
+      "roc_auc": 0.9205345749039425,
+      "drop": {
+        "point": -0.04119410535315948,
+        "low": -0.08417526106932606,
+        "high": -0.0017535225021269648,
+        "half_width": 0.04121086928359955,
+        "excludes_zero": true,
+        "resample": "independent"
+      },
+      "decay": false
+    },
+    {
+      "window": "test",
+      "position": "inside the reference window",
+      "batch": 4,
+      "start_dt": 15552000,
+      "end_dt": 16156800,
+      "n_rows": 8111,
+      "partial": 1,
+      "matures_at_day": 217.0,
+      "status": "evaluated",
+      "n_fraud": 339,
+      "fraud_rate": 0.0417950930834669,
+      "precision": 0.5842293906810035,
+      "recall": 0.4808259587020649,
+      "alerts_per_day": 39.857142857142854,
+      "pr_auc": {
+        "point": 0.5274959250804926,
+        "low": 0.4735956258262249,
+        "high": 0.5838563808263142,
+        "half_width": 0.05513037750004465,
+        "bootstrap_mean": 0.5285801832933822
+      },
+      "roc_auc": 0.9092504748154255,
+      "drop": {
+        "point": 0.017637866687806092,
+        "low": -0.040764743083539445,
+        "high": 0.07355178665649209,
+        "half_width": 0.05715826487001577,
+        "excludes_zero": false,
+        "resample": "independent"
+      },
+      "decay": false
+    }
+  ],
+  "seconds": 26.0860931250063
+}
