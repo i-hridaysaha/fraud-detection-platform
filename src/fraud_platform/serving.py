@@ -33,6 +33,7 @@ number, not the folklore, is the argument. ADR 0035.
 from __future__ import annotations
 
 import json
+import os
 import pickle
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
@@ -58,13 +59,15 @@ SERVING_FILE = "serving.json"
 
 BANDS: tuple[str, str, str] = ("approve", "review", "block")
 
-# How many threads the booster predicts with. One. The reason is measured and not assumed:
+# How many threads the booster predicts with. One. The reason is measured, not assumed:
 # reports/latency.json, block `pinning`, regenerated with `make serving-latency`, times the same
-# single-row predict with the booster pinned to one thread and left at its default of every core.
-# A single row gives the thread pool nothing to split; on this laptop the pinned call is the
-# faster one by the ratio the artifact records, and a request that occupies one core instead of
-# all of them is what lets concurrent requests share the machine. The number the comment rests
-# on is in the artifact, so a change to the machine changes the artifact and not this text.
+# single-row predict_proba on the same rows in five fresh processes with the booster pinned to
+# one thread and with its default of every core. The pinned call is the faster one in every
+# process, by the ratio `unpinned_over_pinned_p50` records, because one row gives the thread
+# pool nothing to split and the fork-join is pure cost. The same block keeps the counterpoint:
+# on a batch of a thousand rows the unpinned call wins by the ratio `batch` records, so this is
+# a single-row setting and not a property of the booster. What the pin does under concurrent
+# requests is not isolated by the benchmark; the load test runs pinned and reports what it saw.
 INFERENCE_THREADS = 1
 PIN_REASON = "reports/latency.json: pinning"
 
@@ -372,6 +375,22 @@ def registry_uri(name: str = MODEL_NAME, alias: str = MODEL_ALIAS) -> str:
 
 MODEL_CODE = Path(__file__).with_name("serving_model.py")
 EXPERIMENT = "serving"
+MLRUNS_DIR = config.ROOT / "mlruns"
+ENV_TRACKING_URI = "MLFLOW_TRACKING_URI"
+
+
+def tracking_uri() -> str:
+    """Where the registry is: `MLFLOW_TRACKING_URI`, or a SQLite file under mlruns/.
+
+    The installed MLflow (3.16) refuses its plain filesystem backend unless opted into, so the
+    local registry is a database file with the artifacts beside it. Everything that touches the
+    registry, the registration script, the service and the benchmarks, resolves the location
+    here and nowhere else.
+    """
+    configured = os.environ.get(ENV_TRACKING_URI)
+    if configured:
+        return configured
+    return f"sqlite:///{MLRUNS_DIR / 'mlflow.db'}"
 
 
 def register_bundle(
@@ -434,6 +453,7 @@ def load_from_registry(
     import mlflow
     from mlflow import MlflowClient
 
+    mlflow.set_tracking_uri(tracking_uri())
     version = MlflowClient().get_model_version_by_alias(name, alias)
     loaded = mlflow.pyfunc.load_model(registry_uri(name, alias))
     scorer = loaded.unwrap_python_model()
