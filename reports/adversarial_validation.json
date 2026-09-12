@@ -1,0 +1,1134 @@
+{
+  "section": "adversarial_validation",
+  "stage": 9,
+  "generated_at_utc": "2026-09-12T17:18:01+00:00",
+  "regenerate_with": "make adversarial  # or: .venv/bin/python scripts/adversarial_validation.py",
+  "command": ".venv/bin/python scripts/adversarial_validation.py",
+  "split": {
+    "train_end_dt": 10437998,
+    "val_end_dt": 13151845,
+    "rule": "dt < boundary, ADR 0002"
+  },
+  "git_commit": "739c903a458c7a74c2ddebdd46e29ecbd5c18a05",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "lightgbm": "4.7.0",
+    "platform": "macOS-27.0-arm64-arm-64bit"
+  },
+  "seed": 42,
+  "what": "one classifier told to separate train rows (0) from test rows (1) on the shipped model's input columns, out of fold; the gain ranking is what separates the windows",
+  "n_train_rows": 413378,
+  "n_test_rows": 88581,
+  "n_columns": 186,
+  "model": {
+    "estimator": "lightgbm.LGBMClassifier",
+    "n_estimators": 200,
+    "num_leaves": 31,
+    "learning_rate": 0.1,
+    "min_child_samples": 200,
+    "colsample_bytree": 0.8,
+    "subsample": 0.8,
+    "subsample_freq": 1,
+    "verbose": -1,
+    "n_jobs": -1,
+    "n_folds": 5
+  },
+  "groups": {
+    "identifier": 6,
+    "identifier_encoding": 21,
+    "target_encoding": 16,
+    "timedelta": 15,
+    "count": 12,
+    "vesta_block_mean": 14,
+    "amount": 4,
+    "identity_numeric": 23,
+    "missing_indicator": 60,
+    "other": 15
+  },
+  "fits": {
+    "full": {
+      "n_columns": 186,
+      "dropped_groups": [],
+      "auc": {
+        "out_of_fold": 1.0,
+        "per_fold": [
+          1.0,
+          1.0,
+          0.9999999999999999,
+          1.0,
+          1.0
+        ]
+      },
+      "top": [
+        {
+          "rank": 1,
+          "column": "addr2_te",
+          "group": "target_encoding",
+          "gain_share": 0.6949158662143373,
+          "single_column_auc": 0.9061013407664418,
+          "psi_test_whole_window": 8.93089088070666
+        },
+        {
+          "rank": 2,
+          "column": "ProductCD_te",
+          "group": "target_encoding",
+          "gain_share": 0.11394300825170951,
+          "single_column_auc": 0.8412174757710398,
+          "psi_test_whole_window": 10.138724691047695
+        },
+        {
+          "rank": 3,
+          "column": "card3_te",
+          "group": "target_encoding",
+          "gain_share": 0.10741709327897485,
+          "single_column_auc": 0.8998768939167692,
+          "psi_test_whole_window": 7.9470843683388965
+        },
+        {
+          "rank": 4,
+          "column": "card4_te",
+          "group": "target_encoding",
+          "gain_share": 0.05230669498550753,
+          "single_column_auc": 0.891062994943804,
+          "psi_test_whole_window": 8.864516618177179
+        },
+        {
+          "rank": 5,
+          "column": "card3_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.012235926203520752,
+          "single_column_auc": 0.5041305727945372,
+          "psi_test_whole_window": 0.011497794138328596
+        },
+        {
+          "rank": 6,
+          "column": "card6_te",
+          "group": "target_encoding",
+          "gain_share": 0.0047063325519427325,
+          "single_column_auc": 0.8241511536109353,
+          "psi_test_whole_window": 9.894827577639845
+        },
+        {
+          "rank": 7,
+          "column": "DeviceType_te",
+          "group": "target_encoding",
+          "gain_share": 0.004545264201632265,
+          "single_column_auc": 0.5087961968599862,
+          "psi_test_whole_window": 1.9830181445198205
+        },
+        {
+          "rank": 8,
+          "column": "addr2_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.0024047329897665714,
+          "single_column_auc": 0.5074510600467832,
+          "psi_test_whole_window": 0.0010428936374778542
+        },
+        {
+          "rank": 9,
+          "column": "id_31_norm_te",
+          "group": "target_encoding",
+          "gain_share": 0.0023712230563188866,
+          "single_column_auc": 0.5040663125071624,
+          "psi_test_whole_window": 1.1980710034877116
+        },
+        {
+          "rank": 10,
+          "column": "card4_cat",
+          "group": "identifier_encoding",
+          "gain_share": 0.0012452026867664102,
+          "single_column_auc": 0.501494119620408,
+          "psi_test_whole_window": 0.013642928359724707
+        },
+        {
+          "rank": 11,
+          "column": "card3",
+          "group": "identifier",
+          "gain_share": 0.0009931691388094504,
+          "single_column_auc": 0.49018877893480406,
+          "psi_test_whole_window": 0.011554737041938575
+        },
+        {
+          "rank": 12,
+          "column": "R_emaildomain_te",
+          "group": "target_encoding",
+          "gain_share": 0.0007524248625983894,
+          "single_column_auc": 0.5027750913331287,
+          "psi_test_whole_window": 0.9268256204575374
+        },
+        {
+          "rank": 13,
+          "column": "addr2",
+          "group": "identifier",
+          "gain_share": 0.00016796811342865064,
+          "single_column_auc": 0.5068379404902668,
+          "psi_test_whole_window": 0.0015410049756864569
+        },
+        {
+          "rank": 14,
+          "column": "addr1_te",
+          "group": "target_encoding",
+          "gain_share": 0.0001667999682166408,
+          "single_column_auc": 0.6664460898937958,
+          "psi_test_whole_window": 0.6111915560309384
+        },
+        {
+          "rank": 15,
+          "column": "P_emaildomain_te",
+          "group": "target_encoding",
+          "gain_share": 0.00016569082838768074,
+          "single_column_auc": 0.641915956248164,
+          "psi_test_whole_window": 2.3965434363165
+        },
+        {
+          "rank": 16,
+          "column": "C2",
+          "group": "count",
+          "gain_share": 0.00016513940321351351,
+          "single_column_auc": 0.5273259806506535,
+          "psi_test_whole_window": 0.016194874314680818
+        },
+        {
+          "rank": 17,
+          "column": "addr1_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.0001535908148647138,
+          "single_column_auc": 0.5099798185441622,
+          "psi_test_whole_window": 0.005422239783887872
+        },
+        {
+          "rank": 18,
+          "column": "D1",
+          "group": "timedelta",
+          "gain_share": 0.0001311053563998504,
+          "single_column_auc": 0.5446664315026357,
+          "psi_test_whole_window": 0.022581154040173225
+        },
+        {
+          "rank": 19,
+          "column": "id_38_cat",
+          "group": "other",
+          "gain_share": 0.00010680062872644941,
+          "single_column_auc": 0.5206988062519762,
+          "psi_test_whole_window": 0.07833278166228874
+        },
+        {
+          "rank": 20,
+          "column": "ProductCD_cat",
+          "group": "identifier_encoding",
+          "gain_share": 0.00010431390852193301,
+          "single_column_auc": 0.5322818388362807,
+          "psi_test_whole_window": 0.06242854763587091
+        },
+        {
+          "rank": 21,
+          "column": "card2_te",
+          "group": "target_encoding",
+          "gain_share": 0.00010189119699596052,
+          "single_column_auc": 0.6205748227698072,
+          "psi_test_whole_window": 0.5311746892221151
+        },
+        {
+          "rank": 22,
+          "column": "hour_position",
+          "group": "other",
+          "gain_share": 9.864067948894634e-05,
+          "single_column_auc": 0.4983102812562913,
+          "psi_test_whole_window": 0.01254914478976871
+        },
+        {
+          "rank": 23,
+          "column": "DeviceType_cat",
+          "group": "identifier_encoding",
+          "gain_share": 9.656900273663281e-05,
+          "single_column_auc": 0.5283082910967736,
+          "psi_test_whole_window": 0.018188057913242524
+        },
+        {
+          "rank": 24,
+          "column": "card6_cat",
+          "group": "identifier_encoding",
+          "gain_share": 6.698426106879917e-05,
+          "single_column_auc": 0.5172346828529711,
+          "psi_test_whole_window": 0.013996198888811994
+        },
+        {
+          "rank": 25,
+          "column": "card2",
+          "group": "identifier",
+          "gain_share": 6.210972528548446e-05,
+          "single_column_auc": 0.4929258687274503,
+          "psi_test_whole_window": 0.005976413417163779
+        },
+        {
+          "rank": 26,
+          "column": "card2_freq",
+          "group": "identifier_encoding",
+          "gain_share": 5.861506279863027e-05,
+          "single_column_auc": 0.49686636049385297,
+          "psi_test_whole_window": 0.005857098225050185
+        },
+        {
+          "rank": 27,
+          "column": "D2",
+          "group": "timedelta",
+          "gain_share": 5.145074607917493e-05,
+          "single_column_auc": 0.5439160542087075,
+          "psi_test_whole_window": 0.037417599513866244
+        },
+        {
+          "rank": 28,
+          "column": "card1_freq",
+          "group": "identifier_encoding",
+          "gain_share": 4.838115296924628e-05,
+          "single_column_auc": 0.49648389495848244,
+          "psi_test_whole_window": 0.004493229046416509
+        },
+        {
+          "rank": 29,
+          "column": "card1_te",
+          "group": "target_encoding",
+          "gain_share": 4.620763555544295e-05,
+          "single_column_auc": 0.6013331559963977,
+          "psi_test_whole_window": 1.6904459852178997
+        },
+        {
+          "rank": 30,
+          "column": "vblockmean_V1",
+          "group": "vesta_block_mean",
+          "gain_share": 4.246598726318892e-05,
+          "single_column_auc": 0.6367419914106887,
+          "psi_test_whole_window": 0.29706019034278497
+        }
+      ],
+      "by_group": {
+        "identifier": {
+          "n_columns": 6,
+          "gain_share": 0.0012462918151719918,
+          "n_in_top_10": 0,
+          "n_in_top_30": 3
+        },
+        "identifier_encoding": {
+          "n_columns": 21,
+          "gain_share": 0.0164721379836554,
+          "n_in_top_10": 3,
+          "n_in_top_30": 9
+        },
+        "target_encoding": {
+          "n_columns": 16,
+          "gain_share": 0.9814887853891647,
+          "n_in_top_10": 7,
+          "n_in_top_30": 12
+        },
+        "timedelta": {
+          "n_columns": 15,
+          "gain_share": 0.0002726358873766791,
+          "n_in_top_10": 0,
+          "n_in_top_30": 2
+        },
+        "count": {
+          "n_columns": 12,
+          "gain_share": 0.00017970410752423326,
+          "n_in_top_10": 0,
+          "n_in_top_30": 1
+        },
+        "vesta_block_mean": {
+          "n_columns": 14,
+          "gain_share": 6.666960289211841e-05,
+          "n_in_top_10": 0,
+          "n_in_top_30": 1
+        },
+        "amount": {
+          "n_columns": 4,
+          "gain_share": 1.6452620853795779e-06,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "identity_numeric": {
+          "n_columns": 23,
+          "gain_share": 4.145283145894321e-05,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "missing_indicator": {
+          "n_columns": 60,
+          "gain_share": 1.9926471933124313e-05,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "other": {
+          "n_columns": 15,
+          "gain_share": 0.0002107506487370942,
+          "n_in_top_10": 0,
+          "n_in_top_30": 2
+        }
+      },
+      "entity_and_clock_share_of_top_10_gain": 1.0
+    },
+    "without_target_encodings": {
+      "n_columns": 170,
+      "dropped_groups": [
+        "target_encoding"
+      ],
+      "auc": {
+        "out_of_fold": 0.9031160307039054,
+        "per_fold": [
+          0.902213157726826,
+          0.904660354645791,
+          0.9015790240479444,
+          0.9024889265031191,
+          0.9046864594714592
+        ]
+      },
+      "top": [
+        {
+          "rank": 1,
+          "column": "id_13",
+          "group": "identity_numeric",
+          "gain_share": 0.18595648743511228,
+          "single_column_auc": 0.48949514802161453,
+          "psi_test_whole_window": 0.5634838811712333
+        },
+        {
+          "rank": 2,
+          "column": "D11",
+          "group": "timedelta",
+          "gain_share": 0.11886689882707548,
+          "single_column_auc": 0.6497457799737019,
+          "psi_test_whole_window": 0.3312981818994383
+        },
+        {
+          "rank": 3,
+          "column": "D15",
+          "group": "timedelta",
+          "gain_share": 0.11240307167772508,
+          "single_column_auc": 0.5681928302914718,
+          "psi_test_whole_window": 0.09495395037200424
+        },
+        {
+          "rank": 4,
+          "column": "D10",
+          "group": "timedelta",
+          "gain_share": 0.06996368271938319,
+          "single_column_auc": 0.5678815467868696,
+          "psi_test_whole_window": 0.07457567243051057
+        },
+        {
+          "rank": 5,
+          "column": "vblockmean_V1",
+          "group": "vesta_block_mean",
+          "gain_share": 0.059362982167064024,
+          "single_column_auc": 0.6367419914106887,
+          "psi_test_whole_window": 0.29706019034278497
+        },
+        {
+          "rank": 6,
+          "column": "dist1",
+          "group": "other",
+          "gain_share": 0.05250380468917045,
+          "single_column_auc": 0.5302960551983225,
+          "psi_test_whole_window": 0.020150762608769215
+        },
+        {
+          "rank": 7,
+          "column": "D4",
+          "group": "timedelta",
+          "gain_share": 0.028526827160147348,
+          "single_column_auc": 0.5420838585747013,
+          "psi_test_whole_window": 0.04139831007067045
+        },
+        {
+          "rank": 8,
+          "column": "C12",
+          "group": "count",
+          "gain_share": 0.025586329045060356,
+          "single_column_auc": 0.535823813766231,
+          "psi_test_whole_window": 5.9863153905904344e-05
+        },
+        {
+          "rank": 9,
+          "column": "card1_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.022024754142800775,
+          "single_column_auc": 0.49648389495848244,
+          "psi_test_whole_window": 0.004493229046416509
+        },
+        {
+          "rank": 10,
+          "column": "vblockmean_V322",
+          "group": "vesta_block_mean",
+          "gain_share": 0.017405876683484634,
+          "single_column_auc": 0.47764756304384076,
+          "psi_test_whole_window": 0.0501521183628431
+        },
+        {
+          "rank": 11,
+          "column": "missing_block_dist1",
+          "group": "missing_indicator",
+          "gain_share": 0.015527637881023439,
+          "single_column_auc": 0.4668838206193847,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 12,
+          "column": "id_02",
+          "group": "identity_numeric",
+          "gain_share": 0.015138294711096227,
+          "single_column_auc": 0.47330457644543356,
+          "psi_test_whole_window": 0.05184108233323084
+        },
+        {
+          "rank": 13,
+          "column": "id_30_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.014402253119565427,
+          "single_column_auc": 0.4756429713307246,
+          "psi_test_whole_window": 0.07935393850471849
+        },
+        {
+          "rank": 14,
+          "column": "id_38_cat",
+          "group": "other",
+          "gain_share": 0.011958074369686367,
+          "single_column_auc": 0.5206988062519762,
+          "psi_test_whole_window": 0.07833278166228874
+        },
+        {
+          "rank": 15,
+          "column": "vblockmean_V12",
+          "group": "vesta_block_mean",
+          "gain_share": 0.009970396772939377,
+          "single_column_auc": 0.5622626021390933,
+          "psi_test_whole_window": 0.07494249012807115
+        },
+        {
+          "rank": 16,
+          "column": "hour_position",
+          "group": "other",
+          "gain_share": 0.00956080845221078,
+          "single_column_auc": 0.4983102812562913,
+          "psi_test_whole_window": 0.01254914478976871
+        },
+        {
+          "rank": 17,
+          "column": "C9",
+          "group": "count",
+          "gain_share": 0.00915652699546421,
+          "single_column_auc": 0.5625647493815511,
+          "psi_test_whole_window": 0.02641888496039476
+        },
+        {
+          "rank": 18,
+          "column": "D1",
+          "group": "timedelta",
+          "gain_share": 0.009082704676685541,
+          "single_column_auc": 0.5446664315026357,
+          "psi_test_whole_window": 0.022581154040173225
+        },
+        {
+          "rank": 19,
+          "column": "C13",
+          "group": "count",
+          "gain_share": 0.008386240550539442,
+          "single_column_auc": 0.5408105937094847,
+          "psi_test_whole_window": 0.023945157965241458
+        },
+        {
+          "rank": 20,
+          "column": "vblockmean_V100",
+          "group": "vesta_block_mean",
+          "gain_share": 0.0083609689057198,
+          "single_column_auc": 0.5426790583214057,
+          "psi_test_whole_window": 0.03484950096589742
+        },
+        {
+          "rank": 21,
+          "column": "card5_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.007993395014319865,
+          "single_column_auc": 0.5004295756189625,
+          "psi_test_whole_window": 0.006655521026500496
+        },
+        {
+          "rank": 22,
+          "column": "vblockmean_V53",
+          "group": "vesta_block_mean",
+          "gain_share": 0.007420000141085055,
+          "single_column_auc": 0.5643992573019384,
+          "psi_test_whole_window": 0.0794288049017792
+        },
+        {
+          "rank": 23,
+          "column": "vblockmean_V75",
+          "group": "vesta_block_mean",
+          "gain_share": 0.006868065653659033,
+          "single_column_auc": 0.5481426607053491,
+          "psi_test_whole_window": 0.06418933593914611
+        },
+        {
+          "rank": 24,
+          "column": "vblockmean_V279",
+          "group": "vesta_block_mean",
+          "gain_share": 0.006865687969913659,
+          "single_column_auc": 0.5044869020110283,
+          "psi_test_whole_window": 0.016089461751471825
+        },
+        {
+          "rank": 25,
+          "column": "D2",
+          "group": "timedelta",
+          "gain_share": 0.006671933688036497,
+          "single_column_auc": 0.5439160542087075,
+          "psi_test_whole_window": 0.037417599513866244
+        },
+        {
+          "rank": 26,
+          "column": "id_20",
+          "group": "identity_numeric",
+          "gain_share": 0.0059649324911827195,
+          "single_column_auc": 0.47361180237490974,
+          "psi_test_whole_window": 0.054044238963330854
+        },
+        {
+          "rank": 27,
+          "column": "addr1_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.005824828778301773,
+          "single_column_auc": 0.5099798185441622,
+          "psi_test_whole_window": 0.005422239783887872
+        },
+        {
+          "rank": 28,
+          "column": "D3",
+          "group": "timedelta",
+          "gain_share": 0.005734777760611277,
+          "single_column_auc": 0.5408839042890317,
+          "psi_test_whole_window": 0.03520574059027906
+        },
+        {
+          "rank": 29,
+          "column": "id_33_freq",
+          "group": "identifier_encoding",
+          "gain_share": 0.005585720699248227,
+          "single_column_auc": 0.48113889790525366,
+          "psi_test_whole_window": 0.024950020245087644
+        },
+        {
+          "rank": 30,
+          "column": "C11",
+          "group": "count",
+          "gain_share": 0.0055167690833549405,
+          "single_column_auc": 0.514838236921612,
+          "psi_test_whole_window": 0.004079925562812978
+        }
+      ],
+      "by_group": {
+        "identifier": {
+          "n_columns": 6,
+          "gain_share": 0.016576870031933186,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "identifier_encoding": {
+          "n_columns": 21,
+          "gain_share": 0.08338323401613881,
+          "n_in_top_10": 1,
+          "n_in_top_30": 5
+        },
+        "target_encoding": {
+          "n_columns": 0,
+          "gain_share": 0.0,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "timedelta": {
+          "n_columns": 15,
+          "gain_share": 0.36487070850078895,
+          "n_in_top_10": 4,
+          "n_in_top_30": 7
+        },
+        "count": {
+          "n_columns": 12,
+          "gain_share": 0.06658071321915253,
+          "n_in_top_10": 1,
+          "n_in_top_30": 4
+        },
+        "vesta_block_mean": {
+          "n_columns": 14,
+          "gain_share": 0.1321324986616426,
+          "n_in_top_10": 2,
+          "n_in_top_30": 7
+        },
+        "amount": {
+          "n_columns": 4,
+          "gain_share": 0.007939748199785497,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "identity_numeric": {
+          "n_columns": 23,
+          "gain_share": 0.2216755337099982,
+          "n_in_top_10": 1,
+          "n_in_top_30": 3
+        },
+        "missing_indicator": {
+          "n_columns": 60,
+          "gain_share": 0.02202010287255803,
+          "n_in_top_10": 0,
+          "n_in_top_30": 1
+        },
+        "other": {
+          "n_columns": 15,
+          "gain_share": 0.08482059078800216,
+          "n_in_top_10": 1,
+          "n_in_top_30": 3
+        }
+      },
+      "entity_and_clock_share_of_top_10_gain": 0.5079192486210575
+    },
+    "without_entity_and_clock": {
+      "n_columns": 128,
+      "dropped_groups": [
+        "identifier",
+        "identifier_encoding",
+        "target_encoding",
+        "timedelta"
+      ],
+      "auc": {
+        "out_of_fold": 0.8600011226624197,
+        "per_fold": [
+          0.8582087173300119,
+          0.8614435963269328,
+          0.8591141033135892,
+          0.8590406003442321,
+          0.8622404001091576
+        ]
+      },
+      "top": [
+        {
+          "rank": 1,
+          "column": "id_13",
+          "group": "identity_numeric",
+          "gain_share": 0.2602250980608765,
+          "single_column_auc": 0.48949514802161453,
+          "psi_test_whole_window": 0.5634838811712333
+        },
+        {
+          "rank": 2,
+          "column": "vblockmean_V1",
+          "group": "vesta_block_mean",
+          "gain_share": 0.10280310951041043,
+          "single_column_auc": 0.6367419914106887,
+          "psi_test_whole_window": 0.29706019034278497
+        },
+        {
+          "rank": 3,
+          "column": "C13",
+          "group": "count",
+          "gain_share": 0.06491860240452134,
+          "single_column_auc": 0.5408105937094847,
+          "psi_test_whole_window": 0.023945157965241458
+        },
+        {
+          "rank": 4,
+          "column": "dist1",
+          "group": "other",
+          "gain_share": 0.0629492797884776,
+          "single_column_auc": 0.5302960551983225,
+          "psi_test_whole_window": 0.020150762608769215
+        },
+        {
+          "rank": 5,
+          "column": "missing_block_D11",
+          "group": "missing_indicator",
+          "gain_share": 0.04840605612965339,
+          "single_column_auc": 0.36865733864243705,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 6,
+          "column": "C12",
+          "group": "count",
+          "gain_share": 0.04305911794584402,
+          "single_column_auc": 0.535823813766231,
+          "psi_test_whole_window": 5.9863153905904344e-05
+        },
+        {
+          "rank": 7,
+          "column": "vblockmean_V322",
+          "group": "vesta_block_mean",
+          "gain_share": 0.022153608105814522,
+          "single_column_auc": 0.47764756304384076,
+          "psi_test_whole_window": 0.0501521183628431
+        },
+        {
+          "rank": 8,
+          "column": "id_02",
+          "group": "identity_numeric",
+          "gain_share": 0.021573844793857096,
+          "single_column_auc": 0.47330457644543356,
+          "psi_test_whole_window": 0.05184108233323084
+        },
+        {
+          "rank": 9,
+          "column": "hour_position",
+          "group": "other",
+          "gain_share": 0.019743398606085587,
+          "single_column_auc": 0.4983102812562913,
+          "psi_test_whole_window": 0.01254914478976871
+        },
+        {
+          "rank": 10,
+          "column": "vblockmean_V100",
+          "group": "vesta_block_mean",
+          "gain_share": 0.018995320986878846,
+          "single_column_auc": 0.5426790583214057,
+          "psi_test_whole_window": 0.03484950096589742
+        },
+        {
+          "rank": 11,
+          "column": "C9",
+          "group": "count",
+          "gain_share": 0.01710429404034659,
+          "single_column_auc": 0.5625647493815511,
+          "psi_test_whole_window": 0.02641888496039476
+        },
+        {
+          "rank": 12,
+          "column": "id_38_cat",
+          "group": "other",
+          "gain_share": 0.016836088810182285,
+          "single_column_auc": 0.5206988062519762,
+          "psi_test_whole_window": 0.07833278166228874
+        },
+        {
+          "rank": 13,
+          "column": "missing_block_dist1",
+          "group": "missing_indicator",
+          "gain_share": 0.015995519789692794,
+          "single_column_auc": 0.4668838206193847,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 14,
+          "column": "C1",
+          "group": "count",
+          "gain_share": 0.015155996311706506,
+          "single_column_auc": 0.5237167582908602,
+          "psi_test_whole_window": 0.013756970181487877
+        },
+        {
+          "rank": 15,
+          "column": "vblockmean_V53",
+          "group": "vesta_block_mean",
+          "gain_share": 0.015050285693785432,
+          "single_column_auc": 0.5643992573019384,
+          "psi_test_whole_window": 0.0794288049017792
+        },
+        {
+          "rank": 16,
+          "column": "vblockmean_V12",
+          "group": "vesta_block_mean",
+          "gain_share": 0.012619021797249125,
+          "single_column_auc": 0.5622626021390933,
+          "psi_test_whole_window": 0.07494249012807115
+        },
+        {
+          "rank": 17,
+          "column": "missing_block_D3",
+          "group": "missing_indicator",
+          "gain_share": 0.01206811382186912,
+          "single_column_auc": 0.4545972451364127,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 18,
+          "column": "vblockmean_V281",
+          "group": "vesta_block_mean",
+          "gain_share": 0.012020253023496848,
+          "single_column_auc": 0.4918169167021183,
+          "psi_test_whole_window": 0.027935810853614396
+        },
+        {
+          "rank": 19,
+          "column": "missing_block_D5",
+          "group": "missing_indicator",
+          "gain_share": 0.011976345547522048,
+          "single_column_auc": 0.4658706236584112,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 20,
+          "column": "C11",
+          "group": "count",
+          "gain_share": 0.011650318670929681,
+          "single_column_auc": 0.514838236921612,
+          "psi_test_whole_window": 0.004079925562812978
+        },
+        {
+          "rank": 21,
+          "column": "vblockmean_V279",
+          "group": "vesta_block_mean",
+          "gain_share": 0.010773861759075394,
+          "single_column_auc": 0.5044869020110283,
+          "psi_test_whole_window": 0.016089461751471825
+        },
+        {
+          "rank": 22,
+          "column": "missing_block_D2",
+          "group": "missing_indicator",
+          "gain_share": 0.01022691246166228,
+          "single_column_auc": 0.4596221053531312,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 23,
+          "column": "vblockmean_V35",
+          "group": "vesta_block_mean",
+          "gain_share": 0.010044247345413704,
+          "single_column_auc": 0.5317869590420164,
+          "psi_test_whole_window": 0.045616572427865994
+        },
+        {
+          "rank": 24,
+          "column": "vblockmean_V75",
+          "group": "vesta_block_mean",
+          "gain_share": 0.009886261159760573,
+          "single_column_auc": 0.5481426607053491,
+          "psi_test_whole_window": 0.06418933593914611
+        },
+        {
+          "rank": 25,
+          "column": "id_20",
+          "group": "identity_numeric",
+          "gain_share": 0.009852262789667597,
+          "single_column_auc": 0.47361180237490974,
+          "psi_test_whole_window": 0.054044238963330854
+        },
+        {
+          "rank": 26,
+          "column": "missing_block_card3",
+          "group": "missing_indicator",
+          "gain_share": 0.009174785841096654,
+          "single_column_auc": 0.5031952192263095,
+          "psi_test_whole_window": 0.0
+        },
+        {
+          "rank": 27,
+          "column": "TransactionAmt_cents",
+          "group": "amount",
+          "gain_share": 0.008029071440212917,
+          "single_column_auc": 0.509923209434092,
+          "psi_test_whole_window": 0.008327849814709864
+        },
+        {
+          "rank": 28,
+          "column": "C2",
+          "group": "count",
+          "gain_share": 0.007800753526179216,
+          "single_column_auc": 0.5273259806506535,
+          "psi_test_whole_window": 0.016194874314680818
+        },
+        {
+          "rank": 29,
+          "column": "vblockmean_V138",
+          "group": "vesta_block_mean",
+          "gain_share": 0.007477676097391749,
+          "single_column_auc": 0.47563875294423263,
+          "psi_test_whole_window": 0.028212248972479887
+        },
+        {
+          "rank": 30,
+          "column": "dist2",
+          "group": "other",
+          "gain_share": 0.00705844862369673,
+          "single_column_auc": 0.4892176552220503,
+          "psi_test_whole_window": 0.01228727461985852
+        }
+      ],
+      "by_group": {
+        "identifier": {
+          "n_columns": 0,
+          "gain_share": 0.0,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "identifier_encoding": {
+          "n_columns": 0,
+          "gain_share": 0.0,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "target_encoding": {
+          "n_columns": 0,
+          "gain_share": 0.0,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "timedelta": {
+          "n_columns": 0,
+          "gain_share": 0.0,
+          "n_in_top_10": 0,
+          "n_in_top_30": 0
+        },
+        "count": {
+          "n_columns": 12,
+          "gain_share": 0.18133443251503617,
+          "n_in_top_10": 2,
+          "n_in_top_30": 6
+        },
+        "vesta_block_mean": {
+          "n_columns": 14,
+          "gain_share": 0.23111296089727607,
+          "n_in_top_10": 3,
+          "n_in_top_30": 10
+        },
+        "amount": {
+          "n_columns": 4,
+          "gain_share": 0.016059937672011488,
+          "n_in_top_10": 0,
+          "n_in_top_30": 1
+        },
+        "identity_numeric": {
+          "n_columns": 23,
+          "gain_share": 0.31798439388428223,
+          "n_in_top_10": 2,
+          "n_in_top_30": 3
+        },
+        "missing_indicator": {
+          "n_columns": 60,
+          "gain_share": 0.13823228263143172,
+          "n_in_top_10": 1,
+          "n_in_top_30": 6
+        },
+        "other": {
+          "n_columns": 15,
+          "gain_share": 0.11527599239996233,
+          "n_in_top_10": 2,
+          "n_in_top_30": 4
+        }
+      },
+      "entity_and_clock_share_of_top_10_gain": 0.0
+    }
+  },
+  "against_stage_2": {
+    "artifact": "reports/eda/temporal.json",
+    "read_on_fit": "without_target_encodings",
+    "n_shared_raw_columns": 59,
+    "spearman_gain_vs_stage_2_psi": {
+      "rho": 0.6627118644067798,
+      "p_value": 1.0792805260717688e-08
+    },
+    "stage_2_top_10_by_psi": [
+      "card_start_day",
+      "id_31",
+      "id_13",
+      "D11",
+      "M9",
+      "M8",
+      "M7",
+      "V2",
+      "V3",
+      "V6"
+    ],
+    "stage_2_top_10_in_stack": [
+      "id_13",
+      "D11"
+    ],
+    "stage_2_top_10_in_adversarial_top_30": [
+      "id_13",
+      "D11"
+    ],
+    "n_time_inconsistent_columns_stage_2": 59,
+    "time_inconsistent_columns_in_stack": [
+      "id_14",
+      "id_26",
+      "id_32"
+    ],
+    "time_inconsistent_columns_in_adversarial_top_30": [],
+    "time_inconsistent_sources_in_adversarial_top_30": [
+      {
+        "rank": 10,
+        "column": "vblockmean_V322",
+        "flagged_sources": [
+          "V322",
+          "V323",
+          "V324",
+          "V325",
+          "V326",
+          "V327",
+          "V328",
+          "V329",
+          "V330",
+          "V331",
+          "V332",
+          "V333",
+          "V334",
+          "V335",
+          "V336",
+          "V337",
+          "V338",
+          "V339"
+        ]
+      },
+      {
+        "rank": 14,
+        "column": "id_38_cat",
+        "flagged_sources": [
+          "id_38"
+        ]
+      },
+      {
+        "rank": 15,
+        "column": "vblockmean_V12",
+        "flagged_sources": [
+          "V19",
+          "V20",
+          "V25",
+          "V26"
+        ]
+      },
+      {
+        "rank": 22,
+        "column": "vblockmean_V53",
+        "flagged_sources": [
+          "V55",
+          "V56",
+          "V61",
+          "V62",
+          "V65",
+          "V66",
+          "V67",
+          "V68"
+        ]
+      },
+      {
+        "rank": 24,
+        "column": "vblockmean_V279",
+        "flagged_sources": [
+          "V285"
+        ]
+      }
+    ],
+    "entity_identifying_columns_stage_2": [
+      "TransactionID",
+      "card1",
+      "addr1",
+      "D1",
+      "card_start_day",
+      "entity_id"
+    ],
+    "stage_2_psi_summary": {
+      "n_psi_test_above_0_10": 30,
+      "n_psi_test_above_0_25": 22,
+      "n_psi_val_above_0_10": 35,
+      "n_psi_val_above_0_25": 9,
+      "note": "0.10 and 0.25 are the conventional PSI bands. They are a convention this repo has adopted, not a measurement, and stage 9 sets the monitoring thresholds against this baseline rather than against them."
+    }
+  },
+  "drift_reference": "reports/monitoring/drift_reference.json",
+  "seconds": 46.38140441699943
+}
