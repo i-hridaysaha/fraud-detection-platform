@@ -36,6 +36,7 @@ dev = [
     "pandas-stubs==3.0.5.260730",
     "types-redis==4.6.0.20241004",
     "fakeredis==2.38.0",
+    "httpx2==2.12.0",
 ]
 data = [
     "kaggle==2.2.4",
