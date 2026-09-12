@@ -541,8 +541,16 @@ class OnlineFeatureStore:
     # -- keys ------------------------------------------------------------------------------------
 
     def keys(self, txn: Mapping[str, Any]) -> list[StateKey]:
+        """The keys a transaction touches: the three stage 4 grains, and the two node grains
+        only when the graph counters are switched on, so a store that serves a stack without
+        them holds nothing under the hub values a device string is."""
         named = keys_of(txn)
-        return [(grain, str(named[grain])) for grain in GRAINS if named[grain] is not None]
+        grains = (
+            GRAINS
+            if self.graph_cfg.enabled
+            else tuple(g for g in GRAINS if not g.endswith("_node"))
+        )
+        return [(grain, str(named[grain])) for grain in grains if named[grain] is not None]
 
     def _window_seconds(self, grain: str) -> int:
         return self.cfg.duplicate_window_seconds if grain == "content" else self.widest
