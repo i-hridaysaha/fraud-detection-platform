@@ -1,6 +1,6 @@
 Figures for the README and the case study. Each is drawn by `make eda-figures`,
-`make prep-figures`, `make features-figures`, `make graph-figures`, `make train-figures` or
-`make experiment-figures` from one artifact under
+`make prep-figures`, `make features-figures`, `make graph-figures`, `make train-figures`,
+`make experiment-figures` or `make monitoring-figures` from one artifact under
 reports/ and from nothing else, at 200 DPI, so a figure and the prose beside it quote the same
 numbers.
 
@@ -26,3 +26,7 @@ numbers.
 | shap_global.png | reports/shap/shap_global.json | the twenty largest mean absolute SHAP values and the share per block |
 | leakage_delta.png | reports/leakage_delta.json | test PR-AUC per leakage variant with its interval, and each variant's difference against the causal baseline |
 | label_latency.png | reports/label_latency.json | test PR-AUC and the implied fraud rate against the simulated label latency, immature and excluded treatments |
+| drift_calibration.png | reports/monitoring/drift.json | columns the textbook 0.20 band puts in alert on each in-control week against the calibrated rule with the week held out, and the score PSI per week against its edge |
+| decay_in_control.png | reports/monitoring/decay.json | the shipped model's PR-AUC on each in-control weekly batch with its interval, the reference it was accepted at and the decay tolerance |
+| adversarial_validation.png | reports/adversarial_validation.json | the twenty columns that best separate train from test once the target encodings are set aside, who-or-when against what |
+| lifecycle_demo.png | reports/lifecycle_demo.json | the drift job per cycle, the decay job per matured batch, and the gate's verdicts on the injected drift |
