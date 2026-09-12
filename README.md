@@ -9,6 +9,7 @@ rather than assumed.
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 **Case study:** https://www.hridaysaha.com/projects/fraud-detection-platform
+
 **Demo:** [docs/demo/index.html](docs/demo/index.html), a self-contained replay of the lifecycle
 run built from the committed artifacts; open the file in a browser.
 
@@ -31,7 +32,7 @@ Configuration for every number here: chronological 70 / 15 / 15 split on `Transa
 152 to 182, seed 42, thresholds tuned on validation and applied unchanged to test, every interval
 a 95 percent bootstrap over 1,000 resamples of the test window. PR-AUC is the primary metric
 because at a test fraud rate of 0.0348 a model that approves everything has accuracy 0.9652, and
-ROC-AUC is set by the false-positive rate on 85,498 legitimate rows.
+ROC-AUC is dominated by the false-positive rate over 85,498 legitimate rows.
 
 **Data note:** these are numbers on public competition data with no merchant, no real label
 delay and no live traffic. The value is the pipeline and the measurements, not the absolute
