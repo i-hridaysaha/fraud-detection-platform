@@ -308,7 +308,7 @@ def duplicate_content(report: dict[str, Any], out: Path) -> None:
         f"against {hour['train']['lift']:.2f}, {hour['val']['lift']:.2f}, {hour['test']['lift']:.2f}",
         fontsize=10,
     )
-    ax.legend(fontsize=7, frameon=False, loc="center right")
+    ax.legend(fontsize=7, frameon=False, loc="upper right")
     style(ax)
 
     fig.tight_layout()
