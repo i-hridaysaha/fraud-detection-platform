@@ -67,16 +67,8 @@ N_SHAP_FACTORS = 10
 
 
 def tracking_uri() -> str:
-    """The registry: a SQLite file under mlruns/, or whatever MLFLOW_TRACKING_URI says.
-
-    The installed MLflow (3.16) refuses the plain filesystem backend unless opted into, so the
-    local registry is a database file; the artifacts sit beside it.
-    """
-    configured = os.environ.get("MLFLOW_TRACKING_URI")
-    if configured:
-        return configured
     MLRUNS_DIR.mkdir(parents=True, exist_ok=True)
-    return f"sqlite:///{MLRUNS_DIR / 'mlflow.db'}"
+    return serving.tracking_uri()
 
 
 def git_commit() -> str:
