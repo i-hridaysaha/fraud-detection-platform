@@ -19,8 +19,9 @@ docstring for what it cannot see.
 
 from __future__ import annotations
 
+import contextlib
 import functools
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Iterator, Sequence
 from pathlib import Path
 from typing import Any, TypeVar
 
@@ -243,6 +244,27 @@ def assert_train_only(frame: pd.DataFrame, *, what: str) -> pd.DataFrame:
             "Fit on the train split only."
         )
     return frame
+
+
+@contextlib.contextmanager
+def training_boundary(end_dt: int) -> Iterator[int]:
+    """Move the boundary the guard enforces, for one fit, and put it back.
+
+    A challenger is fitted on a later window than the one `config.TRAIN_END_DT` closes, through
+    the same pipeline and the same guard. The guard trusts the boundary it is given, so the
+    lifecycle gives it the challenger's: inside this block every fit is refused a row at or after
+    `end_dt`, and the block restores the stage 0 boundary on the way out whatever happens inside.
+    Nothing is switched off; the check moves. Stage 7's leaky variants patched the guard away
+    and lived in scripts/ for that reason; this stays in the package because the guard stays on.
+    """
+    if end_dt <= 0:
+        raise ValueError(f"a training boundary must be positive, got {end_dt}")
+    previous = config.TRAIN_END_DT
+    config.TRAIN_END_DT = int(end_dt)
+    try:
+        yield int(end_dt)
+    finally:
+        config.TRAIN_END_DT = previous
 
 
 def train_only(fit: F) -> F:
