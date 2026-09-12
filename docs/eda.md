@@ -238,7 +238,7 @@ against a base rate of 0.0352. The larger difference is in the amounts themselve
 | Column | Cardinality | Top value | Top share | Categories in the rare tail | Appearing once | Missing rate |
 | --- | --- | --- | --- | --- | --- | --- |
 | DeviceInfo | 1,546 | Windows | 0.4013 | 636 | 399 | 0.7790 |
-| id_33 | 183 | (screen size) | 0.2330 | 135 | 58 | 0.8609 |
+| id_33 | 183 | (screen size) | 0.2329 | 135 | 58 | 0.8609 |
 | id_31 | 108 | chrome 63.0 | 0.2034 | 50 | 10 | 0.7406 |
 | id_30 | 71 | (operating system) | 0.2590 | 18 | 0 | 0.8505 |
 | R_emaildomain | 60 | gmail.com | 0.4141 | 30 | 0 | 0.7507 |
