@@ -35,6 +35,7 @@ dev = [
     "pre-commit==4.6.2",
     "pandas-stubs==3.0.5.260730",
     "types-redis==4.6.0.20241004",
+    "fakeredis==2.38.0",
 ]
 data = [
     "kaggle==2.2.4",
