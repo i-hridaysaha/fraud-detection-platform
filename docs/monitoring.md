@@ -282,7 +282,9 @@ What the run does not establish, stated plainly.
 - **Anything about the true chargeback delay, the batch length, or the window lengths.** All
   inputs; the artifact labels them.
 
-Figure: `figures/lifecycle_demo.png`.
+Figure: `figures/lifecycle_demo.png`. An interactive replay of the same artifact, cycle by
+cycle, is `docs/demo/index.html` (`make demo-page`, ADR 0039); it is one self-contained file
+for a static host and quotes nothing the artifacts do not hold.
 
 ---
 
