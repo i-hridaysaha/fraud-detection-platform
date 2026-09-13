@@ -10,8 +10,8 @@ rather than assumed.
 
 **Case study:** https://www.hridaysaha.com/projects/fraud-detection-platform
 
-**Demo:** [docs/demo/index.html](docs/demo/index.html), a self-contained replay of the lifecycle
-run built from the committed artifacts; open the file in a browser.
+**Demo:** https://i-hridaysaha.github.io/fraud-detection-platform/demo/, a replay of the lifecycle
+run built from the committed artifacts, served from [docs/demo/index.html](docs/demo/index.html).
 
 ## Scope and provenance
 
