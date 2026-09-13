@@ -11,8 +11,10 @@ Figures:
     model_comparison.png    left, test PR-AUC per model with its paired-bootstrap interval;
                             right, the shipped model's paired difference against each of the
                             others, with the interval. From reports/metric_variance.json.
-    ablations.png           validation PR-AUC per feature stack, three seeds each, test beside
-                            it. From reports/ablations.json.
+    ablations.png           left, validation PR-AUC per feature stack, three seeds each, test
+                            beside it; right, each stack's paired-bootstrap difference against
+                            its reference per seed, the interval the ship rule reads. From
+                            reports/ablations.json.
     threshold_curve.png     precision, recall and alerts per day against the calibrated
                             threshold on the validation split, the band edges marked. From
                             reports/threshold_curve.json.
@@ -127,8 +129,12 @@ def model_comparison(report: dict[str, Any], out: Path) -> None:
 
 def ablations(report: dict[str, Any], out: Path) -> None:
     stacks = report["stacks"]
-    fig, ax = plt.subplots(figsize=(11, 6.0))
+    fig, axes = plt.subplots(
+        1, 2, figsize=(15, 6.0), sharey=True, gridspec_kw={"width_ratios": [3, 2]}
+    )
     ys = list(range(len(stacks)))[::-1]
+
+    ax = axes[0]
     for y, entry in zip(ys, stacks, strict=True):
         vals = [row["val_pr_auc"] for row in entry["per_seed"]]
         tests = [row["test_pr_auc"] for row in entry["per_seed"]]
@@ -148,6 +154,44 @@ def ablations(report: dict[str, Any], out: Path) -> None:
     ax.plot([], [], "o", color=RED, mfc="none", label="test")
     ax.legend(fontsize=8, frameon=False, loc="lower right")
     style(ax)
+
+    # The interval the ship rule reads: each stack's validation PR-AUC minus its reference's,
+    # paired on identical resamples, one interval per seed. Red when the interval excludes zero.
+    ax = axes[1]
+    n_seeds = len(report["seeds"])
+    offsets = [(i - (n_seeds - 1) / 2) * 0.22 for i in range(n_seeds)]
+    for y, entry in zip(ys, stacks, strict=True):
+        against = entry.get("against_reference")
+        if against is None:
+            ax.text(0, y, "  reference stack", va="center", fontsize=7, color=GREY)
+            continue
+        highs = []
+        for offset, row in zip(offsets, against["per_seed"], strict=True):
+            diff = row["val_pr_auc_difference"]
+            colour = RED if row["excludes_zero"] else GREY
+            ax.plot([diff["low"], diff["high"]], [y + offset, y + offset], color=colour, lw=1.6)
+            ax.plot(diff["point"], y + offset, "o", color=colour, ms=3.5)
+            highs.append(diff["high"])
+        ax.text(
+            max(highs) + 0.004,
+            y,
+            f"vs {against['reference']}",
+            va="center",
+            ha="left",
+            fontsize=6.5,
+            color=GREY,
+        )
+    ax.axvline(0, color="0.2", lw=0.8)
+    left, right = ax.get_xlim()
+    ax.set_xlim(left, right + 0.06)  # room for the reference labels
+    ax.set_xlabel("stack minus its reference, val PR-AUC, paired 95 percent interval per seed")
+    ax.set_title(
+        "What the ship rule reads: red where the interval excludes zero\n"
+        "a built block ships only if every seed is red and above zero",
+        fontsize=10,
+    )
+    style(ax)
+
     fig.tight_layout()
     fig.savefig(out, dpi=DPI)
     plt.close(fig)

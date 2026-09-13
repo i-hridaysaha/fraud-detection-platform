@@ -20,7 +20,7 @@ numbers.
 | duplicate_content.png | reports/features/duplicate_content.json | fraud rate by time since the last identical purchase |
 | graph_components.png | reports/graph_summary.json | the hub sweep of the end-of-train graph, and fraud rate by decile of the point-in-time component size |
 | model_comparison.png | reports/metric_variance.json | test PR-AUC per model with its paired-bootstrap interval, and the shipped model's paired difference against each |
-| ablations.png | reports/ablations.json | validation and test PR-AUC per feature stack, three seeds each |
+| ablations.png | reports/ablations.json | validation and test PR-AUC per feature stack, three seeds each, and each stack's paired-bootstrap difference against its reference per seed |
 | threshold_curve.png | reports/threshold_curve.json | precision, recall, F1 and alerts per day against the calibrated threshold on validation, band edges marked |
 | calibration.png | reports/operating_points.json | observed fraud rate against predicted probability on test, raw score and calibrated |
 | shap_global.png | reports/shap/shap_global.json | the twenty largest mean absolute SHAP values and the share per block |
@@ -30,3 +30,8 @@ numbers.
 | decay_in_control.png | reports/monitoring/decay.json | the shipped model's PR-AUC on each in-control weekly batch with its interval, the reference it was accepted at and the decay tolerance |
 | adversarial_validation.png | reports/adversarial_validation.json | the twenty columns that best separate train from test once the target encodings are set aside, who-or-when against what |
 | lifecycle_demo.png | reports/lifecycle_demo.json | the drift job per cycle, the decay job per matured batch, and the gate's verdicts on the injected drift |
+
+The architecture diagram, `docs/architecture.svg`, is the one drawing not made from an artifact:
+it is a claim about the code, written by hand, and `tests/test_readme.py` checks that every block
+in it is named in the README's Approach section and that exactly one block carries the emphasis
+colour.
