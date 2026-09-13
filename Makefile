@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 KAGGLE := .venv/bin/kaggle
 
-.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures demo-page readme-numbers verify-numbers figures test lint reproduce clean
+.PHONY: setup data audit split-summary memory-profile eda eda-figures prep prep-figures features features-figures graph graph-figures train train-figures experiments leakage latency experiment-figures register parity serving-latency serve loadtest monitor-drift monitor-decay adversarial lifecycle-demo monitoring-figures demo-page readme-numbers verify-numbers case-study-numbers figures test lint reproduce clean
 
 setup:
 	$(PY) -m pip install --upgrade pip
@@ -134,6 +134,11 @@ readme-numbers:
 
 verify-numbers:
 	$(PY) scripts/verify_numbers.py
+
+# Stage 11. `case-study-numbers` prints every number the case study on the author's site quotes,
+# read from the artifacts; the article's verification table names a key here per number.
+case-study-numbers:
+	$(PY) scripts/case_study_numbers.py
 
 figures: eda-figures prep-figures features-figures graph-figures train-figures experiment-figures monitoring-figures
 

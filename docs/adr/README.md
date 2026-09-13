@@ -48,3 +48,4 @@ not measurement") and Consequences. This index is append-only.
 | [0039](0039-demo-page-as-a-static-build-of-the-artifacts.md) | 9, addendum | The demo is a static page built from the committed artifacts, not a live service |
 | [0040](0040-licence-and-data-redistribution.md) | 10 | MIT for the code, the dataset excluded and not redistributed |
 | [0041](0041-readme-methodology-and-case-study.md) | 10 | The README is the proof, METHODOLOGY.md the detail, the case study the narrative |
+| [0042](0042-case-study-numbers-and-figures-from-the-artifacts.md) | 11 | The case study quotes one numbers script and draws from verbatim artifact copies |
